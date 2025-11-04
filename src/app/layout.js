@@ -1,5 +1,12 @@
 import "@/app/globals.css";
 
+export const metadata = {
+  title: "WORKET",
+  description: "긱노동자 간편한 소득증빙 플랫폼",
+  viewport:
+    "width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no",
+};
+
 const RootLayout = ({ children }) => {
   return (
     <html lang="ko">
