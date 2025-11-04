@@ -12,6 +12,10 @@
   font-weight: 100 900;
 }
 
+html {
+  font-size: 62.5%;
+}
+
 body {
   font-family: "Pretendard", sans-serif;
 }
@@ -21,7 +25,7 @@ body {
   .pretendard-bold-12 {
     font-family: "Pretendard", sans-serif;
     font-weight: 700;
-    font-size: 0.75rem; /* 12px */
+    font-size: 1.2rem; /* 12px */
     line-height: var(--line-height-base);
   }
 
@@ -29,35 +33,35 @@ body {
   .pretendard-semibold-32 {
     font-family: "Pretendard", sans-serif;
     font-weight: 600;
-    font-size: 2rem; /* 32px */
+    font-size: 3.2rem; /* 32px */
     line-height: var(--line-height-base);
   }
 
   .pretendard-semibold-24 {
     font-family: "Pretendard", sans-serif;
     font-weight: 600;
-    font-size: 1.5rem; /* 24px */
+    font-size: 2.4rem; /* 24px */
     line-height: var(--line-height-base);
   }
 
   .pretendard-semibold-20 {
     font-family: "Pretendard", sans-serif;
     font-weight: 600;
-    font-size: 1.25rem; /* 20px */
+    font-size: 2rem; /* 20px */
     line-height: var(--line-height-base);
   }
 
   .pretendard-semibold-18 {
     font-family: "Pretendard", sans-serif;
     font-weight: 600;
-    font-size: 1.125rem; /* 18px */
+    font-size: 1.8rem; /* 18px */
     line-height: var(--line-height-base);
   }
 
   .pretendard-semibold-16 {
     font-family: "Pretendard", sans-serif;
     font-weight: 600;
-    font-size: 1rem; /* 16px */
+    font-size: 1.6rem; /* 16px */
     line-height: var(--line-height-base);
   }
 
@@ -65,35 +69,35 @@ body {
   .pretendard-medium-24 {
     font-family: "Pretendard", sans-serif;
     font-weight: 500;
-    font-size: 1.5rem; /* 24px */
+    font-size: 2.4rem; /* 24px */
     line-height: var(--line-height-base);
   }
 
   .pretendard-medium-18 {
     font-family: "Pretendard", sans-serif;
     font-weight: 500;
-    font-size: 1.125rem; /* 18px */
+    font-size: 1.8rem; /* 18px */
     line-height: var(--line-height-base);
   }
 
   .pretendard-medium-16 {
     font-family: "Pretendard", sans-serif;
     font-weight: 500;
-    font-size: 1rem; /* 16px */
+    font-size: 1.6rem; /* 16px */
     line-height: var(--line-height-base);
   }
 
   .pretendard-medium-14 {
     font-family: "Pretendard", sans-serif;
     font-weight: 500;
-    font-size: 0.875rem; /* 14px */
+    font-size: 1.4rem; /* 14px */
     line-height: var(--line-height-base);
   }
 
   .pretendard-medium-12 {
     font-family: "Pretendard", sans-serif;
     font-weight: 500;
-    font-size: 0.75rem; /* 12px */
+    font-size: 1.2rem; /* 12px */
     line-height: var(--line-height-base);
   }
 
@@ -101,28 +105,28 @@ body {
   .pretendard-light-24 {
     font-family: "Pretendard", sans-serif;
     font-weight: 300;
-    font-size: 1.5rem; /* 24px */
+    font-size: 2.4rem; /* 24px */
     line-height: var(--line-height-base);
   }
 
   .pretendard-light-18 {
     font-family: "Pretendard", sans-serif;
     font-weight: 300;
-    font-size: 1.125rem; /* 18px */
+    font-size: 1.8rem; /* 18px */
     line-height: var(--line-height-base);
   }
 
   .pretendard-light-16 {
     font-family: "Pretendard", sans-serif;
     font-weight: 300;
-    font-size: 1rem; /* 16px */
+    font-size: 1.6rem; /* 16px */
     line-height: var(--line-height-base);
   }
 
   .pretendard-light-14 {
     font-family: "Pretendard", sans-serif;
     font-weight: 300;
-    font-size: 0.875rem; /* 14px */
+    font-size: 1.4rem; /* 14px */
     line-height: var(--line-height-base);
   }
 }
