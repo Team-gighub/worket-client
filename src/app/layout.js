@@ -1,9 +1,9 @@
+import "@/app/globals.css";
+
 const RootLayout = ({ children }) => {
   return (
     <html>
-      <body>
-        {children}
-      </body>
+      <body>{children}</body>
     </html>
   );
 };
