@@ -1,5 +1,3 @@
-import "@/app/globals.css";
-
 /* 로그인 전 홈화면 */
 const Home = () => {
   return <div></div>;
