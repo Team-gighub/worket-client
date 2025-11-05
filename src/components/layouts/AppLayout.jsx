@@ -7,19 +7,21 @@ import BottomNavTab from "../common/BottomNavTab";
 const AppLayout = ({ children }) => {
   const pathname = usePathname();
 
-  // 탭이 표시될 기본 경로들
+  // 하단 탭이 표시될 기본 경로들
   const basePaths = ["/", "/transaction", "/income", "/mypage"];
 
-  // 탭을 숨길 예외 경로들
-  const excludedPaths = ["/transaction/detail", "/transaction/edit"];
-
+  // basePaths에 포함된 경로에서만 탭 표시
   const shouldShowBottomNav =
-    basePaths.some((path) => pathname.startsWith(path)) &&
-    !excludedPaths.some((path) => pathname.startsWith(path));
+    (pathname === "/" && basePaths.includes("/")) ||
+    basePaths.some((path) => path !== "/" && pathname.startsWith(path));
+
+  console.log(shouldShowBottomNav);
 
   return (
     <div className="relative h-full">
-      {children}
+      <div className={`h-full ${shouldShowBottomNav ? "pb-[8rem]" : ""}`}>
+        {children}
+      </div>
       {shouldShowBottomNav && <BottomNavTab />}
     </div>
   );

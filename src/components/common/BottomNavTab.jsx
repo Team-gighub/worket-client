@@ -44,7 +44,7 @@ const BottomNavTab = () => {
   };
 
   return (
-    <div className="absolute bottom-0 left-0 right-0 w-full bg-basic-100 rounded-t-[20px] shadow-[0_-4px_10px_0_rgba(169,169,169,0.15)] px-[3rem] py-6 z-50">
+    <div className="absolute bottom-0 left-0 right-0 w-full h-[8rem] bg-basic-100 rounded-t-[20px] shadow-[0_-4px_10px_0_rgba(169,169,169,0.15)] px-[3rem] py-6 z-50">
       <div className="w-full flex justify-between items-center">
         {tabs.map((tab) => {
           const isActive = pathname === tab.path;
