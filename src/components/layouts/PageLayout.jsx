@@ -9,7 +9,9 @@ const PageLayout = ({ children, header = null }) => {
   return (
     <div className="flex flex-col h-full">
       {header}
-      <div className={`${header ? "pt-[6rem]" : ""} flex-1 h-full`}>
+      <div
+        className={`${header ? "pt-[6rem]" : ""} flex-1 h-full overflow-y-auto`}
+      >
         {children}
       </div>
     </div>
