@@ -15,8 +15,6 @@ const AppLayout = ({ children }) => {
     (pathname === "/" && basePaths.includes("/")) ||
     basePaths.some((path) => path !== "/" && pathname.startsWith(path));
 
-  console.log(shouldShowBottomNav);
-
   return (
     <div className="relative h-full">
       <div className={`h-full ${shouldShowBottomNav ? "pb-[8rem]" : ""}`}>
