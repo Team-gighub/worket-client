@@ -60,7 +60,9 @@ const BottomNavTab = () => {
                   src={isActive ? tab.activeIcon : tab.icon}
                   alt={tab.label}
                   fill
+                  sizes="3.2rem"
                   className="object-contain"
+                  loading="eager"
                 />
               </div>
               <span
