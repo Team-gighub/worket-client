@@ -18,7 +18,7 @@ const AppLayout = ({ children }) => {
     !excludedPaths.some((path) => pathname.startsWith(path));
 
   return (
-    <div className="relative min-h-screen bg-white pb-[80px]">
+    <div className="relative h-full">
       {children}
       {shouldShowBottomNav && <BottomNavTab />}
     </div>
