@@ -1,4 +1,5 @@
 import "@/app/globals.css";
+import AppLayout from "@/components/layouts/AppLayout";
 
 export const metadata = {
   title: "WORKET",
@@ -31,7 +32,7 @@ const RootLayout = ({ children }) => {
                         sm:w-[375px] md:w-[375px] lg:w-[375px]
                         max-sm:w-full max-sm:rounded-none max-sm:shadow-none"
           >
-            {children}
+            <AppLayout>{children}</AppLayout>
           </div>
         </main>
       </body>
