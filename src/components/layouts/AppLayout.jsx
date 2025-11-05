@@ -8,12 +8,10 @@ const AppLayout = ({ children }) => {
   const pathname = usePathname();
 
   // 하단 탭이 표시될 기본 경로들
-  const basePaths = ["/", "/transaction", "/income", "/mypage"];
+  const basePaths = ["/", "/transactions", "/incomes", "/mypage"];
 
   // basePaths에 포함된 경로에서만 탭 표시
-  const shouldShowBottomNav =
-    (pathname === "/" && basePaths.includes("/")) ||
-    basePaths.some((path) => path !== "/" && pathname.startsWith(path));
+  const shouldShowBottomNav = basePaths.includes(pathname);
 
   return (
     <div className="relative h-full">

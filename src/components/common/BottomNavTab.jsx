@@ -17,14 +17,14 @@ const BottomNavTab = () => {
       activeIcon: "/icons/ichomeActive.png",
     },
     {
-      id: "transaction",
+      id: "transactions",
       label: "거래 관리",
       path: "/transactions",
       icon: "/icons/icTransaction.png",
       activeIcon: "/icons/icTransactionActive.png",
     },
     {
-      id: "income",
+      id: "incomes",
       label: "소득 관리",
       path: "/incomes",
       icon: "/icons/icIncome.png",
