@@ -16,6 +16,7 @@ const BottomButton = ({ text, onClick, theme = "default" }) => {
       <button
         onClick={onClick}
         className={`w-[315px] h-[51px] rounded-[10px] flex items-center justify-center ${selectedTheme.button}`}
+        disabled={theme === "disabled"}
       >
         <span className={`pretendard-semibold-16 ${selectedTheme.text}`}>
           {text}
