@@ -2,6 +2,19 @@
 
 import React from "react";
 
+/**
+ * 메인 버튼 컴포넌트
+ *
+ * - 단독으로 사용 시 가운데 정렬 + 여백 자동 적용
+ * - 다른 컴포넌트 내에서 사용할 땐 `isFullWidth`로 레이아웃 제어
+ *
+ * @param {string} text - 버튼에 표시할 텍스트 (필수)
+ * @param {function(): void} onClick - 버튼 클릭 핸들러 (필수)
+ * @param {"default" | "secondary" | "disabled"} [theme="default"] - 버튼 테마
+ * @param {number} [width=31.5] - 버튼 너비 (rem 단위)
+ * @param {number} [height=5.1] - 버튼 높이 (rem 단위)
+ * @param {boolean} [isFullWidth=false] - true면 남은 공간 전체 차지
+ */
 const MainButton = ({
   text,
   onClick,
