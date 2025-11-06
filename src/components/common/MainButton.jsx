@@ -10,23 +10,24 @@ import React from "react";
  *
  * @param {string} text - 버튼에 표시할 텍스트 (필수)
  * @param {function(): void} onClick - 버튼 클릭 핸들러 (필수)
- * @param {"default" | "secondary" | "disabled"} [theme="default"] - 버튼 테마
- * @param {number} [width=31.5] - 버튼 너비 (rem 단위)
- * @param {number} [height=5.1] - 버튼 높이 (rem 단위)
+ * @param {"default" | "secondary" | "gray"} [theme="default"] - 버튼 테마
+ * @param {string} [width=31.5] - 버튼 너비 (단위 포함한 string)
+ * @param {string} [height=5.1] - 버튼 높이 (단위 포함한 string)
  * @param {boolean} [isFullWidth=false] - true면 남은 공간 전체 차지
  */
 const MainButton = ({
   text,
   onClick,
   theme = "default",
-  width = 31.5,
-  height = 5.1,
+  width = "31.5rem",
+  height = "5.1rem",
   isFullWidth = false,
+  isDisabled = false,
 }) => {
   const themes = {
     default: { button: "bg-primary", text: "text-basic-100" },
     secondary: { button: "bg-point-purple-100", text: "text-point-purple-300" },
-    disabled: { button: "bg-basic-300", text: "text-basic-100" },
+    gray: { button: "bg-basic-300", text: "text-basic-100" },
   };
 
   const selectedTheme = themes[theme];
@@ -35,12 +36,14 @@ const MainButton = ({
     <button
       onClick={onClick}
       style={
-        !isFullWidth ? { width: `${width}rem`, height: `${height}rem` } : {}
+        !isFullWidth
+          ? { width: `${width}`, height: `${height}` }
+          : { height: `${height}` }
       }
       className={`rounded-[1rem] flex items-center justify-center ${
         selectedTheme.button
       } ${isFullWidth ? "flex-grow" : ""} whitespace-nowrap`}
-      disabled={theme === "disabled"}
+      disabled={isDisabled}
     >
       <span className={`pretendard-semibold-16 ${selectedTheme.text}`}>
         {text}
