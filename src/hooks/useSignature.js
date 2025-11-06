@@ -68,7 +68,7 @@ const useSignature = (onClose, getPresignedUrl) => {
         }
       }, "image/png");
     });
-  }, [getPresignedUrl]);
+  }, [getPresignedUrl, onClose]);
 
   return { signatureRef, clearSignature, saveSignature };
 };
