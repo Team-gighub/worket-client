@@ -2,6 +2,8 @@
 
 import SignatureCanvas from "react-signature-canvas";
 import useSignature from "../../hooks/useSignature";
+import DualButtons from "./DualButtons";
+import MainButton from "./MainButton";
 
 /**
  * Signature Component
@@ -30,19 +32,18 @@ const Signature = ({ onClose, getPresignedUrl }) => {
       />
 
       {/* 버튼 영역 */}
-      <div className="flex justify-between gap-10 mb-10 mt-10">
-        <button
+      <div className="w-full flex gap-[1rem] justify-between mb-9 mt-9">
+        <MainButton
+          text="수정"
           onClick={clearSignature}
-          className="flex-1 px-4 py-2 pretendard-semibold-16 bg-basic-300 text-basic-100 rounded-lg"
-        >
-          수정
-        </button>
-        <button
+          theme="gray"
+          isFullWidth={true}
+        ></MainButton>
+        <MainButton
+          text="서명완료"
           onClick={saveSignature}
-          className="flex-1 px-4 py-2 pretendard-semibold-16 bg-primary text-basic-100 rounded-lg"
-        >
-          서명 완료
-        </button>
+          isFullWidth={true}
+        ></MainButton>
       </div>
     </div>
   );
