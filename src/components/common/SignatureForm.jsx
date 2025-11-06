@@ -1,8 +1,8 @@
 "use client";
 import React from "react";
-import BottomSheet from "../BottomSheet";
+import BottomSheet from "./BottomSheet";
 import Signature from "./Signature";
-import useBottomSheet from "../useBottomSheet";
+import useBottomSheet from "../../hooks/useBottomSheet";
 
 const SignatureForm = () => {
   const { isOpen, open, close } = useBottomSheet();
