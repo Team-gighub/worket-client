@@ -31,7 +31,7 @@ const RootLayout = ({ children }) => {
         </aside>
 
         {/* 우측 모바일뷰 */}
-        <main className="flex justify-center items-center w-full lg:w-1/2 lg:p-0">
+        <div className="flex justify-center items-center w-full lg:w-1/2 lg:p-0">
           <div
             className="w-[375px] h-[100dvh] bg-basic-100 shadow-lg overflow-y-auto rounded-2xl
                         sm:w-[375px] md:w-[375px] lg:w-[375px]
@@ -39,7 +39,7 @@ const RootLayout = ({ children }) => {
           >
             <AppLayout>{children}</AppLayout>
           </div>
-        </main>
+        </div>
       </body>
     </html>
   );
