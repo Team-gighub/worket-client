@@ -1,7 +1,7 @@
 "use client";
 
 import SignatureCanvas from "react-signature-canvas";
-import useSignature from "./useSignature";
+import useSignature from "../../hooks/useSignature";
 
 /**
  * Signature Component
