@@ -32,7 +32,7 @@ const Signature = ({ onClose, getPresignedUrl }) => {
       />
 
       {/* 버튼 영역 */}
-      <div className="w-full flex gap-[1rem] justify-between mb-9 mt-9">
+      <div className="w-full flex gap-[1rem] justify-between my-9">
         <MainButton
           text="수정"
           onClick={clearSignature}
