@@ -1,10 +1,16 @@
 import "@/app/globals.css";
+import AppLayout from "@/components/layouts/AppLayout";
 
 export const metadata = {
   title: "WORKET",
   description: "긱노동자 간편한 소득증빙 플랫폼",
-  viewport:
-    "width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no",
+};
+
+export const viewport = {
+  width: "device-width",
+  initialScale: 1,
+  maximumScale: 1,
+  userScalable: "no",
 };
 
 const RootLayout = ({ children }) => {
@@ -25,15 +31,15 @@ const RootLayout = ({ children }) => {
         </aside>
 
         {/* 우측 모바일뷰 */}
-        <main className="flex justify-center items-center w-full lg:w-1/2 lg:p-0">
+        <div className="flex justify-center items-center w-full lg:w-1/2 lg:p-0">
           <div
             className="w-[375px] h-[100dvh] bg-basic-100 shadow-lg overflow-y-auto rounded-2xl
                         sm:w-[375px] md:w-[375px] lg:w-[375px]
                         max-sm:w-full max-sm:rounded-none max-sm:shadow-none"
           >
-            {children}
+            <AppLayout>{children}</AppLayout>
           </div>
-        </main>
+        </div>
       </body>
     </html>
   );
