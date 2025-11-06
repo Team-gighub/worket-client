@@ -14,8 +14,10 @@ const AppLayout = ({ children }) => {
   const shouldShowBottomNav = basePaths.includes(pathname);
 
   return (
-    <div className="relative h-full">
-      <div className={`h-full ${shouldShowBottomNav ? "pb-[8rem]" : ""}`}>
+    <div className="flex relative h-ful">
+      <div
+        className={`flex-1 h-full ${shouldShowBottomNav ? "pb-[8rem]" : ""}`}
+      >
         {children}
       </div>
       {shouldShowBottomNav && <BottomNavTab />}
