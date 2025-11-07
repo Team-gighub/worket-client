@@ -20,7 +20,7 @@ const BottomSheet = ({
   }
 
   return (
-    <div className="inset-0 z-50 overflow-hidden">
+    <div className="absolute inset-0 z-50 overflow-hidden">
       {/* 1. 오버레이 (바텀 시트 외 영역) - 클릭 시 닫기 */}
       <div
         className="absolute inset-0 bg-basic-800 bg-opacity-60"
