@@ -23,7 +23,7 @@ const TransactionLayout = ({ children }) => {
   } else if (pathname === "/transactions/create") {
     headerTitle = "거래 등록";
     canGoBack = true;
-  } else if (pathname === "/transactions/upload") {
+  } else if (pathname.startsWith("/transactions/upload")) {
     headerTitle = "거래 업로드";
     canGoBack = true;
   } else if (/^\/transactions\/\d+$/.test(pathname)) {
