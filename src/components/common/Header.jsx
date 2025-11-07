@@ -33,7 +33,7 @@ const Header = ({ title, onBack, onClose }) => {
   };
 
   return (
-    <header className="absolute top-0 w-full h-[6rem] px-[2rem] pt-[3rem] pb-[1rem] bg-basic-100">
+    <header className="z-10 absolute top-0 w-full h-[6rem] px-[2rem] pt-[3rem] pb-[1rem] bg-basic-100">
       <div className="flex justify-between items-center h-[1.9rem]">
         {/* 뒤로가기 아이콘: onBack 있을 때만 표시 */}
         <button
