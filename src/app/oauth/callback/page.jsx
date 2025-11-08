@@ -1,9 +1,9 @@
 "use client";
 
-import { useEffect } from "react";
-import { useSearchParams, useRouter } from "next/navigation";
+import { Suspense, useEffect } from "react";
+import { useRouter, useSearchParams } from "next/navigation";
 
-const OAuthCallbackPage = () => {
+const OAuthCallbackInner = () => {
   const router = useRouter();
   const params = useSearchParams();
 
@@ -22,6 +22,14 @@ const OAuthCallbackPage = () => {
     <div className="flex items-center justify-center h-screen text-xl">
       로그인 처리 중입니다...
     </div>
+  );
+};
+
+const OAuthCallbackPage = () => {
+  return (
+    <Suspense fallback={<div>로딩 중...</div>}>
+      <OAuthCallbackInner />
+    </Suspense>
   );
 };
 

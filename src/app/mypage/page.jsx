@@ -12,7 +12,6 @@ const MyPage = () => {
   useEffect(() => {
     const accessToken = localStorage.getItem("accessToken");
     if (!accessToken) {
-      alert("로그인이 필요합니다.");
       router.push("/login");
       return;
     }
@@ -27,7 +26,7 @@ const MyPage = () => {
       .then((data) => setUser(data.data))
       .catch((err) => {
         console.error(err);
-        alert("세션이 만료되었거나 인증이 필요합니다.");
+        alert("유효기간이 만료되었거나 인증이 필요합니다.");
         localStorage.removeItem("accessToken");
         router.replace("/login");
       });
@@ -64,12 +63,6 @@ const MyPage = () => {
   /** 카카오 연동 해제 */
   const handleKakaoUnlink = async () => {
     const accessToken = localStorage.getItem("accessToken"); // JWT
-
-    if (!accessToken) {
-      alert("로그인이 필요합니다.");
-      router.push("/login");
-      return;
-    }
 
     try {
       const response = await fetch("http://localhost:8080/auth/kakao/unlink", {
