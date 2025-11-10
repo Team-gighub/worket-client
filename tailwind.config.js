@@ -7,6 +7,7 @@ module.exports = {
   theme: {
     colors: {
       primary: "#5E4FE4",
+      "point-red-50": "#FFEAE8",
       "point-red-100": "#FFAFA9",
       "point-red-200": "#FF675C",
       "point-red-300": "#FF0000",
@@ -46,6 +47,12 @@ module.exports = {
           fontFamily: '"Pretendard", sans-serif',
           fontWeight: "700",
           fontSize: "1.2rem",
+          lineHeight: "1.5",
+        },
+        ".pretendard-bold-14": {
+          fontFamily: '"Pretendard", sans-serif',
+          fontWeight: "700",
+          fontSize: "1.4rem",
           lineHeight: "1.5",
         },
 
