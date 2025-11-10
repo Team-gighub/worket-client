@@ -6,8 +6,10 @@ import InfoCard from "@/components/common/InfoCard";
 import SignatureForm from "@/components/common/SignatureForm";
 import DualButtons from "@/components/common/DualButtons";
 import { useContractCreateStore } from "@/stores/contractCreateStore";
+import { useRouter } from "next/navigation";
 
 const CreateResultPage = () => {
+  const router = useRouter();
   /* 데이터 포맷팅을 위한 함수 */
   const formatPhone = (phone) => {
     if (!phone) return "";
@@ -44,11 +46,8 @@ const CreateResultPage = () => {
   return (
     <div>
       <InfoText
-        mainTexts={[
-          "계약서를 다 만들었어요",
-          "아래 정보가 맞는지 확인해주세요",
-        ]}
-        subText="잘못된 경우 다시 작성해주세요"
+        mainTexts={["계약서를 다 만들었어요", "마지막 단계예요!"]}
+        subText="서명란을 선택하여 서명을 진행해주세요"
       ></InfoText>
       <InfoCard title="계약 정보" items={contract_data}></InfoCard>
       <InfoCard title="도급인 정보" items={contractor_data}></InfoCard>
@@ -58,6 +57,8 @@ const CreateResultPage = () => {
         mainText="생성하기"
         subText="수정"
         width="34rem"
+        onSubClick={() => router.push("/transactions/create")}
+        // TODO: onMainClick -> 생성하기 클릭 시, 거래 링크 생성 페이지로 이동
       ></DualButtons>
     </div>
   );
