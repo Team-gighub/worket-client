@@ -30,7 +30,7 @@ const BottomSheet = ({
       {/* 2. 바텀 시트 컨테이너 */}
       <div
         className={`absolute bottom-0 left-0 right-0 
-            w-full bg-basic-100 rounded-lg
+            w-full bg-basic-100 rounded-t-3xl
             ${maxHeight}`}
       >
         <div className="w-full flex justify-center py-2">
