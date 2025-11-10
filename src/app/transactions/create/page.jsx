@@ -24,7 +24,6 @@ const CreatePage = () => {
   // const [isLoading, setIsLoading] = useState(false);
 
   const handleNextStep = () => {
-    console.log(contract);
     const requiredFields = [
       "title",
       "start_date",
