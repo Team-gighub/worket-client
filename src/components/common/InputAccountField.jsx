@@ -1,4 +1,5 @@
 "use client";
+import { useContractCreateStore } from "@/stores/contractCreateStore";
 
 import React from "react";
 import {
@@ -15,8 +16,6 @@ import {
  * * @param {string} question - 입력 필드의 제목 (필수)
  * @param {string} inputValue - Input 필드의 현재 값
  * @param {function} onInputChange - Input 필드 값 변경 핸들러
- * @param {string} selectValue - Select 필드의 현재 값
- * @param {function} onSelectChange - Select 필드 값 변경 핸들러
  * @param {string} placeholder - Input 필드의 placeholder
  * @param {boolean} [error=false] - 에러 상태 여부
  * @param {Array<{value: string, label: string}>} selectOptions - Select에 표시할 옵션 배열
@@ -26,12 +25,12 @@ const InputTwoField = ({
   question,
   inputValue,
   onInputChange,
-  selectValue,
-  onSelectChange,
   placeholder,
   error = false,
   selectOptions = [],
 }) => {
+  const { contract, setField } = useContractCreateStore(); // shadcn 컴포넌트 사용으로 인해, 부모로 상태 전달이 안됨. 따라서 내부에서 상태 관리하도록 적용
+
   return (
     <div className="flex justify-center my-4">
       <div
@@ -57,7 +56,10 @@ const InputTwoField = ({
 
           {/* 2. shadcn/ui Select 컴포넌트 적용 */}
           <div className="w-[7rem] shrink-0">
-            <Select>
+            <Select
+              value={contract.bank || ""}
+              onValueChange={(val) => setField("bank", val)}
+            >
               <SelectTrigger>
                 <SelectValue placeholder="은행선택" />
               </SelectTrigger>
