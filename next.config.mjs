@@ -1,7 +1,9 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   reactCompiler: true,
-
+  
+  apiBaseUrl: "http://localhost:8080",
+  
   rewrites: async () => [
     {
       source: "/api/:path*",
