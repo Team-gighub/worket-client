@@ -57,7 +57,7 @@ const CreatePage = () => {
       return;
     }
 
-    router.push("/transactions/create/result");
+    router.push("/transactions/create/preview");
   };
 
   return (
