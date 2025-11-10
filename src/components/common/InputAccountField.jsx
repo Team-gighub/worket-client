@@ -48,11 +48,11 @@ const InputTwoField = ({
 
         <div className="flex w-full items-center justify-between">
           <input
-            type="text"
+            type="number"
             value={inputValue}
             onChange={onInputChange}
             placeholder={placeholder}
-            className="flex-1 min-w-0 pretendard-medium-18 outline-none bg-transparent"
+            className="flex-1 min-w-0 pretendard-medium-18 outline-none bg-transparent no-spinner"
           />
 
           {/* 2. shadcn/ui Select 컴포넌트 적용 */}
