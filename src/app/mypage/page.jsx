@@ -10,7 +10,7 @@ const MyPage = () => {
 
   useEffect(() => {
     (async () => {
-      const res = await fetch("http://localhost:8080/mypage", {
+      const res = await fetch("/api/mypage", {
         credentials: "include",
       });
       if (!res.ok) return router.replace("/login");
@@ -20,7 +20,7 @@ const MyPage = () => {
   }, [router]);
 
   const logout = async () => {
-    await fetch("http://localhost:8080/logout", {
+    await fetch("/api/logout", {
       method: "POST",
       credentials: "include",
     });
@@ -28,7 +28,7 @@ const MyPage = () => {
   };
 
   const unlink = async () => {
-    await fetch("http://localhost:8080/auth/kakao/unlink", {
+    await fetch("/api/auth/kakao/unlink", {
       method: "POST",
       credentials: "include",
     });
