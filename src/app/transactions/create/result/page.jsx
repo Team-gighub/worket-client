@@ -4,9 +4,9 @@ import { React } from "react";
 import InfoText from "@/components/common/InfoText";
 import InfoCard from "@/components/common/InfoCard";
 import SignatureForm from "@/components/common/SignatureForm";
-import DualButtons from "@/components/common/DualButtons";
 import { useContractCreateStore } from "@/stores/contractCreateStore";
 import { useRouter } from "next/navigation";
+import MainButton from "@/components/common/MainButton";
 
 const CreateResultPage = () => {
   const router = useRouter();
@@ -53,13 +53,11 @@ const CreateResultPage = () => {
       <InfoCard title="도급인 정보" items={contractor_data}></InfoCard>
       <InfoCard title="수급인 정보" items={contractee_data}></InfoCard>
       <SignatureForm />
-      <DualButtons
-        mainText="생성하기"
-        subText="수정"
+      <MainButton
+        text="생성하기"
         width="34rem"
-        onSubClick={() => router.push("/transactions/create")}
-        // TODO: onMainClick -> 생성하기 클릭 시, 거래 링크 생성 페이지로 이동
-      ></DualButtons>
+        // TODO: 생성하기 클릭 시, 거래 링크 생성 페이지로 이동
+      ></MainButton>
     </div>
   );
 };
