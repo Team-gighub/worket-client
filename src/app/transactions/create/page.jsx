@@ -44,6 +44,19 @@ const CreatePage = () => {
       return;
     }
 
+    const startDate = new Date(contract.start_date);
+    const endDate = new Date(contract.end_date);
+
+    if (isNaN(startDate) || isNaN(endDate)) {
+      alert("날짜 형식이 올바르지 않습니다.");
+      return;
+    }
+
+    if (endDate < startDate) {
+      alert("종료일은 시작일 이후여야 합니다.");
+      return;
+    }
+
     router.push("/transactions/create/result");
   };
 
@@ -94,11 +107,15 @@ const CreatePage = () => {
             placeholder="- 없이 번호만 입력해주세요"
             type="tel"
             value={contract.client_phone || ""}
-            onChange={(e) => setField("client_phone", e.target.value)}
+            onChange={(e) => {
+              const value = e.target.value;
+              const filtered = value.replaceAll(/\D/g, "").slice(0, 11);
+              setField("client_phone", filtered);
+            }}
           ></InputField>
           <InputAccountField
             question="입금받을 계좌번호 입력"
-            placeholder="숫자만 입력해주세요"
+            placeholder="- 없이 숫자만 입력해주세요"
             intputValue={contract.account_number || 0}
             selectOptions={bankOptions}
             onInputChange={(e) => setField("account_number", e.target.value)}
