@@ -2,9 +2,11 @@
 
 import "@/app/globals.css";
 import InfoText from "@/components/common/InfoText";
+import LoadingSpinner from "@/components/common/LoadingSpinner";
 import MainButton from "@/components/common/MainButton";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
+import ClipLoader from "react-spinners/ClipLoader";
 
 /* 기존 계약서 업로드하기 */
 const UploadPage = () => {
@@ -83,7 +85,7 @@ const UploadPage = () => {
     }
   };
   if (isLoading) {
-    return <p>loading</p>;
+    return <LoadingSpinner isLoading={isLoading} />;
   }
   return (
     <div>
