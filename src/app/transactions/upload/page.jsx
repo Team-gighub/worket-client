@@ -99,9 +99,9 @@ const UploadPage = () => {
           className="w-[31rem] h-[32rem] bg-basic-200 border-2 border-dashed border-gr border-basic-300 flex flex-col items-center justify-center rounded-lg cursor-pointer hover:border-basic-500 transition"
         >
           {file ? (
-            <p className="text-gray-700">{file.name}</p>
+            <p className="text-basic-600">{file.name}</p>
           ) : (
-            <p className="text-gray-500 text-base text-center">
+            <p className="text-basic-600 text-base text-center">
               해당 부분을 눌러
               <br />
               파일을 업로드하세요
