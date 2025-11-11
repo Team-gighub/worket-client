@@ -6,15 +6,10 @@ import InfoCard from "@/components/common/InfoCard";
 import { useContractCreateStore } from "@/stores/contractCreateStore";
 import { formatKoreanDate } from "@/app/utils/dateFormatter";
 import formatKRW from "@/app/utils/KRWFormatter";
+import { formatPhone } from "@/app/utils/phoneFormatter";
 
 const ContractInfo = () => {
   const { contract } = useContractCreateStore();
-
-  // 전화번호
-  const formatPhone = (phone) => {
-    if (!phone) return "";
-    return phone.replace(/(\d{3})(\d{3,4})(\d{4})/, "$1-$2-$3");
-  };
 
   // 계약기간
   const contractPeriod =
