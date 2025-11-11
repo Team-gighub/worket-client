@@ -1,15 +1,23 @@
 "use client";
 
-import { useRouter } from "next/navigation";
+import { Suspense } from "react";
+import { useRouter, useSearchParams } from "next/navigation";
 import Image from "next/image";
 
-const Login = () => {
+const LoginInner = () => {
   const router = useRouter();
+  const searchParams = useSearchParams();
+  const state = searchParams.get("state") || "FREELANCER";
+
+  /**
+   * 이제 http://localhost:3000/login?state=client 이런식으로 보내면 됨
+   * http://localhost:3000/login 이걸로 하면 기본 역할은 freelancer
+   */
 
   /** 카카오 로그인 요청 */
   const handleKakaoLogin = () => {
     const baseUrl = process.env.NEXT_PUBLIC_API_BASE_URL;
-    window.location.href = `${baseUrl}/oauth2/authorization/kakao`;
+    window.location.href = `${baseUrl}/oauth2/authorization/kakao?state=${state}`;
   };
 
   return (
@@ -50,6 +58,15 @@ const Login = () => {
         <span className="pretendard-semibold-20">카카오 로그인</span>
       </button>
     </div>
+  );
+};
+
+const Login = () => {
+  // Suspense로 감싸서 useSearchParams() 에러 방지
+  return (
+    <Suspense>
+      <LoginInner />
+    </Suspense>
   );
 };
 

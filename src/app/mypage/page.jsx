@@ -20,7 +20,7 @@ const MyPage = () => {
   }, [router]);
 
   const logout = async () => {
-    await fetch("/api/logout", {
+    await fetch("/api/auth/logout", {
       method: "POST",
       credentials: "include",
     });
@@ -28,7 +28,7 @@ const MyPage = () => {
   };
 
   const unlink = async () => {
-    await fetch("/api/auth/kakao/unlink", {
+    await fetch("/api/auth/unlink", {
       method: "POST",
       credentials: "include",
     });
