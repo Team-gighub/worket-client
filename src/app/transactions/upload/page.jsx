@@ -14,7 +14,32 @@ const UploadPage = () => {
 
   const handleFileChange = (e) => {
     const selected = e.target.files[0];
-    if (selected) setFile(selected);
+    //1. 검증되지 않았을 경우
+    if (!selected) return;
+    // 2. 지원 형식 검증 (PDF, PNG, JPG)
+    // 확장자를 소문자로 변환하여 확인
+    const acceptedTypes = [
+      "application/pdf",
+      "image/png",
+      "image/jpeg",
+      "image/jpg",
+    ];
+    if (!acceptedTypes.includes(selected.type)) {
+      alert(
+        "지원되지 않는 파일 형식입니다. PDF, PNG, JPG 파일만 업로드 가능합니다.",
+      );
+      return;
+    }
+
+    // 3. 최대 크기 검증 (10MB)
+    const MAX_FILE_SIZE = 10 * 1024 * 1024; // 10MB
+    if (selected.size > MAX_FILE_SIZE) {
+      alert("파일 크기가 너무 큽니다. 최대 10MB까지 업로드 가능합니다.");
+      return;
+    }
+
+    // 4. 모든 검증을 통과한 경우
+    setFile(selected);
   };
 
   const handleUpload = async () => {
@@ -71,7 +96,7 @@ const UploadPage = () => {
       <section className="flex flex-col items-center w-full mb-6 mt-8">
         <label
           htmlFor="file"
-          className="w-[31rem] h-[32rem] bg-basic-200 border-2 border-dashed border-gr border-basic-400 flex flex-col items-center justify-center rounded-lg cursor-pointer hover:border-basic-500 transition"
+          className="w-[31rem] h-[32rem] bg-basic-200 border-2 border-dashed border-gr border-basic-300 flex flex-col items-center justify-center rounded-lg cursor-pointer hover:border-basic-500 transition"
         >
           {file ? (
             <p className="text-gray-700">{file.name}</p>
