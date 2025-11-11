@@ -32,7 +32,7 @@ const TransactionInfo = ({ data }) => {
       show: ["DEPOSIT_HOLD", "PAYMENT_CONFIRMED"].includes(data.status),
       title: "예치금 정보",
       items: [
-        { label: "예치 금액", value: data.price },
+        { label: "예치 금액", value: data.price + " 원" },
         { label: "예치일", value: data.deposit_hold_at },
         { label: "보관 장소", value: "우리은행" },
       ],
