@@ -68,7 +68,7 @@ const ResultPage = () => {
     router.back();
   };
   const handleMainButton = () => {
-    router.push("/transactions/upload/link");
+    router.push("/transactions/[id]/create-link");
   };
   return (
     <div>
