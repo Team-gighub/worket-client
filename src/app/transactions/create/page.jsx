@@ -74,34 +74,34 @@ const CreatePage = () => {
             placeholder="계약명을 작성해주세요"
             value={contract.title || ""}
             onChange={(e) => setField("title", e.target.value)}
-          ></InputField>
+          />
           <InputField
             type="Date"
             question="계약 시작일"
             placeholder="날짜를 선택해주세요"
             value={contract.start_date || ""}
             onChange={(e) => setField("start_date", e.target.value)}
-          ></InputField>
+          />
           <InputField
             type="Date"
             question="계약 종료일"
             placeholder="날짜를 선택해주세요"
             value={contract.end_date || ""}
             onChange={(e) => setField("end_date", e.target.value)}
-          ></InputField>
+          />
           <InputField
             question="계약금액"
             placeholder="숫자만 입력해주세요"
             type="number"
-            value={contract.amount || 0}
+            value={contract.amount || ""}
             onChange={(e) => setField("amount", e.target.value)}
-          ></InputField>
+          />
           <InputField
             question="고객명"
             placeholder="고객명을 작성해주세요"
             value={contract.client_name || ""}
             onChange={(e) => setField("client_name", e.target.value)}
-          ></InputField>
+          />
           <InputField
             question="고객 전화번호"
             placeholder="- 없이 번호만 입력해주세요"
@@ -112,21 +112,21 @@ const CreatePage = () => {
               const filtered = value.replaceAll(/\D/g, "").slice(0, 11);
               setField("client_phone", filtered);
             }}
-          ></InputField>
+          />
           <InputAccountField
             question="입금받을 계좌번호 입력"
             placeholder="- 없이 숫자만 입력해주세요"
-            intputValue={contract.account_number || 0}
+            inputValue={contract.account_number || ""}
             selectOptions={bankOptions}
             onInputChange={(e) => setField("account_number", e.target.value)}
-          ></InputAccountField>
+          />
         </div>
         <div className="flex w-[342px]">
           <MainButton
             text="생성하기"
             isFullWidth={true}
             onClick={handleNextStep}
-          ></MainButton>
+          />
         </div>
       </div>
     </div>
