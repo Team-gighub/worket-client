@@ -1,6 +1,7 @@
 "use client";
 
 import React from "react";
+import Image from "next/image";
 
 /**
  * 메인 버튼 컴포넌트
@@ -14,6 +15,7 @@ import React from "react";
  * @param {string} [width=31.5] - 버튼 너비 (단위 포함한 string)
  * @param {string} [height=5.1] - 버튼 높이 (단위 포함한 string)
  * @param {boolean} [isFullWidth=false] - true면 남은 공간 전체 차지
+ * @param {{ src: string, alt: string }} icon - 아이콘 이미지 정보 (경로 및 대체 텍스트)
  */
 const MainButton = ({
   text,
@@ -23,11 +25,13 @@ const MainButton = ({
   height = "5.1rem",
   isFullWidth = false,
   isDisabled = false,
+  icon = null,
 }) => {
   const themes = {
     default: { button: "bg-primary", text: "text-basic-100" },
     secondary: { button: "bg-point-purple-100", text: "text-point-purple-300" },
     gray: { button: "bg-basic-300", text: "text-basic-100" },
+    darkgray: { button: "bg-basic-300", text: "text-basic-500" },
   };
 
   const selectedTheme = themes[theme];
@@ -45,9 +49,23 @@ const MainButton = ({
       } ${isFullWidth ? "flex-grow" : ""} whitespace-nowrap`}
       disabled={isDisabled}
     >
-      <span className={`pretendard-semibold-16 ${selectedTheme.text}`}>
-        {text}
-      </span>
+      <div className="flex justify-center items-center gap-[1rem]">
+        {icon && (
+          <div className="relative w-[1.5rem] h-[1.5rem]">
+            <Image
+              src={icon.src}
+              alt={icon.alt}
+              fill
+              sizes="1.5rem"
+              className="object-contain"
+              loading="eager"
+            />
+          </div>
+        )}
+        <span className={`pretendard-semibold-16 ${selectedTheme.text}`}>
+          {text}
+        </span>
+      </div>
     </button>
   );
 
