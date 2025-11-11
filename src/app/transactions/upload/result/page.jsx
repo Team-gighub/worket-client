@@ -31,25 +31,25 @@ const ResultPage = () => {
 
     const clientInfo = [
       // ⭐️ 최상위 필드에서 직접 성함과 전화번호를 찾음 ⭐️
-      { label: "성함", value: clientData.성명 || "정보 없음 (미기재)" },
+      { label: "성함", value: clientData?.성명 || "정보 없음 (미기재)" },
       {
         label: "전화번호",
-        value: clientData.연락처 || "정보 없음 (미기재)",
+        value: clientData?.연락처 || "정보 없음 (미기재)",
       },
     ];
     const freelancerData = data.을;
     const freelancerInfo = [
       {
         label: "성함",
-        value: freelancerData.성명 || "정보 없음 (미기재)",
+        value: freelancerData?.성명 || "정보 없음 (미기재)",
       },
       {
         label: "전화번호",
-        value: freelancerData.연락처 || "정보 없음 (미기재)",
+        value: freelancerData?.연락처 || "정보 없음 (미기재)",
       },
       {
         label: "계좌번호",
-        value: freelancerData.계좌번호 || "정보 없음 (미기재)",
+        value: freelancerData?.계좌번호 || "정보 없음 (미기재)",
       },
     ];
 
