@@ -3,12 +3,15 @@ import React, { useState, useEffect } from "react";
 import BottomSheet from "./BottomSheet";
 import { useRouter } from "next/navigation";
 
-const PinBottomSheet = ({ isOpen, onClose, onConfirm }) => {
+const PinBottomSheet = ({ isOpen, onClose }) => {
   const router = useRouter();
   const [pin, setPin] = useState("");
   const [padNumbers, setPadNumbers] = useState([]);
   const [isVerifying, setIsVerifying] = useState(false); // 검증 중 상태
   const [error, setError] = useState("");
+
+  // TODO: PIN 검증 후 계약 생성 API 호출
+  const handlePinConfirm = (pin) => {};
 
   // 숫자 0~9 섞기
   const shuffleNumbers = () => {
@@ -51,7 +54,7 @@ const PinBottomSheet = ({ isOpen, onClose, onConfirm }) => {
       alert("6자리 PIN을 입력해주세요.");
       return;
     }
-    onConfirm(pin);
+    handlePinConfirm(pin);
     setPin("");
     onClose();
   };
@@ -74,7 +77,7 @@ const PinBottomSheet = ({ isOpen, onClose, onConfirm }) => {
         router.push("/transactions/create/result");
 
         // if (response.ok && result.success) {
-        //   onConfirm(pin); // 성공 시 콜백 실행
+        //   handlePinConfirm(pin); // 성공 시 콜백 실행
         //   setPin("");
         //   onClose();
         //   router.push("/transactions/create/result");

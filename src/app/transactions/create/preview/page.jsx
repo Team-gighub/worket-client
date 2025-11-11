@@ -11,10 +11,6 @@ const CreateResultPage = () => {
   const router = useRouter();
   const { isOpen, open, close } = useBottomSheet();
 
-  const handlePinConfirm = (pin) => {
-    // TODO: PIN 검증 후 계약 생성 API 호출
-  };
-
   return (
     <div>
       <ContractInfo />
@@ -25,11 +21,7 @@ const CreateResultPage = () => {
         onMainClick={() => open()}
         onSubClick={() => router.push("/transactions/create")}
       ></DualButtons>
-      <PinBottomSheet
-        isOpen={isOpen}
-        onClose={close}
-        onConfirm={handlePinConfirm}
-      />
+      <PinBottomSheet isOpen={isOpen} onClose={close} />
     </div>
   );
 };
