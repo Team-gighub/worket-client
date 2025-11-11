@@ -20,7 +20,7 @@ const BottomSheet = ({
   }
 
   return (
-    <div className="inset-0 z-50 overflow-hidden">
+    <div className="absolute inset-0 z-50 overflow-hidden">
       {/* 1. 오버레이 (바텀 시트 외 영역) - 클릭 시 닫기 */}
       <div
         className="absolute inset-0 bg-basic-800 bg-opacity-60"
@@ -30,7 +30,7 @@ const BottomSheet = ({
       {/* 2. 바텀 시트 컨테이너 */}
       <div
         className={`absolute bottom-0 left-0 right-0 
-            w-full bg-basic-100 rounded-lg
+            w-full bg-basic-100 rounded-t-3xl
             ${maxHeight}`}
       >
         <div className="w-full flex justify-center py-2">

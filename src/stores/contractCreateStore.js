@@ -4,9 +4,13 @@ import { createJSONStorage, persist } from "zustand/middleware";
 /**
  * @typedef {Object} ContractData
  * @property {string} title 계약 제목
+ * @property {Date|null} start_date 시작일
+ * @property {Date|null} end_date 종료일
  * @property {number} amount 계약 금액
  * @property {string} client_name 클라이언트 이름
  * @property {string} client_phone 클라이언트 전화번호
+ * @property {string} account_number 프리랜서 계좌번호
+ * @property {string} bank 프리랜서 은행명
  * @property {string} freelancer_sign 프리랜서 서명 URL
  */
 
@@ -23,9 +27,13 @@ export const useContractCreateStore = create(
     (set) => ({
       contract: {
         title: "",
+        start_date: null,
+        end_date: null,
         amount: 0,
         client_name: "",
         client_phone: "",
+        account_number: "",
+        bank: "",
         freelancer_sign: "",
       },
 
@@ -40,9 +48,13 @@ export const useContractCreateStore = create(
         set({
           contract: {
             title: "",
+            start_date: null,
+            end_date: null,
             amount: 0,
             client_name: "",
             client_phone: "",
+            account_number: "",
+            bank: "",
             freelancer_sign: "",
           },
         }),
