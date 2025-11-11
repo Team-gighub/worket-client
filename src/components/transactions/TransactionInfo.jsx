@@ -4,9 +4,11 @@ import { formatKoreanDate } from "@/app/utils/dateFormatter";
 
 const TransactionInfo = ({ data }) => {
   const contractPeriod =
-    formatKoreanDate(data.contract_start_date) +
-    " ~ " +
-    formatKoreanDate(data.contract_end_date);
+    data.contract_start_date === data.contract_end_date
+      ? formatKoreanDate(data.contract_start_date) // 계약 기간이 하루인 경우
+      : formatKoreanDate(data.contract_start_date) +
+        " ~ " +
+        formatKoreanDate(data.contract_end_date);
 
   const receivingAccount = data.freelancer_bank + " " + data.freelancer_account;
 

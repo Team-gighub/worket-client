@@ -1,7 +1,7 @@
 /**
  * 숫자를 대한민국 표기(천 단위 콤마)로 포맷
  * @param {number|string} value - 포맷할 숫자 (숫자 또는 숫자 문자열)
- * @returns {string} 예: "1,234,567" 또는 "1,234,567원"
+ * @returns {string} 예: "1,234,567"
  */
 const formatKRW = (value) => {
   const num =
