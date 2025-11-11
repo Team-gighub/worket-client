@@ -71,15 +71,15 @@ const UploadPage = () => {
       <section className="flex flex-col items-center w-full mb-6 mt-8">
         <label
           htmlFor="file"
-          className="w-[315px] h-[332px] border-2 border-dashed border-gray-300 flex flex-col items-center justify-center rounded-lg cursor-pointer hover:border-indigo-400 transition"
+          className="w-[31rem] h-[32rem] bg-basic-200 border-2 border-dashed border-gr border-basic-400 flex flex-col items-center justify-center rounded-lg cursor-pointer hover:border-basic-500 transition"
         >
           {file ? (
             <p className="text-gray-700">{file.name}</p>
           ) : (
             <p className="text-gray-500 text-base text-center">
-              여기에 파일을 드래그하거나
+              해당 부분을 눌러
               <br />
-              클릭하여 업로드
+              파일을 업로드하세요
             </p>
           )}
           <input
