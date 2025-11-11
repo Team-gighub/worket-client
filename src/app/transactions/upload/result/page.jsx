@@ -67,6 +67,8 @@ const ResultPage = () => {
   const handleSubButton = () => {
     router.back();
   };
+  //TODO: 계약서 생성 api연동 후 response로 오는 id값으로 라우팅
+
   const handleMainButton = () => {
     router.push("/transactions/[id]/create-link");
   };
