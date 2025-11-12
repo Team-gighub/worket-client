@@ -16,7 +16,7 @@ const ProfitCard = ({ userName, profitAmount, statusData }) => {
       <div className="border-t border-basic-200 "></div>
 
       {/* 하단 상태/통계 영역*/}
-      <div className="flex justify-around text-center text-sm ">
+      <div className="flex justify-around text-center">
         {statusData.map((item, index) => (
           // 각 항목에 오른쪽 테두리(구분선)를 적용
           <div
