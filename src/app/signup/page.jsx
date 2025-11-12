@@ -5,10 +5,44 @@ import InputField from "@/components/common/InputField";
 import InputCategoryField from "@/components/common/InputCategoryField";
 import MainButton from "@/components/common/MainButton";
 import { useRouter } from "next/navigation";
+import { useState } from "react";
 
 /* 회원가입 화면 */
 const SignUp = () => {
   const router = useRouter();
+  const [business_sector, setBusinessSector] = useState("");
+  const [business_sector_years, setBusinessSectorYears] = useState("");
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState("");
+
+  const handleSubmit = async () => {
+    setError("");
+    setLoading(true);
+
+    try {
+      // TODO: api 연동 필요
+      const res = await fetch("/users", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          businessSector: business_sector,
+          businessSectorYears: Number(business_sector_years),
+        }),
+      });
+
+      if (!res.ok) {
+        throw new Error("회원가입에 실패했습니다.");
+      }
+
+      router.push("/pin");
+    } catch (err) {
+      console.error(err);
+      setError(err.message);
+    } finally {
+      setLoading(false);
+    }
+  };
+
   return (
     <div className="h-full flex flex-col">
       <InfoText
@@ -18,20 +52,25 @@ const SignUp = () => {
       />
       <div className="flex pb-[5rem] flex-1 flex-col justify-between">
         <div>
-          <InputCategoryField question="업종" />
+          <InputCategoryField
+            question="업종"
+            value={business_sector}
+            onChange={(value) => setBusinessSector(value)}
+          />
           <InputField
             question="업력"
             type="number"
             placeholder="해당 업종에 종사한 업력을 입력해주세요"
+            value={business_sector_years}
+            onChange={(e) => setBusinessSectorYears(e.target.value)}
           />
         </div>
         <div>
           <MainButton
-            text="가입하기"
+            text={loading ? "가입 중..." : "가입하기"}
             width="34.2rem"
-            onClick={() => {
-              router.push("/login/signup/pin");
-            }}
+            disabled={loading}
+            onClick={handleSubmit}
           />
         </div>
       </div>
