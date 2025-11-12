@@ -20,10 +20,10 @@ const TransactionLayout = ({ children }) => {
   if (pathname === "/transactions") {
     headerTitle = "거래 관리";
     canGoBack = false; // 루트 페이지라 뒤로가기 없음
-  } else if (pathname === "/transactions/create") {
+  } else if (pathname.startsWith("/transactions/create")) {
     headerTitle = "거래 등록";
     canGoBack = true;
-  } else if (pathname === "/transactions/upload") {
+  } else if (pathname.startsWith("/transactions/upload")) {
     headerTitle = "거래 업로드";
     canGoBack = true;
   } else if (/^\/transactions\/\d+$/.test(pathname)) {

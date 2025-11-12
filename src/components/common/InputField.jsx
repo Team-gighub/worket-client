@@ -2,7 +2,14 @@
 
 import React from "react";
 
-const InputField = ({ question, placeholder, value, onChange, error }) => {
+const InputField = ({
+  question,
+  placeholder,
+  type = "text",
+  value,
+  onChange,
+  error,
+}) => {
   return (
     <div className="flex justify-center my-4">
       <div
@@ -17,11 +24,11 @@ const InputField = ({ question, placeholder, value, onChange, error }) => {
           )}
         </div>
         <input
-          type="text"
+          type={type}
           value={value}
           onChange={onChange}
           placeholder={placeholder}
-          className="pretendard-medium-18 outline-none bg-transparent w-full"
+          className="pretendard-medium-18 outline-none bg-transparent w-full no-spinner"
         />
       </div>
     </div>
