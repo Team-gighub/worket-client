@@ -6,7 +6,7 @@ const nextConfig = {
   rewrites: async () => [
     {
       source: "/api/:path*",
-      destination: "http://localhost:8080/:path*",
+      destination: `${process.env.NEXT_PUBLIC_API_BASE_URL}/:path*`,
     },
   ],
 };
