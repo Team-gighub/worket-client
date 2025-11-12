@@ -14,7 +14,10 @@ const CustomBarChart = ({ chartData = [], type = "INCOME" }) => {
     value: type === "INCOME" ? item.income : item.transactions,
   }));
 
-  const colors = ["#E6E4FF", "#E6E4FF", "#5E4FE4"]; // point-purple-100("#E6E4FF"), primary("#5E4FE4")
+  const COLORS = {
+    primary: "#5E4FE4",
+    pointPurple100: "#E6E4FF",
+  };
 
   return (
     <div className="h-[35rem] select-none">
@@ -39,7 +42,10 @@ const CustomBarChart = ({ chartData = [], type = "INCOME" }) => {
               formatter={(value) => formatKRW(value)}
             />
             {formattedData.map((entry, index) => (
-              <Cell key={`cell-${index}`} fill={colors[index]} />
+              <Cell
+                key={`cell-${index}`}
+                fill={index === 2 ? COLORS.primary : COLORS.pointPurple100}
+              />
             ))}
           </Bar>
         </BarChart>
