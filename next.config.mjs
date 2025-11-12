@@ -1,8 +1,7 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   reactCompiler: true,
-  
-  apiBaseUrl: "http://localhost:8080",
+  reactStrictMode: false,
   
   rewrites: async () => [
     {

@@ -35,6 +35,31 @@ const MyPage = () => {
     router.replace("/login");
   };
 
+  // ✅ 카카오 OAuth 토큰 재발급 버튼 동작
+  const refreshKakaoToken = async () => {
+    if (!user?.id) {
+      alert("유저 정보가 없습니다. 다시 로그인해주세요.");
+      return;
+    }
+
+    const url = `${process.env.NEXT_PUBLIC_API_BASE_URL}/auth/token/refresh?userId=${user.id}`;
+
+    const res = await fetch(url, {
+      method: "GET",
+      credentials: "include",
+    });
+
+    if (!res.ok) {
+      const err = await res.json();
+      alert("토큰 재발급 실패: " + (err.message || "Unknown error"));
+      return;
+    }
+
+    const data = await res.json();
+    alert("토큰 재발급 성공: " + data.message);
+    console.log("새 access token:", data.accessToken);
+  };
+
   if (!user)
     return (
       <div className="flex justify-center items-center h-screen text-gray-400">
@@ -75,17 +100,27 @@ const MyPage = () => {
           >
             홈으로
           </button>
+
           <button
             onClick={logout}
             className="bg-gray-600 hover:bg-gray-700 text-white py-2 rounded-lg font-semibold"
           >
             로그아웃
           </button>
+
           <button
             onClick={unlink}
             className="bg-red-500 hover:bg-red-600 text-white px-6 py-3 rounded-xl font-semibold"
           >
             카카오 연동 해제
+          </button>
+
+          {/* ✅ 추가된 카카오 토큰 재발급 버튼 */}
+          <button
+            onClick={refreshKakaoToken}
+            className="bg-yellow-400 hover:bg-yellow-500 text-black py-2 rounded-lg font-semibold mt-2"
+          >
+            카카오 토큰 재발급
           </button>
         </div>
       </div>
