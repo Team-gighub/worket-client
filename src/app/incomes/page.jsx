@@ -6,6 +6,7 @@ import formatKRW from "../utils/KRWFormatter";
 import CustomBarChart from "@/components/charts/CustomBarChart";
 import contract_3d_icon from "@/assets/contract_3d_icon.png";
 import Image from "next/image";
+import fetchIncomes from "../api/fetchIncomes";
 
 const Incomes = () => {
   const [type, setType] = useState("INCOME"); // INCOME | TRANSACTIONS
@@ -22,21 +23,15 @@ const Incomes = () => {
   };
 
   useEffect(() => {
-    // TODO: 서버 API 호출 (예시 데이터)
-    const fetchData = async () => {
-      const serverData = {
-        yearlySummary: { income: 12000000, transactions: 600 },
-        last3Months: [
-          { month: "2025-09", income: 3000000, transactions: 150 },
-          { month: "2025-10", income: 4000000, transactions: 200 },
-          { month: "2025-11", income: 5000000, transactions: 250 },
-        ],
-        currentMonth: { income: 5000000, transactions: 250 },
-      };
-      setData(serverData);
+    const getData = async () => {
+      try {
+        const serverData = await fetchIncomes();
+        setData(serverData);
+      } catch (err) {
+        console.error(err);
+      }
     };
-
-    fetchData();
+    getData();
   }, []);
 
   if (!data) return <p>로딩중...</p>;
