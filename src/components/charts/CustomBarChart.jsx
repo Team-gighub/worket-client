@@ -11,7 +11,7 @@ import formatKRW from "@/app/utils/KRWFormatter";
 const CustomBarChart = ({ chartData = [], type = "INCOME" }) => {
   const formattedData = chartData.map((item) => ({
     month: `${Number(item.month.split("-")[1])}월`, // "2025-09" → "9월"
-    value: type === "INCOME" ? item.income : item.transactions,
+    value: type === "INCOME" ? item.incomes : item.transactions,
   }));
 
   const COLORS = {

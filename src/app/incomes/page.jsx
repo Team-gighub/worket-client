@@ -36,18 +36,24 @@ const Incomes = () => {
 
   if (!data) return <p>로딩중...</p>;
 
+  // 이번달 통계자료 추출
+  const currentMonthStr = new Date().toISOString().slice(0, 7); // "YYYY-MM"
+  const currentMonthProfit = data.statistics.find(
+    (item) => item.month === currentMonthStr,
+  ) || { incomes: 0, transactions: 0 };
+
   const mainData = {
     INCOME: {
       mainTexts: [
         "이번 달 정산된 소득액은",
-        `${formatKRW(data.currentMonth.income)}원`,
+        `${formatKRW(currentMonthProfit.incomes)}원`,
       ],
       subText: "소득액은 세전 기준으로 표시됩니다.",
     },
     TRANSACTIONS: {
       mainTexts: [
         "이번 달 완료된 거래 수는",
-        `${formatKRW(data.currentMonth.transactions)}건`,
+        `${formatKRW(currentMonthProfit.transactions)}건`,
       ],
       subText: "거래 수는 정산까지 완료된 건만 표시됩니다.",
     },
@@ -88,16 +94,17 @@ const Incomes = () => {
       />
 
       {/* 최근 3개월간 추이 그래프 */}
-      <CustomBarChart chartData={data.last3Months} type={type} />
+      <CustomBarChart chartData={data.statistics} type={type} />
 
       {/* 연간 총합 */}
       <div className="max-w-[33.5rem] mx-auto my-[2rem] flex justify-center">
         <div className="pretendard-semibold-20 flex-center ">
-          2025년 {type === "INCOME" ? "소득액 " : "거래수 "}
+          {new Date().getFullYear()}년{" "}
+          {type === "INCOME" ? "소득액 " : "거래수 "}
           {formatKRW(
             type === "INCOME"
-              ? data.yearlySummary.income
-              : data.yearlySummary.transactions,
+              ? data.currentYearProfit.incomes
+              : data.currentYearProfit.transactions,
           )}
           {type === "INCOME" ? "원" : "건"}
         </div>

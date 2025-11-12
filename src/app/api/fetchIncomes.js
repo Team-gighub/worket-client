@@ -19,17 +19,16 @@ const fetchIncomes = async () => {
     //
     // return res.data;
 
-    // --- 테스트용 더미 데이터 ---
+    // --- 테스트용 더미 데이터(실제 response 구조) ---
     const dummyResponse = {
       status: "SUCCESS",
       data: {
-        yearlySummary: { income: 12000000, transactions: 600 },
-        last3Months: [
-          { month: "2025-09", income: 3000000, transactions: 150 },
-          { month: "2025-10", income: 4000000, transactions: 200 },
-          { month: "2025-11", income: 5000000, transactions: 250 },
+        currentYearProfit: { incomes: 12000000, transactions: 600 },
+        statistics: [
+          { month: "2025-09", incomes: 3000000, transactions: 150 },
+          { month: "2025-10", incomes: 4000000, transactions: 200 },
+          { month: "2025-11", incomes: 5000000, transactions: 250 },
         ],
-        currentMonth: { income: 5000000, transactions: 250 },
       },
     };
 
