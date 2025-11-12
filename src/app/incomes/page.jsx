@@ -11,6 +11,16 @@ const Incomes = () => {
   const [type, setType] = useState("INCOME"); // INCOME | TRANSACTIONS
   const [data, setData] = useState(null);
 
+  const handleTypeToggle = (clickedType) => {
+    setType((prev) =>
+      prev === clickedType
+        ? clickedType === "INCOME"
+          ? "TRANSACTIONS"
+          : "INCOME"
+        : clickedType,
+    );
+  };
+
   useEffect(() => {
     // TODO: 서버 API 호출 (예시 데이터)
     const fetchData = async () => {
@@ -59,7 +69,7 @@ const Incomes = () => {
                 ? "bg-point-purple-100 text-basic-600"
                 : "text-basic-400"
             }`}
-            onClick={() => setType("INCOME")}
+            onClick={() => handleTypeToggle("INCOME")}
           >
             소득액
           </button>
@@ -69,7 +79,7 @@ const Incomes = () => {
                 ? "bg-point-purple-100 text-basic-600"
                 : "text-basic-400"
             }`}
-            onClick={() => setType("TRANSACTIONS")}
+            onClick={() => handleTypeToggle("TRANSACTIONS")}
           >
             거래수
           </button>
