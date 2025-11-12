@@ -20,36 +20,38 @@ const ResultPage = () => {
     // 백엔드가 보낸 필드명에 맞게 매핑 (파이프 문자열 기반)
     const contractInfo = [
       // ⭐️ Key 이름을 백엔드 Map의 Key와 일치시킴 ⭐️
-      { label: "계약명", value: data["계약명"] || "" },
-      { label: "계약기간", value: data["계약기간"] || "미정" }, // 계약기간 필드가 있다면 사용
+      { label: "계약명", value: data["title"] || "" },
+      {
+        label: "계약기간",
+        value: data["startDate"] + " ~ " + data["endDate"] || "미정",
+      }, // 계약기간 필드가 있다면 사용
       {
         label: "계약금액",
-        value: data["계약금액"] || "",
+        value: data["amount"] || "",
       },
     ];
-    const clientData = data.갑;
-
     const clientInfo = [
       // ⭐️ 최상위 필드에서 직접 성함과 전화번호를 찾음 ⭐️
-      { label: "성함", value: clientData?.성명 || "정보 없음 (미기재)" },
+      { label: "성함", value: data["clientName"] || "정보 없음 (미기재)" },
       {
         label: "전화번호",
-        value: clientData?.연락처 || "정보 없음 (미기재)",
+        value: data["clientPhone"] || "정보 없음 (미기재)",
       },
     ];
-    const freelancerData = data.을;
     const freelancerInfo = [
       {
         label: "성함",
-        value: freelancerData?.성명 || "정보 없음 (미기재)",
+        value: "김윤미" || "정보 없음 (미기재)",
       },
       {
         label: "전화번호",
-        value: freelancerData?.연락처 || "정보 없음 (미기재)",
+        value: "0101-2202" || "정보 없음 (미기재)",
       },
       {
         label: "계좌번호",
-        value: freelancerData?.계좌번호 || "정보 없음 (미기재)",
+        value:
+          data["freelancerBank"] + " " + data["freelancerAccount"] ||
+          "정보 없음 (미기재)",
       },
     ];
 
