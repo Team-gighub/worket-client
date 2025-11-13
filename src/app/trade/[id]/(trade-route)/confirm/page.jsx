@@ -7,19 +7,15 @@ import { useParams, useRouter } from "next/navigation";
 
 const TradeConfirm = () => {
   const router = useRouter();
-  const params = useParams();
-
-  const tradeId = params.id;
+  const { id } = useParams();
 
   const { data: tradeData, updateTradeStatus } = useTradeDataStore();
   const { clientInfo, freelancerInfo } = tradeData;
 
   const handleClick = () => {
-    if (tradeId) {
+    if (id) {
       updateTradeStatus("PAYMENT_CONFIRMED");
-      router.push(`/trade/${tradeId}`);
-    } else {
-      console.error("거래 ID를 찾을 수 없어 서명 페이지로 이동할 수 없습니다.");
+      router.push(`/trade/${id}`);
     }
   };
   return (
