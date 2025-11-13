@@ -9,11 +9,11 @@ const TradeDataHydrator = ({ initialData, children }) => {
 
   useEffect(() => {
     if (!hasHydrated.current) {
-      setTradeData(stableInitialData);
+      setTradeData(initialData);
       hasHydrated.current = true;
-      console.log("Trade data hydrated:", stableInitialData);
+      console.log("Trade data hydrated:", initialData);
     }
-  }, [initialData]);
+  }, [setTradeData]);
 
   return children;
 };
