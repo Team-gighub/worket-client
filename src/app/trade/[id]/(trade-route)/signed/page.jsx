@@ -7,16 +7,14 @@ import { useParams, useRouter } from "next/navigation";
 
 const TradeSigned = () => {
   const router = useRouter();
-  const { id: tradeId } = useParams();
+  const { id } = useParams();
 
   const { data: tradeData, updateTradeStatus } = useTradeDataStore();
 
   const handleSignClick = () => {
-    if (tradeId) {
+    if (id) {
       updateTradeStatus("SIGNED");
-      router.push(`/trade/${tradeId}`);
-    } else {
-      console.error("거래 ID를 찾을 수 없어 서명 페이지로 이동할 수 없습니다.");
+      router.push(`/trade/${id}`);
     }
   };
 

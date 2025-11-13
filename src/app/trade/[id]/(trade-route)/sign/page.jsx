@@ -7,16 +7,14 @@ import { useParams, useRouter } from "next/navigation";
 
 const TradeSign = () => {
   const router = useRouter();
-  const { id: tradeId } = useParams();
+  const { id } = useParams();
 
   // TODO: 계약서 보기에 쓰임
   // const { data } = useTradeDataStore();
 
   const handleSignClick = () => {
-    if (tradeId) {
-      router.push(`/trade/${tradeId}/signed`);
-    } else {
-      console.error("거래 ID를 찾을 수 없어 서명 페이지로 이동할 수 없습니다.");
+    if (id) {
+      router.push(`/trade/${id}/signed`);
     }
   };
   return (
