@@ -42,7 +42,7 @@ const Dashboard = () => {
           ></ProfitCard>
         </div>
         <MainButton text="바로 대출 신청하기" theme="secondary"></MainButton>
-        <div className="flex mt-8 flex-row gap-8">
+        <div className="flex mt-8 gap-8">
           <HomeButton
             title="이미 체결된 계약서"
             subtitle="업로드하기"

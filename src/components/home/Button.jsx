@@ -48,14 +48,12 @@ const HomeButton = ({
         {/* 2. 텍스트 영역 - 윗줄, 아랫줄 수직으로 배치 */}
         <div className="flex flex-col items-end justify-center text-left">
           <span
-            className={`pretendard-semibold-16 ${titleColor} whitespace-nowrap`}
-            style={{ fontSize: "1.3rem" }}
+            className={`pretendard-semibold-13 ${titleColor} whitespace-nowrap`}
           >
             {title}
           </span>
           <span
-            className={`pretendard-medium-14 ${subtitleColor} whitespace-nowrap`}
-            style={{ fontSize: "1.3rem" }}
+            className={`pretendard-medium-12 ${subtitleColor} whitespace-nowrap`}
           >
             {subtitle}
           </span>

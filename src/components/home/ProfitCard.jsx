@@ -1,4 +1,5 @@
 import React from "react";
+import formatKRW from "@/app/utils/KRWFormatter";
 const ProfitCard = ({ userName, profitAmount, statusData }) => {
   return (
     <div className="bg-white rounded-2xl shadow-lg p-6 w-full">
@@ -8,7 +9,7 @@ const ProfitCard = ({ userName, profitAmount, statusData }) => {
           <span>{userName}</span>님의 이번달 수익은
         </p>
         <p className="pretendard-semibold-24 mt-1">
-          {profitAmount.toLocaleString()} 원이에요
+          {formatKRW(profitAmount)} 원이에요
         </p>
       </div>
 
