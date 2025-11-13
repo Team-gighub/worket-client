@@ -1,4 +1,3 @@
-// components/trade/TradeViewSelector.jsx (수정)
 "use client";
 
 import TradeViewCreated from "@/components/trade/views/TradeViewCreated";
@@ -6,31 +5,23 @@ import TradeViewSigned from "@/components/trade/views/TradeViewSigned";
 import TradeViewDepositHold from "@/components/trade/views/TradeViewDepositHold";
 import TradeViewPaymentConfirmed from "@/components/trade/views/TradeViewPaymentConfirmed";
 import TradeViewSettled from "@/components/trade/views/TradeViewSettled";
-import { useTradeDataStore } from "@/stores/tradeDataStore";
-import InfoText from "@/components/common/InfoText"; // 🚨 InfoText 임포트
-import TradeStepIndicator from "@/components/trade/TradeStepIndicator"; // 🚨 Indicator 임포트
+import InfoText from "@/components/common/InfoText";
+import TradeStepIndicator from "@/components/trade/TradeStepIndicator";
 import TradeViewLayout from "../layouts/TradeViewLayout";
 
-// TradeViewSelector는 이제 레이아웃의 자식으로 들어갈 최종 콘텐츠를 반환합니다.
-const TradeViewSelector = () => {
-  const { tradeData } = useTradeDataStore();
-
-  if (!tradeData?.status) {
-    return <p>거래 상태를 불러오는 중입니다...</p>;
-  }
-
+const TradeViewSelector = ({ data }) => {
   let currentStep = 0;
   let ViewComponent = null;
   let infoTexts = [];
   let subText = "";
 
   // 1. 상태에 따라 모든 동적 값 결정
-  switch (tradeData.status) {
+  switch (data.status) {
     case "CREATED":
       currentStep = 1;
       ViewComponent = TradeViewCreated;
       infoTexts = [
-        `${tradeData.clientName}님과 ${tradeData.freelancerName}님의`,
+        `${data.clientInfo.name}님과 ${data.freelancerInfo.name}님의`,
         "거래 페이지입니다.",
       ];
       subText = "계약서에 서명을 진행해주세요";
@@ -71,9 +62,7 @@ const TradeViewSelector = () => {
       break;
 
     default:
-      return (
-        <p>{tradeData.tradeId || "해당"} 거래의 상태를 불러올 수 없습니다</p>
-      );
+      return <p>거래의 상태를 불러올 수 없습니다</p>;
   }
 
   return (
