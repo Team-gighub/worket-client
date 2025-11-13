@@ -2,7 +2,7 @@
 import React from "react";
 import BottomSheet from "./BottomSheet";
 import { useRouter } from "next/navigation";
-import PinInputForm from "./PinInputForm";
+import PinInputForm from "../pin/PinInputForm";
 
 const PinBottomSheet = ({ isOpen, onClose }) => {
   const router = useRouter();

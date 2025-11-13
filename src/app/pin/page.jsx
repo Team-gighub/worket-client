@@ -1,6 +1,6 @@
 "use client";
 import "@/app/globals.css";
-import PinInputForm from "@/components/common/PinInputForm";
+import PinInputForm from "@/components/pin/PinInputForm";
 import { useRouter } from "next/navigation";
 
 /* 간편 비밀번호 등록 페이지 */
