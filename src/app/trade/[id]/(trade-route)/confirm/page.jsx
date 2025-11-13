@@ -11,8 +11,8 @@ const TradeConfirm = () => {
 
   const tradeId = params.id;
 
-  const { tradeData, updateTradeStatus } = useTradeDataStore();
-  const { clientName, freelancerName } = tradeData;
+  const { data: tradeData, updateTradeStatus } = useTradeDataStore();
+  const { clientInfo, freelancerInfo } = tradeData;
 
   const handleClick = () => {
     if (tradeId) {
@@ -26,7 +26,7 @@ const TradeConfirm = () => {
     <div className="h-full w-full flex flex-col justify-between items-center pb-[3rem] px-[2rem]">
       <InfoText
         mainTexts={[
-          `${clientName}님, ${freelancerName}님과의 거래가 완료되었다면,`,
+          `${clientInfo.name}님, ${freelancerInfo.name}님과의 거래가 완료되었다면,`,
           "지급 확정 버튼을 눌러주세요",
         ]}
         subText="지급 확정 후 빠른 시일내에 프리랜서에게 돈이 지급됩니다."
