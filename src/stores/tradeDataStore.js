@@ -1,4 +1,6 @@
-// stores/tradeDataStore.js
+/**
+ * 통합 거래 상태 관리를 위한 Zustand 스토어
+ */
 
 import { create } from "zustand";
 
@@ -6,21 +8,20 @@ import { create } from "zustand";
 const initialTradeData = null;
 
 export const useTradeDataStore = create((set) => ({
-  // [tradeData] 거래 데이터 상태
-  tradeData: initialTradeData,
+  data: initialTradeData,
 
   // [setTradeData] 데이터 주입 액션 (Hydrator에서 호출)
-  setTradeData: (data) => set({ tradeData: data }),
+  setTradeData: (newData) => set({ data: newData }),
 
   // 3. [updateTradeStatus] (선택 사항) 거래 상태 업데이트 액션 (클라이언트에서 서명 완료 등 시 호출)
   updateTradeStatus: (newStatus) =>
     set((state) => ({
-      tradeData: {
-        ...state.tradeData,
+      data: {
+        ...state.data,
         status: newStatus,
       },
     })),
 
   // 4. [resetTradeData] (선택 사항) 상태 리셋 액션
-  resetTradeData: () => set({ tradeData: initialTradeData }),
+  resetTradeData: () => set({ data: initialTradeData }),
 }));
