@@ -1,11 +1,11 @@
-"use client";
-
 import InfoText from "@/components/common/InfoText";
 import TradeViewLayout from "@/components/layouts/TradeViewLayout";
 import TradeStepIndicator from "../TradeStepIndicator";
 import MainButton from "@/components/common/MainButton";
+import { getTradeInfo } from "@/app/api/fetchTrade";
 
-const TradeViewLoginRequired = ({ clientName, freelancerName }) => {
+const TradeViewLoginRequired = async () => {
+  const { clientName, freelancerName } = await getTradeInfo();
   return (
     <TradeViewLayout>
       <InfoText
@@ -16,11 +16,8 @@ const TradeViewLoginRequired = ({ clientName, freelancerName }) => {
         subText="거래를 시작하기 전, 본인인증을 진행해주세요"
       />
       <TradeStepIndicator currentStep={0} />
-      {/* TODO: 카카오 로그인 버튼 or 로크인 버튼으로 수정 & 클릭 액션 추가*/}
-      <MainButton
-        text="본인인증 하러가기"
-        onClick={() => console.log("로그인 화면으로 이동")}
-      />
+      {/* TODO: client component로 따로 제작 후 클릭 액션 추가*/}
+      <MainButton text="본인인증 하러가기" />
     </TradeViewLayout>
   );
 };
