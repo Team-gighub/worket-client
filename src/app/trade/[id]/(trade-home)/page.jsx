@@ -1,6 +1,6 @@
 "use client";
 import LoadingSpinner from "@/components/common/LoadingSpinner";
-import TradeViewSelector from "@/components/trade/TradeViewSelector";
+import TradeViewSelector from "@/components/trade/views/TradeViewSelector";
 import { useTradeDataStore } from "@/stores/tradeDataStore";
 
 const TradePage = () => {
