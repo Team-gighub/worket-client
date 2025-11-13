@@ -10,8 +10,8 @@ import { useState } from "react";
 /* 회원가입 화면 */
 const SignUp = () => {
   const router = useRouter();
-  const [business_sector, setBusinessSector] = useState("");
-  const [business_sector_years, setBusinessSectorYears] = useState("");
+  const [businessSector, setBusinessSector] = useState("");
+  const [businessSectorYears, setBusinessSectorYears] = useState("");
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
 
@@ -25,8 +25,8 @@ const SignUp = () => {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-          businessSector: business_sector,
-          businessSectorYears: Number(business_sector_years),
+          businessSector: businessSector,
+          businessSectorYears: Number(businessSectorYears),
         }),
       });
 
@@ -45,23 +45,27 @@ const SignUp = () => {
 
   return (
     <div className="h-full flex flex-col">
-      <InfoText
-        mainTexts={["업종과 업력을 입력해주세요"]}
-        subText="추후 소득 증빙에서  비정형 데이터로 사용될 수 있어요"
-        subTextColor="grey"
-      />
+      {/* TODO: 업종/업력 입력을 위한 소개글 결정 필요 */}
+      <div>
+        <InfoText
+          mainTexts={["업종과 업력을 입력해주세요"]}
+          subText="추후 소득 증빙 과정에서 활용될 수 있어요"
+          subTextColor="grey"
+        />
+      </div>
+
       <div className="flex pb-[5rem] flex-1 flex-col justify-between">
         <div>
           <InputCategoryField
             question="업종"
-            value={business_sector}
+            value={businessSector}
             onChange={(value) => setBusinessSector(value)}
           />
           <InputField
             question="업력"
             type="number"
             placeholder="해당 업종에 종사한 업력을 입력해주세요"
-            value={business_sector_years}
+            value={businessSectorYears}
             onChange={(e) => setBusinessSectorYears(e.target.value)}
           />
         </div>
