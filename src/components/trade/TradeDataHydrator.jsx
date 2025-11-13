@@ -11,7 +11,6 @@ const TradeDataHydrator = ({ initialData, children }) => {
     if (!hasHydrated.current) {
       setTradeData(initialData);
       hasHydrated.current = true;
-      console.log("Trade data hydrated:", initialData);
     }
   }, [setTradeData]);
 
