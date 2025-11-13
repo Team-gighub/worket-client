@@ -15,6 +15,16 @@ const SignUp = () => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
 
+  // TODO: 카테고리 설정 필요
+  const category = [
+    "카테고리1",
+    "카테고리2",
+    "카테고리3",
+    "카테고리4",
+    "카테고리5",
+    "카테고리6",
+  ];
+
   const handleSubmit = async () => {
     setError("");
     setLoading(true);
@@ -60,6 +70,7 @@ const SignUp = () => {
             question="업종"
             value={businessSector}
             onChange={(value) => setBusinessSector(value)}
+            category={category}
           />
           <InputField
             question="업력"
