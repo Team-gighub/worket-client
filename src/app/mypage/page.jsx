@@ -8,56 +8,121 @@ const MyPage = () => {
   const router = useRouter();
   const [user, setUser] = useState();
 
+  // 공통 에러 처리
+  const handleApiError = async (res) => {
+    if (!res.ok) {
+      let msg = "오류가 발생했습니다.";
+
+      try {
+        const errBody = await res.json();
+        if (errBody?.errorMessage) msg = errBody.errorMessage;
+      } catch (_) {}
+
+      alert(msg);
+
+      if (res.status === 401) {
+        router.replace("/login");
+      } else if (res.status === 403) {
+        router.replace("/");
+      } else {
+        router.replace("/");
+      }
+
+      return true;
+    }
+
+    return false;
+  };
+
   useEffect(() => {
     (async () => {
       const res = await fetch("/api/mypage", {
         credentials: "include",
       });
-      if (!res.ok) return router.replace("/login");
-      const { data } = await res.json();
-      setUser(data);
+
+      const hasError = await handleApiError(res);
+      if (hasError) return;
+
+      const body = await res.json();
+
+      if (body.status === "error") {
+        alert(body.errorMessage);
+        return router.replace("/login");
+      }
+
+      setUser(body.data);
     })();
   }, [router]);
 
   const logout = async () => {
-    await fetch("/api/auth/logout", {
+    const res = await fetch("/api/auth/logout", {
       method: "POST",
       credentials: "include",
     });
-    router.replace("/login");
+
+    const hasError = await handleApiError(res);
+    if (hasError) return;
+
+    router.replace("/");
   };
 
   const unlink = async () => {
-    await fetch("/api/auth/unlink", {
+    const res = await fetch("/api/auth/unlink", {
       method: "POST",
       credentials: "include",
     });
-    router.replace("/login");
+
+    const hasError = await handleApiError(res);
+    if (hasError) return;
+
+    router.replace("/");
   };
 
-  // ✅ 카카오 OAuth 토큰 재발급 버튼 동작
   const refreshKakaoToken = async () => {
     if (!user?.id) {
       alert("유저 정보가 없습니다. 다시 로그인해주세요.");
       return;
     }
 
-    const url = `${process.env.NEXT_PUBLIC_API_BASE_URL}/auth/token/refresh?userId=${user.id}`;
+    const res = await fetch(
+      `${process.env.NEXT_PUBLIC_API_BASE_URL}/auth/token/refresh?userId=${user.id}`,
+      {
+        method: "GET",
+        credentials: "include",
+      },
+    );
 
-    const res = await fetch(url, {
-      method: "GET",
-      credentials: "include",
-    });
+    const hasError = await handleApiError(res);
+    if (hasError) return;
 
-    if (!res.ok) {
-      const err = await res.json();
-      alert("토큰 재발급 실패: " + (err.message || "Unknown error"));
+    const body = await res.json();
+
+    if (body.status === "error") {
+      alert(body.errorMessage);
       return;
     }
 
-    const data = await res.json();
-    alert("토큰 재발급 성공: " + data.message);
-    console.log("새 access token:", data.accessToken);
+    alert("토큰 재발급 성공");
+    console.log("새 access token:", body.data.accessToken);
+  };
+
+  // ---------------------------------
+  // 추가된 /users 조회
+  // ---------------------------------
+  const fetchUsers = async () => {
+    const res = await fetch("/api/users", {
+      credentials: "include",
+    });
+
+    const hasError = await handleApiError(res);
+    if (hasError) return;
+
+    const body = await res.json();
+
+    console.log("유저 전체 응답:", body);
+    console.log("유저 data:", body.data);
+
+    alert("유저 목록이 콘솔에 출력되었습니다.");
   };
 
   if (!user)
@@ -71,6 +136,7 @@ const MyPage = () => {
     <div className="flex flex-col items-center justify-center min-h-screen bg-gray-50">
       <div className="bg-white p-8 rounded-2xl shadow-md w-96">
         <h1 className="text-2xl font-bold text-indigo-600 mb-6">My Page</h1>
+
         <div className="text-gray-700 space-y-2">
           <p>
             <strong>이름:</strong> {user.name}
@@ -115,12 +181,19 @@ const MyPage = () => {
             카카오 연동 해제
           </button>
 
-          {/* ✅ 추가된 카카오 토큰 재발급 버튼 */}
           <button
             onClick={refreshKakaoToken}
             className="bg-yellow-400 hover:bg-yellow-500 text-black py-2 rounded-lg font-semibold mt-2"
           >
             카카오 토큰 재발급
+          </button>
+
+          {/* ▲ 추가된 버튼 */}
+          <button
+            onClick={fetchUsers}
+            className="bg-green-500 hover:bg-green-600 text-white py-2 rounded-lg font-semibold mt-2"
+          >
+            유저 목록 보기
           </button>
         </div>
       </div>
