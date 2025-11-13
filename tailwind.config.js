@@ -137,6 +137,18 @@ module.exports = {
           fontSize: "1.6rem",
           lineHeight: "1.5",
         },
+        ".pretendard-semibold-14": {
+          fontFamily: '"Pretendard", sans-serif',
+          fontWeight: "600",
+          fontSize: "1.4rem",
+          lineHeight: "1.5",
+        },
+        ".pretendard-semibold-13": {
+          fontFamily: '"Pretendard", sans-serif',
+          fontWeight: "600",
+          fontSize: "1.3rem",
+          lineHeight: "1.5",
+        },
 
         /* Medium */
         ".pretendard-medium-24": {
