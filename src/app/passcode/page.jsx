@@ -4,7 +4,7 @@ import PasscodeForm from "@/components/passcode/PasscodeForm";
 import { useRouter } from "next/navigation";
 
 /* 간편 비밀번호 등록 페이지 */
-const PinPage = () => {
+const PasscodePage = () => {
   const router = useRouter();
 
   return (
@@ -19,4 +19,4 @@ const PinPage = () => {
   );
 };
 
-export default PinPage;
+export default PasscodePage;
