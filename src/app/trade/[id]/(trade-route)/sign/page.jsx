@@ -1,8 +1,10 @@
 "use client";
 
+import ContractTemplate from "@/components/common/ContractTemplate";
 import InfoText from "@/components/common/InfoText";
 import MainButton from "@/components/common/MainButton";
 import SignatureForm from "@/components/common/SignatureForm";
+import { useTradeDataStore } from "@/stores/tradeDataStore";
 import { useParams, useRouter } from "next/navigation";
 
 const TradeSign = () => {
@@ -10,7 +12,8 @@ const TradeSign = () => {
   const { id } = useParams();
 
   // TODO: 계약서 보기에 쓰임
-  // const { data } = useTradeDataStore();
+  const { data } = useTradeDataStore();
+  const { contractInfo, clientInfo, freelancerInfo } = data;
 
   const handleSignClick = () => {
     if (id) {
@@ -23,7 +26,11 @@ const TradeSign = () => {
         mainTexts={["계약서에 서명해주세요"]}
         subText="계약명과 지급액을 한번 더 확인한 후 서명해주세요! 체결된 계약서는 되돌릴 수 없어요"
       />
-      {/* TODO: 계약서 보기 공통 컴포넌트 들어갈 부분 */}
+      <ContractTemplate
+        contractInfo={contractInfo}
+        clientInfo={clientInfo}
+        freelancerInfo={freelancerInfo}
+      />
       <SignatureForm />
       <MainButton text="서명 완료하기" onClick={handleSignClick} />
     </div>
