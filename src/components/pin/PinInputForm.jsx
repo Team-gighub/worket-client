@@ -14,11 +14,10 @@ import { usePinLogic } from "../../hooks/usePinLogic";
 /**
  *
  * @param {string} mode "setup"(초기 비밀번호 등록) | "verify"(비밀번호로 본인인증)
- * @param {string} storedPin db에 저장된 사용자의 비밀번호
  * @param {function} onSuccess 비밀번호 검증 후 동작할 함수
  * @returns
  */
-const PinInputForm = ({ mode, storedPin = "", onSuccess }) => {
+const PinInputForm = ({ mode, onSuccess }) => {
   const [shuffledNumbers, setShuffledNumbers] = useState(() =>
     shuffleArray([...Array(10).keys()].map(String)),
   );
@@ -29,7 +28,7 @@ const PinInputForm = ({ mode, storedPin = "", onSuccess }) => {
   }, []);
 
   const { pin, setPin, step, error, handleSetupMode, handleVerifyMode } =
-    usePinLogic(mode, storedPin, onSuccess, reshuffle);
+    usePinLogic(mode, onSuccess, reshuffle);
 
   // 키패드 입력 처리를 위한 함수
   const handleKeypadInput = useCallback(
