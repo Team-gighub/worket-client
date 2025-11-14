@@ -1,4 +1,4 @@
-import { MOCK_CONTRACT } from "./mock_contracts";
+import { MOCK_CONTRACT, MOCK_CONTRACT_RESET } from "./mock_contracts";
 
 export const MOCK_TRANSACTION_DETAIL = {
   status: "SIGNED",
@@ -11,6 +11,19 @@ export const MOCK_TRANSACTION_DETAIL = {
   settledAmount: 715.89,
   contractFileUrl: "https://loremflickr.com/167/2526?lock=3238486552340916",
   ...MOCK_CONTRACT,
+};
+
+export const MOCK_TRANSACTION_DETAIL_RESET = {
+  status: "SIGNED",
+  signedAt: "2025-11-11T20:00:42.074Z",
+  depositHoldAt: "2025-11-11T16:08:55.215Z",
+  paymentConfirmedAt: "2025-11-11T16:49:24.553Z",
+  settledAt: "2025-11-12T02:40:58.476Z",
+  createdAt: "2025-11-12T07:06:05.705Z",
+  contractId: 956,
+  settledAmount: 715.89,
+  contractFileUrl: "https://loremflickr.com/167/2526?lock=3238486552340916",
+  ...MOCK_CONTRACT_RESET,
 };
 
 {
