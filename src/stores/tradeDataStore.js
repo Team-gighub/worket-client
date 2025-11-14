@@ -2,10 +2,11 @@
  * 통합 거래 상태 관리를 위한 Zustand 스토어
  */
 
+import { MOCK_TRANSACTION_DETAIL_RESET } from "@/constants/mock_transactions";
 import { create } from "zustand";
 
 // 초기 상태는 null 또는 빈 객체로 설정하여 데이터 로딩 전 상태 나타냄
-const initialTradeData = null;
+const initialTradeData = MOCK_TRANSACTION_DETAIL_RESET;
 
 export const useTradeDataStore = create((set) => ({
   data: initialTradeData,
