@@ -3,6 +3,36 @@ import formatKRW from "@/app/utils/KRWFormatter";
 import { formatPhone } from "@/app/utils/phoneFormatter";
 import { formatContractPeriod } from "@/app/utils/contractPeriodFormatter";
 
+/**
+ * @typedef {Object} ContractInfo
+ * @property {string} title 계약명
+ * @property {number} amount 계약금액 (숫자)
+ * @property {string} startDate 계약 시작일 (YYYY-MM-DD 형식)
+ * @property {string} endDate 계약 종료일 (YYYY-MM-DD 형식)
+ */
+
+/**
+ * @typedef {Object} ClientInfo
+ * @property {string} name 성함 (도급인/의뢰인)
+ * @property {string} phone 전화번호 (하이픈 없는 문자열, 예: "01012345678")
+ */
+
+/**
+ * @typedef {Object} FreelancerInfo
+ * @property {string} name 성함 (수급인/프리랜서)
+ * @property {string} phone 전화번호
+ * @property {string} account 계좌번호
+ * @property {string} bank 은행명
+ */
+
+/**
+ * 계약 정보를 포맷하여 InfoCard 형태로 렌더링하는 템플릿 컴포넌트입니다.
+ * * @param {Object} props
+ * @param {ContractInfo} props.contractInfo - 계약의 핵심 정보
+ * @param {ClientInfo} props.clientInfo - 도급인(클라이언트) 정보
+ * @param {FreelancerInfo} props.freelancerInfo - 수급인(프리랜서) 정보
+ */
+
 const ContractTemplate = ({ contractInfo, clientInfo, freelancerInfo }) => {
   const { title, amount, startDate, endDate } = contractInfo;
   const { name: clientName, phone: clientPhone } = clientInfo;
