@@ -11,7 +11,8 @@ import MainButton from "@/components/common/MainButton";
 /* 새 계약서 생성하기 */
 const CreatePage = () => {
   const router = useRouter();
-  const { contract, setField } = useContractCreateStore();
+  const { contract: data, setNestedField } = useContractCreateStore();
+  const { contractInfo, clientInfo, freelancerInfo } = data;
 
   /* TODO: 더미 데이터 수정 필요 */
   const bankOptions = [
@@ -25,27 +26,38 @@ const CreatePage = () => {
 
   const handleNextStep = () => {
     const requiredFields = [
-      "title",
-      "start_date",
-      "end_date",
-      "amount",
-      "client_name",
-      "client_phone",
-      "account_number",
-      "bank",
+      { path: "contractInfo.title", message: "계약명을 입력해주세요." },
+      { path: "contractInfo.startDate", message: "시작일을 입력해주세요." },
+      { path: "contractInfo.endDate", message: "종료일을 입력해주세요." },
+      { path: "contractInfo.amount", message: "계약금액을 입력해주세요." },
+
+      { path: "clientInfo.name", message: "의뢰인 이름을 입력해주세요." },
+      { path: "clientInfo.phone", message: "의뢰인 연락처를 입력해주세요." },
+
+      { path: "freelancerInfo.account", message: "계좌번호를 입력해주세요." },
+      { path: "freelancerInfo.bank", message: "은행명을 입력해주세요." },
     ];
 
-    const isFormValid = requiredFields.every(
-      (key) => contract[key] && contract[key].trim() !== "",
-    );
+    const invalidField = requiredFields.find((field) => {
+      const keys = field.path.split(".");
 
-    if (!isFormValid) {
-      alert("모든 필수 정보를 입력해주세요.");
+      const value = keys.reduce((obj, key) => {
+        if (obj === null || obj === undefined || typeof obj !== "object") {
+          return null;
+        }
+        return obj[key];
+      }, data);
+
+      return !value || String(value).trim() === "";
+    });
+
+    if (invalidField) {
+      alert(invalidField.message);
       return;
     }
 
-    const startDate = new Date(contract.start_date);
-    const endDate = new Date(contract.end_date);
+    const startDate = new Date(data.contractInfo.startDate);
+    const endDate = new Date(data.contractInfo.endDate);
 
     if (isNaN(startDate) || isNaN(endDate)) {
       alert("날짜 형식이 올바르지 않습니다.");
@@ -66,59 +78,71 @@ const CreatePage = () => {
         mainTexts={["진행될 계약 내용을", "작성해주세요"]}
         subText="워켓이 계약서를 만들어 거래 페이지를 제공합니다!"
         subTextColor="gray"
-      ></InfoText>
+      />
       <div className="flex flex-col justify-center items-center">
         <div>
           <InputField
             question="계약명"
             placeholder="계약명을 작성해주세요"
-            value={contract.title || ""}
-            onChange={(e) => setField("title", e.target.value)}
+            value={contractInfo.title || ""}
+            onChange={(e) =>
+              setNestedField("contractInfo", "title", e.target.value)
+            }
           />
           <InputField
             type="Date"
             question="계약 시작일"
             placeholder="날짜를 선택해주세요"
-            value={contract.start_date || ""}
-            onChange={(e) => setField("start_date", e.target.value)}
+            value={contractInfo.startDate || ""}
+            onChange={(e) =>
+              setNestedField("contractInfo", "startDate", e.target.value)
+            }
           />
           <InputField
             type="Date"
             question="계약 종료일"
             placeholder="날짜를 선택해주세요"
-            value={contract.end_date || ""}
-            onChange={(e) => setField("end_date", e.target.value)}
+            value={contractInfo.endDate || ""}
+            onChange={(e) =>
+              setNestedField("contractInfo", "endDate", e.target.value)
+            }
           />
           <InputField
             question="계약금액"
             placeholder="숫자만 입력해주세요"
             type="number"
-            value={contract.amount || ""}
-            onChange={(e) => setField("amount", e.target.value)}
+            value={contractInfo.amount || ""}
+            onChange={(e) =>
+              setNestedField("contractInfo", "amount", e.target.value)
+            }
           />
           <InputField
             question="고객명"
             placeholder="고객명을 작성해주세요"
-            value={contract.client_name || ""}
-            onChange={(e) => setField("client_name", e.target.value)}
+            value={clientInfo.name || ""}
+            onChange={(e) =>
+              setNestedField("clientInfo", "name", e.target.value)
+            }
           />
           <InputField
             question="고객 전화번호"
             placeholder="- 없이 번호만 입력해주세요"
             type="tel"
-            value={contract.client_phone || ""}
+            value={clientInfo.phone || ""}
             onChange={(e) => {
               const value = e.target.value;
               const filtered = value.replaceAll(/\D/g, "").slice(0, 11);
-              setField("client_phone", filtered);
+              setNestedField("clientInfo", "phone", filtered);
             }}
           />
           <InputAccountField
             question="입금받을 계좌번호 입력"
             placeholder="- 없이 숫자만 입력해주세요"
-            inputValue={contract.account_number || ""}
+            inputValue={freelancerInfo.account || ""}
             selectOptions={bankOptions}
-            onInputChange={(e) => setField("account_number", e.target.value)}
+            onInputChange={(e) =>
+              setNestedField("freelancerInfo", "account", e.target.value)
+            }
           />
         </div>
         <div className="flex w-[342px]">
