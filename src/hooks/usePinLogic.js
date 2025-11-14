@@ -18,6 +18,7 @@ export const usePinLogic = (mode, storedPin, onSuccess, reshuffle) => {
 
   const handleSetupMode = useCallback(() => {
     if (step === 1) {
+      setError("");
       setConfirmedPin(pin);
       setPin("");
       setStep(2);
