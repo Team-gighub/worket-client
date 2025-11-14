@@ -29,12 +29,12 @@ const InputTwoField = ({
   error = false,
   selectOptions = [],
 }) => {
-  const { contract, setField } = useContractCreateStore(); // shadcn 컴포넌트 사용으로 인해, 부모로 상태 전달이 안됨. 따라서 내부에서 상태 관리하도록 적용
+  const { contract, setNestedField } = useContractCreateStore(); // shadcn 컴포넌트 사용으로 인해, 부모로 상태 전달이 안됨. 따라서 내부에서 상태 관리하도록 적용
 
   return (
     <div className="flex justify-center my-4">
       <div
-        className={`w-[342px] h-[67px] rounded-[10px] border ${
+        className={`w-[34.2rem] h-[6.7rem] rounded-[1rem] border ${
           error ? "border-point-red-300" : "border-basic-300"
         } px-8 py-3 flex flex-col justify-between`}
       >
@@ -57,8 +57,10 @@ const InputTwoField = ({
           {/* 2. shadcn/ui Select 컴포넌트 적용 */}
           <div className="w-[7rem] shrink-0">
             <Select
-              value={contract.bank || ""}
-              onValueChange={(val) => setField("bank", val)}
+              value={contract.freelancerInfo.bank || ""}
+              onValueChange={(val) =>
+                setNestedField("freelancerInfo", "bank", val)
+              }
             >
               <SelectTrigger>
                 <SelectValue placeholder="은행선택" />

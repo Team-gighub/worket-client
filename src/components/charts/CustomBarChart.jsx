@@ -11,10 +11,13 @@ import formatKRW from "@/app/utils/KRWFormatter";
 const CustomBarChart = ({ chartData = [], type = "INCOME" }) => {
   const formattedData = chartData.map((item) => ({
     month: `${Number(item.month.split("-")[1])}월`, // "2025-09" → "9월"
-    value: type === "INCOME" ? item.income : item.transactions,
+    value: type === "INCOME" ? item.incomes : item.transactions,
   }));
 
-  const colors = ["#E6E4FF", "#E6E4FF", "#5E4FE4"]; // point-purple-100("#E6E4FF"), primary("#5E4FE4")
+  const COLORS = {
+    primary: "#5E4FE4",
+    pointPurple100: "#E6E4FF",
+  };
 
   return (
     <div className="h-[35rem] select-none">
@@ -39,7 +42,10 @@ const CustomBarChart = ({ chartData = [], type = "INCOME" }) => {
               formatter={(value) => formatKRW(value)}
             />
             {formattedData.map((entry, index) => (
-              <Cell key={`cell-${index}`} fill={colors[index]} />
+              <Cell
+                key={`cell-${index}`}
+                fill={index === 2 ? COLORS.primary : COLORS.pointPurple100}
+              />
             ))}
           </Bar>
         </BarChart>
