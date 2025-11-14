@@ -15,26 +15,29 @@ const ContractTemplate = ({ contractInfo, clientInfo, freelancerInfo }) => {
 
   const contractPeriod = formatContractPeriod(startDate, endDate);
 
-  const receivingAccount = freelancerBank + " " + freelancerAccount;
+  const receivingAccount =
+    freelancerBank && freelancerAccount
+      ? freelancerBank + " " + freelancerAccount
+      : "-";
 
   const contractFields = [
-    { label: "계약명", value: title || "" },
+    { label: "계약명", value: title || "-" },
     {
       label: "계약기간",
-      value: contractPeriod || "",
+      value: contractPeriod || "-",
     },
-    { label: "계약금액", value: `${formatKRW(amount)}원` || "" },
+    { label: "계약금액", value: amount ? `${formatKRW(amount)}원` : "-" },
   ];
 
   const clientFields = [
-    { label: "성함", value: clientName || "" },
-    { label: "전화번호", value: formatPhone(clientPhone) || "" },
+    { label: "성함", value: clientName || "-" },
+    { label: "전화번호", value: formatPhone(clientPhone) || "-" },
   ];
 
   const freelancerFields = [
-    { label: "성함", value: freelancerName || "" },
-    { label: "전화번호", value: formatPhone(freelancerPhone) || "" },
-    { label: "계좌번호", value: receivingAccount || "" },
+    { label: "성함", value: freelancerName || "-" },
+    { label: "전화번호", value: formatPhone(freelancerPhone) || "-" },
+    { label: "계좌번호", value: receivingAccount || "-" },
   ];
 
   return (
