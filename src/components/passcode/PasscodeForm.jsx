@@ -1,17 +1,22 @@
 "use client";
 import React, { useState, useEffect, useCallback } from "react";
-import { shuffleArray, getInstructionText, KEYS, PIN_LENGTH } from "./pinUtils";
-import PinInputDisplay from "./PinInputDisplay";
+import {
+  shuffleArray,
+  getInstructionText,
+  KEYS,
+  PASSCODE_LENGTH,
+} from "./passcodeUtils";
+import PasscodeDisplay from "./PasscodeDisplay";
 import KeypadButton from "./KeypadButton";
-import { usePinLogic } from "../../hooks/usePinLogic";
+import { usePasscodeLogic } from "../../hooks/usePasscodeLogic";
 
 /**
  *
  * @param {string} mode "register"(비밀번호 등록) | "verify"(비밀번호 입력)
- * @param {function} handlePinComplete 비밀번호 검증 완료 시, 처리할 함수 (페이지 라우팅 역할)
+ * @param {function} handlePasscodeComplete 비밀번호 검증 완료 시, 처리할 함수 (페이지 라우팅 역할)
  * @returns
  */
-const PinInputForm = ({ mode, handlePinComplete }) => {
+const PasscodeForm = ({ mode, handlePasscodeComplete }) => {
   const [shuffledNumbers, setShuffledNumbers] = useState(() =>
     [...Array(10).keys()].map(String),
   );
@@ -26,34 +31,40 @@ const PinInputForm = ({ mode, handlePinComplete }) => {
     return () => clearTimeout(timer);
   }, [reshuffle]);
 
-  const { pin, setPin, step, error, handleRegisterMode, handleVerifyMode } =
-    usePinLogic(mode, handlePinComplete, reshuffle);
+  const {
+    passcode,
+    setPasscode,
+    step,
+    error,
+    handleRegisterMode,
+    handleVerifyMode,
+  } = usePasscodeLogic(mode, handlePasscodeComplete, reshuffle);
 
   // 키패드 입력 처리를 위한 함수
   const handleKeypadInput = useCallback(
     (value) => {
       if (value === KEYS.CLEAR) reshuffle();
-      if (value === KEYS.CLEAR) setPin("");
-      else if (value === KEYS.DELETE) setPin((p) => p.slice(0, -1));
-      else if (pin.length < PIN_LENGTH) setPin((p) => p + value);
+      if (value === KEYS.CLEAR) setPasscode("");
+      else if (value === KEYS.DELETE) setPasscode((p) => p.slice(0, -1));
+      else if (passcode.length < PASSCODE_LENGTH) setPasscode((p) => p + value);
     },
-    [pin, setPin],
+    [passcode, setPasscode],
   );
 
   // 6자리 숫자 입력 완료 감지 & 모드에 따른 처리 함수 실행
   useEffect(() => {
-    if (pin.length === PIN_LENGTH) {
+    if (passcode.length === PASSCODE_LENGTH) {
       const timeout = setTimeout(() => {
         mode === "register" ? handleRegisterMode() : handleVerifyMode();
       }, 0);
       return () => clearTimeout(timeout);
     }
-  }, [pin, mode, handleRegisterMode, handleVerifyMode]);
+  }, [passcode, mode, handleRegisterMode, handleVerifyMode]);
 
   return (
     <div className="w-full h-full flex flex-col justify-between p-[2rem]">
-      <PinInputDisplay
-        pinLength={pin.length}
+      <PasscodeDisplay
+        passcodeLength={passcode.length}
         instruction={getInstructionText(mode, step)}
         error={error}
       />
@@ -70,4 +81,4 @@ const PinInputForm = ({ mode, handlePinComplete }) => {
   );
 };
 
-export default PinInputForm;
+export default PasscodeForm;

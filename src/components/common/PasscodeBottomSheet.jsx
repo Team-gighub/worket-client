@@ -2,13 +2,13 @@
 import React from "react";
 import BottomSheet from "./BottomSheet";
 import { useRouter } from "next/navigation";
-import PinInputForm from "../pin/PinInputForm";
+import PasscodeForm from "../passcode/PasscodeForm";
 
-const PinBottomSheet = ({ isOpen, onClose }) => {
+const PasscodeBottomSheet = ({ isOpen, onClose }) => {
   const router = useRouter();
   return (
     <BottomSheet isOpen={isOpen} onClose={onClose}>
-      <PinInputForm
+      <PasscodeForm
         mode="verify"
         handlePinComplete={() => {
           router.push("/transactions/create/result");
@@ -18,4 +18,4 @@ const PinBottomSheet = ({ isOpen, onClose }) => {
   );
 };
 
-export default PinBottomSheet;
+export default PasscodeBottomSheet;

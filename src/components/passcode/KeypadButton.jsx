@@ -1,5 +1,5 @@
 import React from "react";
-import { KEYS } from "./pinUtils";
+import { KEYS } from "./passcodeUtils";
 
 /**
  * 키패드의 버튼 컴포넌트

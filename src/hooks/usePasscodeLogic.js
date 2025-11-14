@@ -1,23 +1,23 @@
 import { useState, useCallback } from "react";
 import { registerPasscode, verifyPasscode } from "../app/api/passcode";
 
-export const usePinLogic = (mode, handlePinComplete, reshuffle) => {
-  const [pin, setPin] = useState("");
-  const [storedPin, setStoredPin] = useState("");
+export const usePasscodeLogic = (mode, handlePasscodeComplete, reshuffle) => {
+  const [passcode, setPasscode] = useState("");
+  const [storedPasscode, setStoredPasscode] = useState("");
   const [step, setStep] = useState(mode === "register" ? 1 : 2);
   const [error, setError] = useState("");
   const [attempts, setAttempts] = useState(0);
 
   // 암호화 함수
-  const encryptPin = useCallback((value) => {
+  const encryptpasscode = useCallback((value) => {
     // TODO: 암호화 로직
     return value;
   }, []);
 
   // reset 함수
   const resetSetup = useCallback(() => {
-    setPin("");
-    setStoredPin("");
+    setPasscode("");
+    setStoredPasscode("");
     setAttempts(0);
     setStep(1);
     reshuffle();
@@ -27,17 +27,17 @@ export const usePinLogic = (mode, handlePinComplete, reshuffle) => {
   const handleRegisterMode = useCallback(async () => {
     setError("");
 
-    // STEP 1 → PIN 저장
+    // STEP 1 → passcode 저장
     if (step === 1) {
-      setStoredPin(pin);
-      setPin("");
+      setStoredPasscode(passcode);
+      setPasscode("");
       setStep(2);
       reshuffle();
       return;
     }
 
-    // STEP 2 → PIN 확인
-    if (pin !== storedPin) {
+    // STEP 2 → passcode 확인
+    if (passcode !== storedPasscode) {
       const next = attempts + 1;
 
       if (next >= 3) {
@@ -47,33 +47,33 @@ export const usePinLogic = (mode, handlePinComplete, reshuffle) => {
       }
 
       setError("비밀번호가 일치하지 않습니다.");
-      setPin("");
+      setPasscode("");
       setAttempts(next);
       reshuffle();
       return;
     }
 
-    // pin == storedPin → 등록 API 호출
+    // passcode == storedPasscode → 등록 API 호출
     try {
-      const encrypted = encryptPin(pin);
+      const encrypted = encryptpasscode(passcode);
       await registerPasscode(encrypted);
 
-      setPin("");
-      setStoredPin("");
-      handlePinComplete();
+      setPasscode("");
+      setStoredPasscode("");
+      handlePasscodeComplete();
     } catch (e) {
       console.error(e);
       setError("간편 비밀번호 등록 중 오류가 발생했습니다.");
     }
   }, [
-    pin,
+    passcode,
     step,
-    storedPin,
+    storedPasscode,
     attempts,
     reshuffle,
-    encryptPin,
+    encryptpasscode,
     resetSetup,
-    handlePinComplete,
+    handlePasscodeComplete,
   ]);
 
   // Verify (비밀번호 검증) 함수
@@ -81,22 +81,22 @@ export const usePinLogic = (mode, handlePinComplete, reshuffle) => {
     setError("");
 
     try {
-      const encrypted = encryptPin(pin);
+      const encrypted = encryptpasscode(passcode);
       await verifyPasscode(encrypted);
 
-      setPin("");
-      handlePinComplete(); // 검증 성공 시, 페이지 이동
+      setPasscode("");
+      handlePasscodeComplete(); // 검증 성공 시, 페이지 이동
     } catch (e) {
       console.error(e);
       setError("잘못된 비밀번호입니다.");
-      setPin("");
+      setPasscode("");
       reshuffle();
     }
-  }, [pin, encryptPin, handlePinComplete, reshuffle]);
+  }, [passcode, encryptpasscode, handlePasscodeComplete, reshuffle]);
 
   return {
-    pin,
-    setPin,
+    passcode,
+    setPasscode,
     step,
     error,
     handleRegisterMode,

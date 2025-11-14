@@ -1,8 +1,8 @@
 /**
- * pin 비밀번호 입력을 위해 필요한 상수, 배열, 함수
+ * passcode 비밀번호 입력을 위해 필요한 상수, 배열, 함수
  */
 
-export const PIN_LENGTH = 6;
+export const PASSCODE_LENGTH = 6;
 
 export const KEYS = {
   CLEAR: "clear",
