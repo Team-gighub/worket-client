@@ -19,13 +19,18 @@ import { usePinLogic } from "../../hooks/usePinLogic";
  */
 const PinInputForm = ({ mode, onSuccess }) => {
   const [shuffledNumbers, setShuffledNumbers] = useState(() =>
-    shuffleArray([...Array(10).keys()].map(String)),
+    [...Array(10).keys()].map(String),
   );
 
   // 키패드에 보여질 숫자 랜덤화를 위한 함수
   const reshuffle = useCallback(() => {
     setShuffledNumbers(shuffleArray([...Array(10).keys()].map(String)));
   }, []);
+
+  useEffect(() => {
+    const timer = setTimeout(() => reshuffle(), 0);
+    return () => clearTimeout(timer);
+  }, [reshuffle]);
 
   const { pin, setPin, step, error, handleSetupMode, handleVerifyMode } =
     usePinLogic(mode, onSuccess, reshuffle);
