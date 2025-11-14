@@ -1,7 +1,7 @@
 import { useState, useCallback } from "react";
 import { MODES, PIN_LENGTH } from "../components/pin/pinUtils";
 
-export const usePinLogic = (mode, storedPin, onSuccess, reshuffle) => {
+export const usePinLogic = (mode, onSuccess, reshuffle) => {
   const [pin, setPin] = useState("");
   const [confirmedPin, setConfirmedPin] = useState("");
   const [step, setStep] = useState(mode === MODES.SETUP ? 1 : 2);
@@ -27,7 +27,8 @@ export const usePinLogic = (mode, storedPin, onSuccess, reshuffle) => {
     }
 
     if (pin === confirmedPin) {
-      onSuccess?.(pin);
+      // TODO: 간편 비밀번호 등록 api 연동 필요
+      onSuccess();
     } else {
       const newAttempts = attempts + 1;
       if (newAttempts >= 3) {
@@ -43,8 +44,10 @@ export const usePinLogic = (mode, storedPin, onSuccess, reshuffle) => {
   }, [step, pin, confirmedPin, attempts, onSuccess, reshuffle, resetSetup]);
 
   const handleVerifyMode = useCallback(() => {
-    if (pin === storedPin) {
-      onSuccess?.(pin);
+    // TODO: 간편 비밀번호 검증 api 연동 필요
+    // TODO: api 응답에 따른 조건문 처리 필요 (현재는 임의로 true)
+    if (true) {
+      onSuccess();
     } else {
       const newAttempts = attempts + 1;
       setError("비밀번호가 일치하지 않습니다.");
@@ -52,7 +55,7 @@ export const usePinLogic = (mode, storedPin, onSuccess, reshuffle) => {
       setAttempts(newAttempts);
       reshuffle();
     }
-  }, [pin, storedPin, attempts, onSuccess, reshuffle]);
+  }, [pin, attempts, onSuccess, reshuffle]);
 
   return {
     pin,

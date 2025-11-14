@@ -11,7 +11,7 @@ const PinPage = () => {
     <div className="h-full">
       <PinInputForm
         mode="setup"
-        onSuccess={(pin) => {
+        onSuccess={() => {
           router.push("/dashboard");
         }}
       />
