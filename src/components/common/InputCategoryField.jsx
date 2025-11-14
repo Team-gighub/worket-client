@@ -1,19 +1,13 @@
 "use client";
 
 import React from "react";
+import GroupButton from "./GroupButton";
 
-const InputField = ({
-  question,
-  placeholder,
-  type = "text",
-  value,
-  onChange,
-  error,
-}) => {
+const InputField = ({ question, category, onChange, error }) => {
   return (
     <div className="flex justify-center my-4">
       <div
-        className={`w-[34.2rem] h-[6.7rem] rounded-[1rem] border ${
+        className={`w-[34.2rem] gap-[1rem] rounded-[1rem] border ${
           error ? "border-point-red-300" : "border-basic-300"
         } px-8 py-3 flex flex-col justify-between`}
       >
@@ -23,13 +17,7 @@ const InputField = ({
             <span className="text-point-red-300 ml-4">잘못된 응답입니다</span>
           )}
         </div>
-        <input
-          type={type}
-          value={value}
-          onChange={onChange}
-          placeholder={placeholder}
-          className="pretendard-medium-18 outline-none bg-transparent w-full no-spinner"
-        />
+        <GroupButton category={category} onChange={onChange} />
       </div>
     </div>
   );
