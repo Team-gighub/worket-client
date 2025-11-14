@@ -4,11 +4,6 @@
 
 export const PIN_LENGTH = 6;
 
-export const MODES = {
-  SETUP: "setup",
-  VERIFY: "verify",
-};
-
 export const KEYS = {
   CLEAR: "clear",
   DELETE: "delete",
@@ -26,7 +21,7 @@ export const shuffleArray = (array) => {
 
 // 안내 문구 반환
 export const getInstructionText = (mode, step) => {
-  if (mode === MODES.SETUP) {
+  if (mode === "register") {
     return step === 1
       ? "간편 비밀번호 6자리를 입력해주세요"
       : "간편 비밀번호 6자리를 한번 더 입력해주세요";

@@ -1,23 +1,17 @@
 "use client";
 import React, { useState, useEffect, useCallback } from "react";
-import {
-  MODES,
-  shuffleArray,
-  getInstructionText,
-  KEYS,
-  PIN_LENGTH,
-} from "./pinUtils";
+import { shuffleArray, getInstructionText, KEYS, PIN_LENGTH } from "./pinUtils";
 import PinInputDisplay from "./PinInputDisplay";
 import KeypadButton from "./KeypadButton";
 import { usePinLogic } from "../../hooks/usePinLogic";
 
 /**
  *
- * @param {string} mode "setup"(초기 비밀번호 등록) | "verify"(비밀번호로 본인인증)
- * @param {function} onSuccess 비밀번호 검증 후 동작할 함수
+ * @param {string} mode "register"(비밀번호 등록) | "verify"(비밀번호 입력)
+ * @param {function} handlePinComplete 비밀번호 검증 완료 시, 처리할 함수 (페이지 라우팅 역할)
  * @returns
  */
-const PinInputForm = ({ mode, onSuccess }) => {
+const PinInputForm = ({ mode, handlePinComplete }) => {
   const [shuffledNumbers, setShuffledNumbers] = useState(() =>
     [...Array(10).keys()].map(String),
   );
@@ -32,8 +26,8 @@ const PinInputForm = ({ mode, onSuccess }) => {
     return () => clearTimeout(timer);
   }, [reshuffle]);
 
-  const { pin, setPin, step, error, handleSetupMode, handleVerifyMode } =
-    usePinLogic(mode, onSuccess, reshuffle);
+  const { pin, setPin, step, error, handleRegisterMode, handleVerifyMode } =
+    usePinLogic(mode, handlePinComplete, reshuffle);
 
   // 키패드 입력 처리를 위한 함수
   const handleKeypadInput = useCallback(
@@ -50,11 +44,11 @@ const PinInputForm = ({ mode, onSuccess }) => {
   useEffect(() => {
     if (pin.length === PIN_LENGTH) {
       const timeout = setTimeout(() => {
-        mode === MODES.SETUP ? handleSetupMode() : handleVerifyMode();
+        mode === "register" ? handleRegisterMode() : handleVerifyMode();
       }, 0);
       return () => clearTimeout(timeout);
     }
-  }, [pin, mode, handleSetupMode, handleVerifyMode]);
+  }, [pin, mode, handleRegisterMode, handleVerifyMode]);
 
   return (
     <div className="w-full h-full flex flex-col justify-between p-[2rem]">

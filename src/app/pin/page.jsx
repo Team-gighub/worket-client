@@ -10,8 +10,8 @@ const PinPage = () => {
   return (
     <div className="h-full">
       <PinInputForm
-        mode="setup"
-        onSuccess={() => {
+        mode="register"
+        handlePinComplete={() => {
           router.push("/dashboard");
         }}
       />

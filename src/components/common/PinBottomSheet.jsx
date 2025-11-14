@@ -10,7 +10,7 @@ const PinBottomSheet = ({ isOpen, onClose }) => {
     <BottomSheet isOpen={isOpen} onClose={onClose}>
       <PinInputForm
         mode="verify"
-        onSuccess={() => {
+        handlePinComplete={() => {
           router.push("/transactions/create/result");
         }}
       />
