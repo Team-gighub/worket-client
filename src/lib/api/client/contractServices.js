@@ -7,7 +7,11 @@ const clientInstance = createClientAxiosInstance();
 payload = formData // file, message 를 담은 formData형식이여야함
 */
 const postContractsExtract = (payload) => {
-  return clientInstance.post(`/contracts/extract`, payload);
+  return clientInstance.post(`/contracts/extract`, payload, {
+    headers: {
+      "Content-Type": "multipart/form-data",
+    },
+  });
 };
 
 /** 계약서 등록 (POST /contracts)
