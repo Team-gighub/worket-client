@@ -1,4 +1,4 @@
-import LoginInner from "./login-inner";
+import LoginInner from "./LoginInner";
 
 const Login = () => {
   return <LoginInner />;
