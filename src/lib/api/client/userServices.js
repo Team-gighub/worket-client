@@ -1,11 +1,20 @@
 import { createClientAxiosInstance } from "@/lib/api/clientApiInstance";
 
-const axios = createClientAxiosInstance();
+const clientInstance = createClientAxiosInstance();
 
-/** 사용자 등록/업데이트 (POST /users/:userId) */
-const postUsers = (userId, payload) => axios.post(`/users/${userId}`, payload);
+/** 유저 정보 조회 (GET /users/me) */
+const getUsers = () => clientInstance.get(`/users/me`);
 
-/** 특정 사용자 조회 (GET /users/:userId) */
-const getUsers = (userId) => axios.get(`/users/${userId}`);
+/** 유저 프로필 생성/갱신 (POST /users/me)
+[payload 예시]
+payload = {
+  birthDate: "2026-09-26", /optional/
+  gender: "FEMALE", /optional/
+  businessSector: "청소", /optional/
+  businessSectorYears: 8, /optional/
+  businessRegistrationNumber: "88539684723", /optional/
+}
+ */
+const postUsers = (payload) => clientInstance.post(`/users/me`, payload);
 
 export { postUsers, getUsers };
