@@ -4,7 +4,7 @@ import MainButton from "@/components/common/MainButton";
 import TransactionStatusBox from "@/components/transactions/TransactionStatusBox";
 import TransactionTimeline from "@/components/transactions/TransactionTimeLine";
 import TransactionInfo from "@/components/transactions/TransactionInfo";
-import getTransactionById from "@/app/api/fetchTransactions";
+import getTransactionById from "@/app/api/getTransactionById";
 import LinkIcon from "@/assets/link.png";
 import ExternalLinkIcon from "@/assets/external-link.png";
 
