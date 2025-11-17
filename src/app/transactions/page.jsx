@@ -105,6 +105,7 @@ const TransactionsPage = () => {
               {filteredContracts.map((contract, index) => (
                 <TransactionItem
                   key={contract.id || index}
+                  id={contract.id}
                   status={contract.status}
                   title={contract.title}
                   period={
