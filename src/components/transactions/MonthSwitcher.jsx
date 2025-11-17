@@ -22,6 +22,7 @@ const MonthSwitcher = ({ currentYear, currentMonth, onChange }) => {
           src="/icons/icLeftArrow.png"
           alt="Prev"
           fill
+          sizes="0.5rem"
           style={{ objectFit: "contain" }}
         />
       </button>
@@ -33,6 +34,7 @@ const MonthSwitcher = ({ currentYear, currentMonth, onChange }) => {
           src="/icons/icLeftArrow.png"
           alt="Next"
           fill
+          sizes="0.5rem"
           style={{ objectFit: "contain", transform: "rotate(180deg)" }}
         />
       </button>
