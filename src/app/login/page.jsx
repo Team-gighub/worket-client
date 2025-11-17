@@ -1,8 +1,7 @@
-import "@/app/globals.css";
+import LoginInner from "./LoginInner";
 
-/* 로그인 화면 */
 const Login = () => {
-  return <div></div>;
+  return <LoginInner />;
 };
 
 export default Login;
