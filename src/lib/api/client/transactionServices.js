@@ -6,8 +6,8 @@ import { createClientAxiosInstance } from "../instances/clientApiInstance";
 const clientInstance = createClientAxiosInstance();
 
 /** 거래 전체 조회 (GET /transactions) */
-const getTransactions = () => {
-  return clientInstance.get(`/transactions`);
+const getTransactions = (year, month) => {
+  return clientInstance.get(`/transactions?year=${year}&month=${month}`);
 };
 
 /** 거래 상세 조회 (GET /transactions/{transactionId}) */
