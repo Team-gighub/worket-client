@@ -25,6 +25,7 @@ const TransactionStatusChart = ({ data }) => {
             );
             const firstKey = nonZeroKeys[0];
             const lastKey = nonZeroKeys[nonZeroKeys.length - 1];
+            const isOnly = nonZeroKeys.length === 1;
 
             return (
               <Bar
@@ -35,12 +36,14 @@ const TransactionStatusChart = ({ data }) => {
                 barSize={20}
                 radius={
                   data[0][key] === 0
-                    ? [0, 0, 0, 0] // 값이 0이면 둥글게 안함
-                    : key === firstKey
-                      ? [7, 0, 0, 7] // 첫 번째 실제 값
-                      : key === lastKey
-                        ? [0, 7, 7, 0] // 마지막 실제 값
-                        : [0, 0, 0, 0]
+                    ? [0, 0, 0, 0]
+                    : isOnly
+                      ? [7, 7, 7, 7] // 하나만 있을 때 양쪽 둥글게
+                      : key === firstKey
+                        ? [7, 0, 0, 7] // 왼쪽 둥글게
+                        : key === lastKey
+                          ? [0, 7, 7, 0] // 오른쪽 둥글게
+                          : [0, 0, 0, 0] //
                 }
               />
             );

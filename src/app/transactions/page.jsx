@@ -83,23 +83,31 @@ const TransactionsPage = () => {
         </div>
 
         <div className="flex flex-col gap-2">
-          {filteredContracts.map((contract, index) => (
-            <TransactionItem
-              key={contract.id || index}
-              status={contract.status}
-              title={contract.title}
-              period={
-                contract.endDate
-                  ? formatPeriod(
-                      contract.startDate,
-                      contract.endDate,
-                      formatDateDot,
-                    )
-                  : contract.startDate
-              }
-              amount={contract.amount}
-            />
-          ))}
+          {filteredContracts.length === 0 ? (
+            <p className="pretendard-medium-16 mt-6 text-basic-400 text-center">
+              조회된 거래가 없습니다.
+            </p>
+          ) : (
+            <>
+              {filteredContracts.map((contract, index) => (
+                <TransactionItem
+                  key={contract.id || index}
+                  status={contract.status}
+                  title={contract.title}
+                  period={
+                    contract.endDate
+                      ? formatPeriod(
+                          contract.startDate,
+                          contract.endDate,
+                          formatDateDot,
+                        )
+                      : contract.startDate
+                  }
+                  amount={contract.amount}
+                />
+              ))}
+            </>
+          )}
         </div>
       </div>
     </div>
@@ -120,7 +128,7 @@ const getStatusPercentageData = (statusCounts) => {
         SIGNED: 0,
         DEPOSIT_HOLD: 0,
         PAYMENT_CONFIRMED: 0,
-        SETTLED: 0,
+        SETTLED: 100,
       },
     ];
   }
