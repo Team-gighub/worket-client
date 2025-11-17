@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { useTransactionStore } from "@/stores/transactionStore";
 import MonthSwitcher from "@/components/transactions/MonthSwitcher";
 import TransactionStatusChart from "@/components/transactions/TransactionStatusChart";
@@ -16,9 +16,9 @@ const TransactionsPage = () => {
     hasCurrentMonthData,
     fetchTransactions,
     setSelectedMonth,
+    selectedFilter,
+    setSelectedFilter,
   } = useTransactionStore();
-
-  const [selectedFilter, setSelectedFilter] = useState("all");
 
   // 최초 진입 시: Store에 데이터 없으면 이번 달 패칭
   useEffect(() => {

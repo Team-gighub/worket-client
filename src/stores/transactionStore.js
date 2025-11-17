@@ -177,6 +177,10 @@ export const useTransactionStore = create((set, get) => ({
     return !!cache[key];
   },
 
+  // 필터 관리
+  selectedFilter: "all",
+  setSelectedFilter: (filter) => set({ selectedFilter: filter }),
+
   // Dashboard에서 초기 데이터 주입할 때 사용
   hydrateData: (month, data) => {
     const key = `${month.year}-${month.month}`;
