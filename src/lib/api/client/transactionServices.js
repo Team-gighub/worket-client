@@ -25,7 +25,7 @@ const getTransactionsPreview = (transactionId) => {
 
 /** 거래 접근권한 판단 (GET /transactions/{transactionId}/permissions) */
 const getTransactionsPermissions = (transactionId) => {
-  return clientInstance.get(`/transactions/${transactionId}/permissions `);
+  return clientInstance.get(`/transactions/${transactionId}/permissions`);
 };
 
 export {

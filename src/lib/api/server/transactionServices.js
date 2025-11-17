@@ -24,7 +24,7 @@ const getTransactionsPreview = async (transactionId) => {
 /** 거래 접근권한 판단 (GET /transactions/{transactionId}/permissions) */
 const getTransactionsPermissions = async (transactionId) => {
   const serverInstance = await createServerAxiosInstance();
-  return serverInstance.get(`/transactions/${transactionId}/permissions `);
+  return serverInstance.get(`/transactions/${transactionId}/permissions`);
 };
 
 export {
