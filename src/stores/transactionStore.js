@@ -119,13 +119,8 @@ export const useTransactionStore = create((set, get) => ({
     month: new Date().getMonth() + 1,
   },
 
-  // 거래 데이터
-  transactionData: {
-    userName: null,
-    totalAmount: 0,
-    statusCounts: [],
-    contractList: [],
-  },
+  // 거래 데이터 (초기값 null - 데이터 없음을 명확히 표시)
+  transactionData: null,
 
   // 월별 캐시 { "2024-11": {...}, "2024-10": {...} }
   cache: {},

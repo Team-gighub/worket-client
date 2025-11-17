@@ -36,6 +36,19 @@ const TransactionsPage = () => {
     await setSelectedMonth(newMonth);
   };
 
+  // 데이터 없으면 MonthSwitcher만 렌더링
+  if (!transactionData) {
+    return (
+      <div className="flex flex-col mx-[2rem]">
+        <MonthSwitcher
+          currentYear={selectedMonth.year}
+          currentMonth={selectedMonth.month}
+          onChange={handleMonthChange}
+        />
+      </div>
+    );
+  }
+
   const { totalAmount, statusCounts, contractList } = transactionData;
 
   // 차트 데이터 계산
