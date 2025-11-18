@@ -1,6 +1,9 @@
 import TradeDataHydrator from "@/components/trade/TradeDataHydrator";
 import TradeViewLoginRequired from "@/components/trade/views/TradeViewLoginRequired";
-import { getTransactionsDetail } from "@/lib/api/server/transactionServices";
+import {
+  getTransactionsDetail,
+  getTransactionsPermissions,
+} from "@/lib/api/server/transactionServices";
 import { getServerAuthTokens } from "@/lib/authUtils";
 
 const TradeLayout = async ({ params, children }) => {
@@ -10,8 +13,13 @@ const TradeLayout = async ({ params, children }) => {
     return <TradeViewLoginRequired id={id} />;
   }
 
-  const { data } = await getTransactionsDetail(id);
-  return <TradeDataHydrator initialData={data}>{children}</TradeDataHydrator>;
+  const { data: permissionData } = await getTransactionsPermissions(id);
+  if (permissionData.permission == false) return <div>권한 없음!</div>;
+
+  const { data: tradeData } = await getTransactionsDetail(id);
+  return (
+    <TradeDataHydrator initialData={tradeData}>{children}</TradeDataHydrator>
+  );
 };
 
 export default TradeLayout;
