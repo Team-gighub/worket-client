@@ -152,13 +152,9 @@ const Edit = () => {
       const res = await postUsers(payload);
 
       // TODO: res status 코드에 따른 처리
-      if (res.status === 401) {
-        router.push("/login");
-        return;
-      }
-
-      if (!(res.status >= 200 && res.status < 300)) {
+      if (res.status !== "success") {
         console.error("프로필 저장 실패:", res);
+        router.push("/login");
         return;
       }
 
