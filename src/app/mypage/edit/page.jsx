@@ -7,7 +7,7 @@ import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { getUsers, postUsers } from "@/lib/api/client/userServices";
 import { formatDateYMD } from "@/app/utils/dateFormatter";
-import { normalizeGender } from "@/app/utils/inputFormatter";
+import { formatGender } from "@/app/utils/genderFormatter";
 
 /* 회원 정보 수정 화면 */
 const Edit = () => {
@@ -132,9 +132,9 @@ const Edit = () => {
       )?.value;
 
       const birthDate = formatDateYMD(birthRaw);
-      const gender = normalizeGender(genderRaw);
+      const gender = formatGender(genderRaw);
       const businessSector = sectorRaw ? String(sectorRaw).trim() : undefined;
-      const businessSectorYears = Number.parseInt(yearsRaw);
+      const businessSectorYears = parseInt(yearsRaw, 10) || undefined;
       const businessRegistrationNumber = regNumRaw
         ? String(regNumRaw).trim()
         : undefined;
