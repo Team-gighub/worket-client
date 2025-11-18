@@ -1,201 +1,141 @@
 "use client";
-
-import { useEffect, useState } from "react";
-import { useRouter } from "next/navigation";
 import "@/app/globals.css";
+import MenuSection from "@/components/common/MenuSection";
+import { useState, useEffect } from "react";
+import { useRouter } from "next/navigation";
+import { getUsers } from "@/lib/api/client/userServices";
+import { postLogout, postUnlink } from "@/lib/api/client/authServices";
 
+/* 마이 페이지 */
 const MyPage = () => {
   const router = useRouter();
-  const [user, setUser] = useState();
-
-  // 공통 에러 처리
-  const handleApiError = async (res) => {
-    if (!res.ok) {
-      let msg = "오류가 발생했습니다.";
-
-      try {
-        const errBody = await res.json();
-        if (errBody?.errorMessage) msg = errBody.errorMessage;
-      } catch (_) {}
-
-      alert(msg);
-
-      if (res.status === 401) {
-        router.replace("/login");
-      } else if (res.status === 403) {
-        router.replace("/");
-      } else {
-        router.replace("/");
-      }
-
-      return true;
-    }
-
-    return false;
-  };
+  const [user, setUser] = useState(null);
+  const [isLogin, setLogin] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-    (async () => {
-      const res = await fetch("/api/mypage", {
-        credentials: "include",
-      });
+    let mounted = true;
 
-      const hasError = await handleApiError(res);
-      if (hasError) return;
+    const fetchUser = async () => {
+      try {
+        const res = await getUsers();
+        const profile = res.data ?? null;
 
-      const body = await res.json();
+        if (!profile) {
+          if (mounted) {
+            setLogin(false);
+            router.push("/login");
+          }
+          return;
+        }
 
-      if (body.status === "error") {
-        alert(body.errorMessage);
-        return router.replace("/login");
+        if (mounted) {
+          setUser(profile);
+          setLogin(true);
+        }
+      } catch (err) {
+        // TODO: 에러 핸들링
+        if (mounted) {
+          const status = err.response.status;
+          if (status === 401) {
+            router.push("/login");
+          } else {
+            console.error("프로필 조회 실패:", err);
+            router.push("/login");
+          }
+          setLogin(false);
+        }
+      } finally {
+        if (mounted) setIsLoading(false);
       }
+    };
 
-      setUser(body.data);
-    })();
+    fetchUser();
+    return () => {
+      mounted = false;
+    };
   }, [router]);
 
-  const logout = async () => {
-    const res = await fetch("/api/auth/logout", {
-      method: "POST",
-      credentials: "include",
-    });
-
-    const hasError = await handleApiError(res);
-    if (hasError) return;
-
-    router.replace("/");
+  // 메뉴 클릭 핸들러(로그인 여부에 따라 라우팅)
+  const handleNavigation = (path) => {
+    router.push(isLogin ? path : "/login");
   };
 
-  const unlink = async () => {
-    const res = await fetch("/api/auth/unlink", {
-      method: "POST",
-      credentials: "include",
-    });
-
-    const hasError = await handleApiError(res);
-    if (hasError) return;
-
-    router.replace("/");
-  };
-
-  const refreshKakaoToken = async () => {
-    if (!user?.id) {
-      alert("유저 정보가 없습니다. 다시 로그인해주세요.");
+  // 로그아웃 처리 함수
+  const handleLogout = async () => {
+    if (!isLogin) {
+      router.push("/login");
       return;
     }
+    try {
+      await postLogout();
+      setUser(null);
+      setLogin(false);
+      router.push("/mypage");
+    } catch (err) {
+      if (err.response.status === 401) router.push("/login");
+    }
+  };
 
-    const res = await fetch(
-      `${process.env.NEXT_PUBLIC_API_BASE_URL}/auth/token/refresh?userId=${user.id}`,
-      {
-        method: "GET",
-        credentials: "include",
-      },
-    );
-
-    const hasError = await handleApiError(res);
-    if (hasError) return;
-
-    const body = await res.json();
-
-    if (body.status === "error") {
-      alert(body.errorMessage);
+  // 회원 탈퇴 처리 함수
+  const handleWithdrawal = async () => {
+    if (!isLogin) {
+      router.push("/login");
       return;
     }
-
-    alert("토큰 재발급 성공");
-    console.log("새 access token:", body.data.accessToken);
+    try {
+      await postUnlink();
+      setUser(null);
+      setLogin(false);
+      router.push("/mypage");
+    } catch (err) {
+      if (err.response.status === 401) router.push("/login");
+    }
   };
 
-  // ---------------------------------
-  // 추가된 /users 조회
-  // ---------------------------------
-  const fetchUsers = async () => {
-    const res = await fetch("/api/users", {
-      credentials: "include",
-    });
+  if (isLoading) {
+    return <div>로딩 중...</div>;
+  }
 
-    const hasError = await handleApiError(res);
-    if (hasError) return;
+  const myInfoItems = [
+    {
+      label: "회원 정보 수정",
+      onClick: () => handleNavigation("/mypage/edit"),
+    },
+    { label: "로그아웃", onClick: handleLogout },
+    { label: "회원 탈퇴", onClick: handleWithdrawal },
+  ];
 
-    const body = await res.json();
-
-    console.log("유저 전체 응답:", body);
-    console.log("유저 data:", body.data);
-
-    alert("유저 목록이 콘솔에 출력되었습니다.");
-  };
-
-  if (!user)
-    return (
-      <div className="flex justify-center items-center h-screen text-gray-400">
-        로딩 중
-      </div>
-    );
+  const customerServiceItems = [
+    { label: "문의하기", onClick: () => {} },
+    { label: "서비스 이용약관", onClick: () => {} },
+    { label: "개인정보 처리방침", onClick: () => {} },
+  ];
 
   return (
-    <div className="flex flex-col items-center justify-center min-h-screen bg-gray-50">
-      <div className="bg-white p-8 rounded-2xl shadow-md w-96">
-        <h1 className="text-2xl font-bold text-indigo-600 mb-6">My Page</h1>
-
-        <div className="text-gray-700 space-y-2">
-          <p>
-            <strong>이름:</strong> {user.name}
-          </p>
-          <p>
-            <strong>전화번호:</strong> {user.phone}
-          </p>
-          <p>
-            <strong>가입 경로:</strong> {user.provider}
-          </p>
-          <p>
-            <strong>역할:</strong> {user.role}
-          </p>
-          <p>
-            <strong>상태:</strong> {user.status}
-          </p>
-          <p>
-            <strong>가입일:</strong>{" "}
-            {new Date(user.createdAt).toLocaleString("ko-KR")}
-          </p>
-        </div>
-
-        <div className="mt-6 flex flex-col gap-2">
+    <div>
+      {/* 헤더 영역 */}
+      <div className="max-w-[33.5rem] w-full mx-auto my-[2rem] flex flex-col gap-2.5">
+        <div className="pretendard-semibold-20">
           <button
-            onClick={() => router.push("/")}
-            className="bg-indigo-500 hover:bg-indigo-600 text-white py-2 rounded-lg font-semibold"
+            onClick={() =>
+              isLogin ? router.push("/mypage/edit") : router.push("/login")
+            }
           >
-            홈으로
-          </button>
-
-          <button
-            onClick={logout}
-            className="bg-gray-600 hover:bg-gray-700 text-white py-2 rounded-lg font-semibold"
-          >
-            로그아웃
-          </button>
-
-          <button
-            onClick={unlink}
-            className="bg-red-500 hover:bg-red-600 text-white px-6 py-3 rounded-xl font-semibold"
-          >
-            카카오 연동 해제
-          </button>
-
-          <button
-            onClick={refreshKakaoToken}
-            className="bg-yellow-400 hover:bg-yellow-500 text-black py-2 rounded-lg font-semibold mt-2"
-          >
-            카카오 토큰 재발급
-          </button>
-
-          {/* ▲ 추가된 버튼 */}
-          <button
-            onClick={fetchUsers}
-            className="bg-green-500 hover:bg-green-600 text-white py-2 rounded-lg font-semibold mt-2"
-          >
-            유저 목록 보기
+            {isLogin ? user?.name : "로그인/회원가입 >"}
           </button>
         </div>
+        <p className="pretendard-medium-16 text-basic-500">
+          {isLogin
+            ? `${user?.businessSectorYears ?? 0}년차 프리랜서`
+            : "회원가입하고 간편한 소득 증빙을 시작해보세요 !"}
+        </p>
+      </div>
+
+      {/* 메뉴 섹션 */}
+      <div className="flex flex-col gap-[1rem] border-t border-basic-700 mx-[2rem]">
+        <MenuSection title="회원 정보" items={myInfoItems} />
+        <MenuSection title="고객센터" items={customerServiceItems} />
       </div>
     </div>
   );

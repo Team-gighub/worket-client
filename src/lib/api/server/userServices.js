@@ -1,4 +1,4 @@
-import { createServerAxiosInstance } from "../../instances/serverApiInstance";
+import { createServerAxiosInstance } from "../instances/serverApiInstance";
 
 /** 유저 정보 조회 (GET /users/me) */
 const getUsers = async () => {
