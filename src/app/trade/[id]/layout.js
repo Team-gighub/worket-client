@@ -7,7 +7,7 @@ const TradeLayout = async ({ params, children }) => {
   const { id } = await params;
   const { accessToken } = await getServerAuthTokens();
   if (!accessToken) {
-    return <TradeViewLoginRequired />;
+    return <TradeViewLoginRequired id={id} />;
   }
 
   const { data } = await getTransactionsDetail(id);
