@@ -6,8 +6,11 @@ import TradeViewLayout from "../../layouts/TradeViewLayout";
 import TradeCreatedViewButton from "../homeButtons/TradeCreatedViewButton";
 import TradeSignedViewButton from "@/components/trade/homeButtons/TradeSignedViewButton";
 import TradeDepositHoldViewButton from "@/components/trade/homeButtons/TradeDepositHoldViewButton";
+import { useTradeDataStore } from "@/stores/tradeDataStore";
 
-const TradeViewSelector = ({ data }) => {
+const TradeViewSelector = () => {
+  const { data } = useTradeDataStore();
+  if (!data) return;
   let currentStep = 0;
   let ButtonComponent = null;
   let infoTexts = [];
