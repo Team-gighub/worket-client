@@ -1,7 +1,6 @@
 import InfoText from "@/components/common/InfoText";
 import TradeViewLayout from "@/components/layouts/TradeViewLayout";
 import TradeStepIndicator from "../TradeStepIndicator";
-import MainButton from "@/components/common/MainButton";
 import { getTransactionsPreview } from "@/lib/api/server/transactionServices";
 import TradeLogin from "../TradeLogin";
 
