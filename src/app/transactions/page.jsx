@@ -36,7 +36,6 @@ const TransactionsPage = () => {
     await setSelectedMonth(newMonth);
   };
 
-  // 데이터 없으면 MonthSwitcher만 렌더링
   if (!transactionData) {
     return (
       <div className="flex flex-col mx-[2rem]">
@@ -104,8 +103,8 @@ const TransactionsPage = () => {
             <>
               {filteredContracts.map((contract, index) => (
                 <TransactionItem
-                  key={contract.id || index}
-                  id={contract.id}
+                  key={contract.transactionId || index}
+                  id={contract.transactionId}
                   status={contract.status}
                   title={contract.title}
                   period={

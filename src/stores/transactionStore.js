@@ -147,16 +147,15 @@ export const useTransactionStore = create((set, get) => ({
   fetchTransactions: async (month) => {
     try {
       // TODO: 실제 API 연동 시 주석 해제
-      // const res = await fetch(
-      //   `http://localhost:8080/transactions?year=${month.year}&month=${month.month}`,
-      //   { cache: "no-store" }
-      // );
-      // if (!res.ok) throw new Error("Failed to fetch transactions");
-      // const response = await res.json();
-      // const data = response.data;
-
+      const res = await fetch(
+        `http://localhost:8080/transactions?year=${month.year}&month=${month.month}`,
+        { cache: "no-store", credentials: "include" },
+      );
+      if (!res.ok) throw new Error("Failed to fetch transactions");
+      const response = await res.json();
+      const data = response.data;
       // 개발 중: 목데이터 사용
-      const data = getMockData(month.year, month.month);
+      // const data = getMockData(month.year, month.month);
       const key = `${month.year}-${month.month}`;
 
       // 데이터 저장 + 캐시에 저장
