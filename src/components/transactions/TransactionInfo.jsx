@@ -11,8 +11,7 @@ const TransactionInfo = ({ data }) => {
         " ~ " +
         formatKoreanDate(data.contractInfo.endDate);
 
-  const receivingAccount =
-    data.freelancerInfo.bank + " " + data.freelancerInfo.account;
+  const receivingAccount = `${data.freelancerInfo.bank} ${data.freelancerInfo.account}`;
 
   // 상태별 렌더링 정보 정의
   const infoCards = [

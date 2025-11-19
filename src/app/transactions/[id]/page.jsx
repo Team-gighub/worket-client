@@ -13,22 +13,22 @@ import formatKRW from "@/app/utils/KRWFormatter";
 const Transaction = async ({ params }) => {
   const resolvedParams = await params;
   const id = resolvedParams.id;
-  const transaction = await getTransactionsDetail(id);
+  const { data: transaction } = await getTransactionsDetail(id);
 
   return (
     <div>
       <InfoText
         mainTexts={[
-          transaction.data.contractInfo.title,
-          `${formatKRW(transaction.data.contractInfo.amount)} 원`,
+          transaction.contractInfo.title,
+          `${formatKRW(transaction.contractInfo.amount)} 원`,
         ]}
       />
 
       {/* 거래 상태 표시 섹션 */}
-      <TransactionStatusBox status={transaction.data.status} />
+      <TransactionStatusBox status={transaction.status} />
 
       {/* 거래 타임라인 섹션 */}
-      <TransactionTimeline data={transaction.data} />
+      <TransactionTimeline data={transaction} />
 
       {/* 거래페이지 링크 복사 섹션  */}
       <div className="m-[2rem] flex flex-col">
@@ -48,7 +48,7 @@ const Transaction = async ({ params }) => {
 
       {/* 거래 정보 섹션 */}
       <div>
-        <TransactionInfo data={transaction.data} />
+        <TransactionInfo data={transaction} />
       </div>
 
       {/* 계약서 원본 보기 섹션  */}
