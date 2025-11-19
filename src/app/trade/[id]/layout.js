@@ -1,5 +1,6 @@
 import TradeDataHydrator from "@/components/trade/TradeDataHydrator";
 import TradeViewLoginRequired from "@/components/trade/views/TradeViewLoginRequired";
+import TradeViewNoPermission from "@/components/trade/views/TradeViewNoPermission";
 import {
   getTransactionsDetail,
   getTransactionsPermissions,
@@ -14,7 +15,7 @@ const TradeLayout = async ({ params, children }) => {
   }
 
   const { data: permissionData } = await getTransactionsPermissions(id);
-  if (permissionData.permission == false) return <div>권한 없음!</div>;
+  if (permissionData.permission == false) return <TradeViewNoPermission />;
 
   const { data: tradeData } = await getTransactionsDetail(id);
   return (
