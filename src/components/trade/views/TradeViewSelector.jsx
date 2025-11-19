@@ -49,8 +49,8 @@ const TradeViewSelector = () => {
     case "PAYMENT_CONFIRMED":
       currentStep = 4;
       ButtonComponent = null;
-      infoTexts = ["잔금이 지급되었습니다.", "거래를 마무리해주세요."];
-      subText = "잔금이 안전하게 지급되었습니다";
+      infoTexts = ["지급 확정 상태입니다.", "빠른 시일 내에 지급해 드릴게요"];
+      subText = "지급 완료까지 2~3일 정도 소요됩니다";
       break;
     case "SETTLED":
       currentStep = 5;
@@ -71,11 +71,7 @@ const TradeViewSelector = () => {
       <InfoText mainTexts={infoTexts} subText={subText} />
       <TradeStepIndicator
         currentStep={currentStep}
-        pdfUrl={
-          //TODO: 테스트 url -> 실제 데이터로 변경
-          // data.contractFileUrl ||
-          "https://shaky-pink-pu3zgjjhc6.edgeone.app/%ED%94%84%EB%A6%AC%EB%9E%9C%EC%84%9C%20%EA%B3%A0%EC%9A%A9%EA%B3%84%EC%95%BD%EC%84%9C.pdf"
-        }
+        pdfUrl={data.contractFileUrl}
       />
 
       {ButtonComponent && <ButtonComponent />}
