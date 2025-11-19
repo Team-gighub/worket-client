@@ -6,9 +6,7 @@ import { getTransactionsPreview } from "@/lib/api/server/transactionServices";
 import TradeLogin from "../TradeLogin";
 
 const TradeViewLoginRequired = async ({ id }) => {
-  const { data: res } = await getTransactionsPreview(id);
-  console.log(res);
-  const { data } = res;
+  const { data } = await getTransactionsPreview(id);
   return (
     <TradeViewLayout>
       <InfoText
