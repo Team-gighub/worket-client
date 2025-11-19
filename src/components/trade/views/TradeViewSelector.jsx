@@ -69,7 +69,14 @@ const TradeViewSelector = () => {
   return (
     <TradeViewLayout>
       <InfoText mainTexts={infoTexts} subText={subText} />
-      <TradeStepIndicator currentStep={currentStep} />
+      <TradeStepIndicator
+        currentStep={currentStep}
+        pdfUrl={
+          //TODO: 테스트 url -> 실제 데이터로 변경
+          // data.contractFileUrl ||
+          "https://shaky-pink-pu3zgjjhc6.edgeone.app/%ED%94%84%EB%A6%AC%EB%9E%9C%EC%84%9C%20%EA%B3%A0%EC%9A%A9%EA%B3%84%EC%95%BD%EC%84%9C.pdf"
+        }
+      />
 
       {ButtonComponent && <ButtonComponent />}
     </TradeViewLayout>
