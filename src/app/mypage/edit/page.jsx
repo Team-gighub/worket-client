@@ -7,7 +7,7 @@ import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { getUsers, postUsers } from "@/lib/api/client/userServices";
 import { formatDateYMD } from "@/app/utils/dateFormatter";
-import { formatGender } from "@/app/utils/genderFormatter";
+import { formatGender, displayGender } from "@/app/utils/genderFormatter";
 
 /* 회원 정보 수정 화면 */
 const Edit = () => {
@@ -84,7 +84,7 @@ const Edit = () => {
               return { ...item, value: profile.birthDate ?? "-" };
             }
             if (item.label === "성별")
-              return { ...item, value: profile.gender ?? "-" };
+              return { ...item, value: displayGender(profile.gender) }; // 한글로 표시
             return item;
           }),
         );
@@ -172,7 +172,7 @@ const Edit = () => {
             if (item.label === "생년월일")
               return { ...item, value: updated.birthDate ?? "-" };
             if (item.label === "성별")
-              return { ...item, value: updated.gender ?? "-" };
+              return { ...item, value: displayGender(updated.gender) }; // 한글로 표시
             return item;
           }),
         );
@@ -241,15 +241,15 @@ const Edit = () => {
         {isEditing ? (
           <div className="flex gap-[1rem] justify-center">
             <MainButton
-              text="저장"
-              onClick={handleSave}
-              theme="secondary"
-              width="16.5rem"
-            />
-            <MainButton
               text="취소"
               onClick={() => setIsEditing(false)}
               theme="gray"
+              width="16.5rem"
+            />
+            <MainButton
+              text="저장"
+              onClick={handleSave}
+              theme="secondary"
               width="16.5rem"
             />
           </div>
