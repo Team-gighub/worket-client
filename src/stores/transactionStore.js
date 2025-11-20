@@ -1,3 +1,4 @@
+import { getTransactions } from "@/lib/api/client/transactionServices";
 import { create } from "zustand";
 
 // 목데이터 - 월별로 다른 데이터 반환
@@ -144,13 +145,10 @@ export const useTransactionStore = create((set, get) => ({
   },
 
   // API에서 거래 데이터 가져오기
-  fetchTransactions: async (month) => {
+  fetchTransactions: async (date) => {
     try {
       // TODO: 실제 API 연동 시 주석 해제
-      const res = await fetch(
-        `${process.env.NEXT_PUBLIC_API_BASE_URL}/transactions?year=${month.year}&month=${month.month}`,
-        { cache: "no-store", credentials: "include" },
-      );
+      const res = getTransactions(date.year, date.month);
       if (!res.ok) throw new Error("Failed to fetch transactions");
       const response = await res.json();
       const data = response.data;
