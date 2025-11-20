@@ -1,17 +1,44 @@
 "use client";
 import "@/app/globals.css";
-import { React } from "react";
+import { React, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { useContractCreateStore } from "@/stores/contractCreateStore";
 import InfoText from "@/components/common/InfoText";
 import InputField from "@/components/common/InputField";
 import InputAccountField from "@/components/common/InputAccountField";
 import MainButton from "@/components/common/MainButton";
+import { getUsers } from "@/lib/api/client/userServices";
 
 /* 새 계약서 생성하기 */
 const CreatePage = () => {
   const router = useRouter();
-  const { contract: data, setNestedField } = useContractCreateStore();
+  const {
+    contract: data,
+    setNestedField,
+    setFreelancerInfo, //사용자 정보를 받아와서 zustand 저장
+  } = useContractCreateStore();
+  useEffect(() => {
+    const fetchUserData = async () => {
+      try {
+        // 1. ('users/me')호출
+        const response = await getUsers();
+        console.log(response);
+
+        // 2. 응답 데이터 추출(휴대폰, 이름 추출)
+        const phone = response.data.phone;
+        const name = response.data.name;
+
+        // 3. 저장
+        setFreelancerInfo(name, phone);
+      } catch (err) {
+        setError(err);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchUserData();
+  }, []);
   const { contractInfo, clientInfo, freelancerInfo } = data;
 
   /* TODO: 더미 데이터 수정 필요 */

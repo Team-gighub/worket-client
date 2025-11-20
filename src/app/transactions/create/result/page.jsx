@@ -9,7 +9,19 @@ import InfoText from "@/components/common/InfoText";
 
 const CreateResultPage = () => {
   const router = useRouter();
+  //sesstionStorage 에서 값 추출
+  const transactionId = sessionStorage.getItem("transactionId");
 
+  const handleMainBtn = () => {
+    if (transactionId) {
+      //거래 링크 페이지로 이동
+      router.push(`/transactions/${transactionId}/create-link`);
+    } else {
+      console.error("❌ Response does not contain a valid transaction ID.");
+      // 선택 : ID가 없을 경우 대비 로직 추가
+      // alert("계약서 등록 후 ID를 받지 못했습니다.");
+    }
+  };
   return (
     <div>
       <InfoText
@@ -21,7 +33,7 @@ const CreateResultPage = () => {
       <MainButton
         text="생성하기"
         width="34rem"
-        // TODO: 생성하기 클릭 시, 거래 링크 생성 페이지로 이동
+        onClick={handleMainBtn}
       ></MainButton>
     </div>
   );
