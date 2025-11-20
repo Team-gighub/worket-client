@@ -24,7 +24,6 @@ const TradeLayout = async ({ params, children }) => {
     return <TradeViewNoPermission />;
 
   const { data: tradeData } = await getTransactionsDetail(id);
-  console.log(tradeData);
   return (
     <TradeDataHydrator initialData={tradeData}>{children}</TradeDataHydrator>
   );
