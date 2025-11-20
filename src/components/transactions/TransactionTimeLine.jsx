@@ -2,15 +2,15 @@ import { formatKoreanDate } from "@/app/utils/dateFormatter";
 import React from "react";
 
 const steps = [
-  { label: "거래페이지 생성", key: "created_at", status: "CREATED" },
-  { label: "계약서 서명", key: "signed_at", status: "SIGNED" },
-  { label: "대금 예치", key: "deposit_hold_at", status: "DEPOSIT_HOLD" },
+  { label: "거래페이지 생성", key: "createdAt", status: "CREATED" },
+  { label: "계약서 서명", key: "signedAt", status: "SIGNED" },
+  { label: "대금 예치", key: "depositHoldAt", status: "DEPOSIT_HOLD" },
   {
     label: "지급 확정",
-    key: "payment_confirmed_at",
+    key: "paymentConfirmedAt",
     status: "PAYMENT_CONFIRMED",
   },
-  { label: "정산", key: "settled_at", status: "SETTLED" },
+  { label: "정산", key: "settledAt", status: "SETTLED" },
 ];
 
 const TransactionTimeline = ({ data }) => {

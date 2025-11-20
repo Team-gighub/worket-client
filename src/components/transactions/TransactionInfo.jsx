@@ -1,16 +1,17 @@
 import React from "react";
 import InfoCard from "../common/InfoCard";
 import { formatKoreanDate } from "@/app/utils/dateFormatter";
+import formatKRW from "@/app/utils/KRWFormatter";
 
 const TransactionInfo = ({ data }) => {
   const contractPeriod =
-    data.contract_start_date === data.contract_end_date
-      ? formatKoreanDate(data.contract_start_date) // 계약 기간이 하루인 경우
-      : formatKoreanDate(data.contract_start_date) +
+    data.contractInfo.startDate === data.contractInfo.endDate
+      ? formatKoreanDate(data.contractInfo.startDate) // 계약 기간이 하루인 경우
+      : formatKoreanDate(data.contractInfo.startDate) +
         " ~ " +
-        formatKoreanDate(data.contract_end_date);
+        formatKoreanDate(data.contractInfo.endDate);
 
-  const receivingAccount = data.freelancer_bank + " " + data.freelancer_account;
+  const receivingAccount = `${data.freelancerInfo.bank} ${data.freelancerInfo.account}`;
 
   // 상태별 렌더링 정보 정의
   const infoCards = [
@@ -19,11 +20,11 @@ const TransactionInfo = ({ data }) => {
       show: true,
       title: "계약 정보",
       items: [
-        { label: "성함", value: data.client_name },
+        { label: "성함", value: data.clientInfo.name },
         { label: "계약기간", value: contractPeriod },
         {
           label: "계약서 등록일",
-          value: formatKoreanDate(data.contract_created_at),
+          value: formatKoreanDate(data.createdAt),
         },
       ],
     },
@@ -32,8 +33,11 @@ const TransactionInfo = ({ data }) => {
       show: ["DEPOSIT_HOLD", "PAYMENT_CONFIRMED"].includes(data.status),
       title: "예치금 정보",
       items: [
-        { label: "예치 금액", value: data.price + " 원" },
-        { label: "예치일", value: data.deposit_hold_at },
+        {
+          label: "예치 금액",
+          value: formatKRW(data.contractInfo.amount) + " 원",
+        },
+        { label: "예치일", value: formatKoreanDate(data.depositHoldAt) },
         { label: "보관 장소", value: "우리은행" },
       ],
       tip:
@@ -46,13 +50,13 @@ const TransactionInfo = ({ data }) => {
       show: ["PAYMENT_CONFIRMED", "SETTLED"].includes(data.status),
       title: data.status === "SETTLED" ? "정산 완료" : "정산 정보",
       items: [
-        { label: "정산 금액", value: data.price + " 원" },
+        { label: "정산 금액", value: formatKRW(data.settledAmount) + " 원" },
         {
           label: data.status === "SETTLED" ? "입금 완료일" : "지급 확정일",
           value:
             data.status === "SETTLED"
-              ? data.settled_at
-              : data.payment_confirmed_at,
+              ? formatKoreanDate(data.settledAt)
+              : formatKoreanDate(data.paymentConfirmedAt),
         },
         { label: "입금 계좌", value: receivingAccount },
       ],
