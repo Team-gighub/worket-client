@@ -148,10 +148,7 @@ export const useTransactionStore = create((set, get) => ({
   fetchTransactions: async (date) => {
     try {
       // TODO: 실제 API 연동 시 주석 해제
-      const res = getTransactions(date.year, date.month);
-      if (!res.ok) throw new Error("Failed to fetch transactions");
-      const response = await res.json();
-      const data = response.data;
+      const { data } = await getTransactions(date.year, date.month);
       // 개발 중: 목데이터 사용
       // const data = getMockData(month.year, month.month);
       const key = `${month.year}-${month.month}`;
