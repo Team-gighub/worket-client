@@ -13,7 +13,7 @@ const InputField = ({
   return (
     <div className="flex justify-center my-4">
       <div
-        className={`w-[342px] h-[67px] rounded-[10px] border ${
+        className={`w-[34.2rem] h-[6.7rem] rounded-[1rem] border ${
           error ? "border-point-red-300" : "border-basic-300"
         } px-8 py-3 flex flex-col justify-between`}
       >

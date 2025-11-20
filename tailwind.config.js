@@ -40,6 +40,26 @@ module.exports = {
       sans: ["Pretendard", "sans-serif"],
     },
     extend: {
+      keyframes: {
+        "ripple-outer": {
+          "0%, 100%": { transform: "scale(0.9)", opacity: "0.2" },
+          "50%": { transform: "scale(1.1)", opacity: "0.1" },
+        },
+        "ripple-middle": {
+          "0%, 100%": { transform: "scale(0.9)", opacity: "0.36" },
+          "50%": { transform: "scale(1)", opacity: "0.25" },
+        },
+        "pulse-gentle": {
+          "0%, 100%": { transform: "scale(0.9)", opacity: "1" },
+          "50%": { transform: "scale(1)", opacity: "0.9" },
+        },
+      },
+      animation: {
+        // 기존 CSS 클래스 이름과 동일하게 정의
+        "ripple-outer": "ripple-outer 2s ease-in-out infinite",
+        "ripple-middle": "ripple-middle 2s ease-in-out infinite 0.3s", // 0.3s 지연 추가
+        "pulse-gentle": "pulse-gentle 2s ease-in-out infinite 0.6s", // 0.6s 지연 추가
+      },
       borderRadius: {
         lg: "var(--radius)",
         md: "calc(var(--radius) - 2px)",

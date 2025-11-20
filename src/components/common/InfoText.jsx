@@ -9,7 +9,7 @@ import React from "react";
  */
 const InfoText = ({ mainTexts, subText, subTextColor = "primary" }) => {
   return (
-    <div className="max-w-[33.5rem] mx-auto my-[2rem] flex flex-col gap-2.5">
+    <div className="max-w-[33.5rem] w-full mx-auto my-[2rem] flex flex-col gap-2.5">
       <div className="pretendard-semibold-20 flex flex-col">
         {mainTexts.map((text, index) => (
           <p key={index}>{text}</p>

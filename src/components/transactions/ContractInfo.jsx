@@ -1,61 +1,18 @@
 "use client";
 import "@/app/globals.css";
 import { React } from "react";
-import InfoText from "@/components/common/InfoText";
-import InfoCard from "@/components/common/InfoCard";
 import { useContractCreateStore } from "@/stores/contractCreateStore";
-import { formatKoreanDate } from "@/app/utils/dateFormatter";
-import formatKRW from "@/app/utils/KRWFormatter";
-import { formatPhone } from "@/app/utils/phoneFormatter";
+import ContractTemplate from "../common/ContractTemplate";
 
 const ContractInfo = () => {
   const { contract } = useContractCreateStore();
 
-  // 계약기간
-  const contractPeriod =
-    contract.start_date === contract.end_date
-      ? formatKoreanDate(contract.start_date)
-      : formatKoreanDate(contract.start_date) +
-        " ~ " +
-        formatKoreanDate(contract.end_date);
-
-  const receivingAccount = contract.bank + " " + contract.account_number;
-
-  /* TODO: 프리랜서 개인정보 추후 수정 필요 */
-
-  const contract_data = [
-    { label: "계약명", value: contract.title || "" },
-    {
-      label: "계약기간",
-      value: contractPeriod,
-    },
-    { label: "계약금액", value: `${formatKRW(contract.amount)}원` },
-  ];
-
-  const contractor_data = [
-    { label: "성함", value: contract.client_name || "" },
-    { label: "전화번호", value: formatPhone(contract.client_phone) },
-  ];
-
-  const contractee_data = [
-    { label: "성함", value: "이름" },
-    { label: "전화번호", value: "010-7894-4568" },
-    { label: "계좌번호", value: receivingAccount },
-  ];
-
   return (
-    <div>
-      <InfoText
-        mainTexts={[
-          "계약서를 만드는 중이에요",
-          "아래 정보가 맞는지 확인해주세요",
-        ]}
-        subText="잘못된 경우 다시 작성해주세요"
-      ></InfoText>
-      <InfoCard title="계약 정보" items={contract_data}></InfoCard>
-      <InfoCard title="도급인 정보" items={contractor_data}></InfoCard>
-      <InfoCard title="수급인 정보" items={contractee_data}></InfoCard>
-    </div>
+    <ContractTemplate
+      contractInfo={contract.contractInfo}
+      clientInfo={contract.clientInfo}
+      freelancerInfo={contract.freelancerInfo}
+    />
   );
 };
 
