@@ -150,12 +150,12 @@ export const useTransactionStore = create((set, get) => ({
       // TODO: 실제 API 연동 시 주석 해제
       const { data } = await getTransactions(date.year, date.month);
       // 개발 중: 목데이터 사용
-      // const data = getMockData(month.year, month.month);
-      const key = `${month.year}-${month.month}`;
+      // const data = getMockData(date.year, date.month);
+      const key = `${date.year}-${date.month}`;
 
       // 데이터 저장 + 캐시에 저장
       set((state) => ({
-        selectedMonth: month,
+        selectedMonth: date,
         transactionData: data,
         cache: { ...state.cache, [key]: data },
       }));
