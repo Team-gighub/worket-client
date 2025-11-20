@@ -17,7 +17,6 @@ const TradeLayout = async ({ params, children }) => {
   const { data: permissionData } = await getTransactionsPermissions(id);
   //TODO: 거래에 권한 없을 때(403) 추가
   if (permissionData.userRole == "FREELANCER") return <TradeViewNoPermission />;
-  console.log(permissionData);
 
   const { data: tradeData } = await getTransactionsDetail(id);
   return (
