@@ -3,9 +3,12 @@ import TradeViewLayout from "@/components/layouts/TradeViewLayout";
 import TradeStepIndicator from "../TradeStepIndicator";
 import { getTransactionsPreview } from "@/lib/api/server/transactionServices";
 import TradeLogin from "../TradeLogin";
+import TradeViewNoPermission from "./TradeViewNoPermission";
 
 const TradeViewLoginRequired = async ({ id }) => {
   const { data } = await getTransactionsPreview(id);
+  //TODO: 거래가 없을 경우, 에러형식 정해지면 수정 필요
+  if (!data) return <TradeViewNoPermission />;
   return (
     <TradeViewLayout>
       <InfoText
