@@ -1,6 +1,6 @@
 // Passcode 등록 API
 export const registerPasscode = async (encrypted) => {
-  const res = await fetch("/auth/passcode/register", {
+  const res = await fetch("/api/auth/passcode/register", {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     credentials: "include",

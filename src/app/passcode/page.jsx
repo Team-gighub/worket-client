@@ -11,7 +11,7 @@ const PasscodePage = () => {
     <div className="h-full">
       <PasscodeForm
         mode="register"
-        handlePinComplete={() => {
+        handlePasscodeComplete={() => {
           router.push("/dashboard");
         }}
       />
