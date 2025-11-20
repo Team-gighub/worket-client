@@ -15,6 +15,9 @@ const TradeLayout = async ({ params, children }) => {
   }
 
   const { data: permissionData } = await getTransactionsPermissions(id);
+  if ((permissionData.customCode = "ACCESS_1001")) {
+    return <TradeViewLoginRequired id={id} />;
+  }
   if (
     permissionData.userRole == "FREELANCER" ||
     permissionData.customCode == "ACCESS_3001"

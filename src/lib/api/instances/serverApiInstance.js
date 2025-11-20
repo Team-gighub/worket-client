@@ -20,8 +20,17 @@ export const createServerAxiosInstance = async () => {
       console.error("[Server API Error]", err);
 
       if (err.response?.status === 401) {
+        if (err.response.data.customCode === "ACCESS_1001") {
+          return err.response;
+        }
         //401에러 시 /login으로 리다이랙트
         redirect("/login");
+      }
+
+      if (err.response?.status === 403) {
+        if (err.response.data.customCode === "ACCESS_3001") {
+          return err.response;
+        }
       }
 
       return Promise.reject(err.response?.data || new Error(err.message));
