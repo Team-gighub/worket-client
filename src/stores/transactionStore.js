@@ -148,7 +148,7 @@ export const useTransactionStore = create((set, get) => ({
     try {
       // TODO: 실제 API 연동 시 주석 해제
       const res = await fetch(
-        `http://localhost:8080/transactions?year=${month.year}&month=${month.month}`,
+        `${process.env.NEXT_PUBLIC_API_BASE_URL}/transactions?year=${month.year}&month=${month.month}`,
         { cache: "no-store", credentials: "include" },
       );
       if (!res.ok) throw new Error("Failed to fetch transactions");
