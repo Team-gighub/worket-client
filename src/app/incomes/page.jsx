@@ -6,7 +6,7 @@ import formatKRW from "../utils/KRWFormatter";
 import CustomBarChart from "@/components/charts/CustomBarChart";
 import contract_3d_icon from "@/assets/contract_3d_icon.png";
 import Image from "next/image";
-import fetchIncomes from "../api/fetchIncomes";
+import { getStatistics } from "@/lib/api/client/statisticServices";
 
 const Incomes = () => {
   const [type, setType] = useState("INCOME"); // INCOME | TRANSACTIONS
@@ -25,8 +25,11 @@ const Incomes = () => {
   useEffect(() => {
     const getData = async () => {
       try {
-        const serverData = await fetchIncomes();
+        const response = await getStatistics();
+        const serverData = response.data;
         setData(serverData);
+        console.log(serverData);
+        console.log(data);
       } catch (err) {
         console.error(err);
       }
@@ -58,7 +61,11 @@ const Incomes = () => {
       subText: "거래 수는 정산까지 완료된 건만 표시됩니다.",
     },
   };
-
+  //연간 거래 띄우기
+  const yearData = data.currentYearProfit?.[0] || {
+    incomes: 0,
+    transactions: 0,
+  };
   return (
     <div>
       {/* 타입 선택 버튼 */}
@@ -102,9 +109,7 @@ const Incomes = () => {
           {new Date().getFullYear()}년{" "}
           {type === "INCOME" ? "소득액 " : "거래수 "}
           {formatKRW(
-            type === "INCOME"
-              ? data.currentYearProfit.incomes
-              : data.currentYearProfit.transactions,
+            type === "INCOME" ? yearData.incomes : yearData.transactions,
           )}
           {type === "INCOME" ? "원" : "건"}
         </div>
