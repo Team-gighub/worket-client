@@ -6,12 +6,12 @@ import { useRouter } from "next/navigation";
 import MainButton from "@/components/common/MainButton";
 import ContractInfo from "@/components/transactions/ContractInfo";
 import InfoText from "@/components/common/InfoText";
+import useSessionStorage from "@/hooks/useSessionStorage";
 
 const CreateResultPage = () => {
   const router = useRouter();
-  //sesstionStorage 에서 값 추출
-  const transactionId = sessionStorage.getItem("transactionId");
 
+  const [transactionId] = useSessionStorage("transactionId");
   const handleMainBtn = () => {
     if (transactionId) {
       //거래 링크 페이지로 이동
