@@ -46,7 +46,7 @@ const TradeConfirm = () => {
       </div>
       <div className="flex flex-col items-center gap-[1rem]">
         {/* TODO: 지급 미확정 페이지로 이동 */}
-        <Link href={`trade/${id}/confirm/not`}>
+        <Link href={`/trade/${id}/confirm/not`}>
           <p className="pretendard-medium-12 text-point-purple-300 text-decoration-line underline">
             지급 확정을 원하지 않으시나요?
           </p>
