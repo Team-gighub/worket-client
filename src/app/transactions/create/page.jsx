@@ -31,9 +31,7 @@ const CreatePage = () => {
         // 3. 저장
         setFreelancerInfo(name, phone);
       } catch (err) {
-        setError(err);
-      } finally {
-        setLoading(false);
+        console.log(err);
       }
     };
 
@@ -47,9 +45,6 @@ const CreatePage = () => {
     { value: "신한은행", label: "신한은행" },
     { value: "국민은행", label: "국민은행" },
   ];
-
-  /* 로딩 및 데이터 상태 관리 */
-  // const [isLoading, setIsLoading] = useState(false);
 
   const handleNextStep = () => {
     const requiredFields = [
