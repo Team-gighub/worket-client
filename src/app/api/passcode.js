@@ -13,7 +13,7 @@ export const registerPasscode = async (encrypted) => {
 
 // Passcode 검증 API
 export const verifyPasscode = async (encrypted) => {
-  const res = await fetch("/auth/passcode/verify", {
+  const res = await fetch("/api/auth/passcode/verify", {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     credentials: "include",
