@@ -43,13 +43,7 @@ import { useTransactionStore } from "@/stores/transactionStore";
 // };
 /* 로그인 후 홈화면 */
 const LoggedInHome = () => {
-  const {
-    transactionData,
-    fetchTransactions,
-    setSelectedMonth,
-    selectedFilter,
-    setSelectedFilter,
-  } = useTransactionStore();
+  const { transactionData, fetchTransactions } = useTransactionStore();
 
   useEffect(() => {
     if (!transactionData) {
@@ -69,15 +63,35 @@ const LoggedInHome = () => {
     router.push("/transactions/create");
   };
 
-  //  const data = useTransactionStore((state) => state.fetchTransactions);
-  //console.log(data);
-  //const transactionData = useTransactionStore((state) => state.transactionData);
+  //원하는 status만 가져오기 위한 함수
+  const getCountByStatus = (counts, targetStatus) => {
+    if (!counts || !Array.isArray(counts)) return 0;
 
-  //const { totalAmount, statusCounts, contractList } = transactionData;
+    const foundItem = counts.find((item) => item.status === targetStatus);
+    return foundItem ? foundItem.count : 0;
+  };
 
-  console.log(transactionData);
-  //const { profitAmount, statusData } = processTradeData(data);
-  //console.log(transInfo);
+  //statusCounts 가져오기
+  const statusCounts = transactionData?.statusCounts || [];
+  // 총 수익 금액
+  const profitAmount = transactionData?.totalAmount || 0;
+  //계약 체결 전
+  const createdCount = getCountByStatus(statusCounts, "CREATED");
+  // 지급 확정 대기
+  const depositHoldCount = getCountByStatus(statusCounts, "DEPOSIT_HOLD");
+  //정산 예정
+  const paymentConfirmedCount = getCountByStatus(
+    statusCounts,
+    "PAYMENT_CONFIRMED",
+  );
+
+  // ProfitCard에 전달할 {label, count} 형식의 배열
+  const selectedStatusData = [
+    { label: "체결 전", count: createdCount },
+    { label: "지급 확정 대기", count: depositHoldCount },
+    { label: "정산 예정", count: paymentConfirmedCount },
+  ];
+
   return (
     <div className="h-full flex flex-col items-center">
       {/* TODO : 후에 설명 확정 시 변경 */}
@@ -88,12 +102,11 @@ const LoggedInHome = () => {
       ></InfoText>
       <div className="flex flex-col items-center w-full max-w-[32rem] px-4 mt-6">
         <div className="w-full mb-6 mx-auto">
-          {/* TODO : /dashboard 접근 시 GET으로 정보 가져와서 매핑 */}
-          {/* <ProfitCard
+          <ProfitCard
             userName="youn"
-            profitAmount={10000} // 👈 계산된 총 수익 금액
-            //statusData={statusData}
-          ></ProfitCard> */}
+            profitAmount={profitAmount}
+            statusData={selectedStatusData}
+          ></ProfitCard>
         </div>
         <MainButton text="바로 대출 신청하기" theme="secondary"></MainButton>
         <div className="flex mt-8 gap-8">
