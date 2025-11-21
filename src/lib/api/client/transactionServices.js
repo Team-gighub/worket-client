@@ -16,11 +16,12 @@ const getTransactionsDetail = (transactionId) => {
 };
 
 /** 거래 정보 미리보기 = (GET /transactions/{transactionId}/preview) */
-const getTransactionsPreview = (transactionId) => {
-  return axios.get(
+const getTransactionsPreview = async (transactionId) => {
+  const { data } = await axios.get(
     process.env.NEXT_PUBLIC_API_BASE_URL +
       `/transactions/${transactionId}/preview`,
   );
+  return data;
 };
 
 /** 거래 접근권한 판단 (GET /transactions/{transactionId}/permissions) */

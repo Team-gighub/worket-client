@@ -6,8 +6,11 @@ import TradeViewLayout from "../../layouts/TradeViewLayout";
 import TradeCreatedViewButton from "../homeButtons/TradeCreatedViewButton";
 import TradeSignedViewButton from "@/components/trade/homeButtons/TradeSignedViewButton";
 import TradeDepositHoldViewButton from "@/components/trade/homeButtons/TradeDepositHoldViewButton";
+import { useTradeDataStore } from "@/stores/tradeDataStore";
 
-const TradeViewSelector = ({ data }) => {
+const TradeViewSelector = () => {
+  const { data } = useTradeDataStore();
+  if (!data) return;
   let currentStep = 0;
   let ButtonComponent = null;
   let infoTexts = [];
@@ -46,8 +49,8 @@ const TradeViewSelector = ({ data }) => {
     case "PAYMENT_CONFIRMED":
       currentStep = 4;
       ButtonComponent = null;
-      infoTexts = ["잔금이 지급되었습니다.", "거래를 마무리해주세요."];
-      subText = "잔금이 안전하게 지급되었습니다";
+      infoTexts = ["지급 확정 상태입니다.", "빠른 시일 내에 지급해 드릴게요"];
+      subText = "지급 완료까지 2~3일 정도 소요됩니다";
       break;
     case "SETTLED":
       currentStep = 5;
@@ -66,7 +69,10 @@ const TradeViewSelector = ({ data }) => {
   return (
     <TradeViewLayout>
       <InfoText mainTexts={infoTexts} subText={subText} />
-      <TradeStepIndicator currentStep={currentStep} />
+      <TradeStepIndicator
+        currentStep={currentStep}
+        pdfUrl={data.contractFileUrl}
+      />
 
       {ButtonComponent && <ButtonComponent />}
     </TradeViewLayout>

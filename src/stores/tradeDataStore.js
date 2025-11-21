@@ -9,7 +9,7 @@ import { create } from "zustand";
 const initialTradeData = MOCK_TRANSACTION_DETAIL_RESET;
 
 export const useTradeDataStore = create((set) => ({
-  data: initialTradeData,
+  data: null,
 
   // [setTradeData] 데이터 주입 액션 (Hydrator에서 호출)
   setTradeData: (newData) => set({ data: newData }),
