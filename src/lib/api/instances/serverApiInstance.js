@@ -17,19 +17,27 @@ export const createServerAxiosInstance = async () => {
   instance.interceptors.response.use(
     (res) => res.data,
     (err) => {
-      console.error("[Server API Error]", err);
+      console.error("[Server API Error]", err.response);
 
       if (err.response?.status === 401) {
-        if (err.response.data.customCode === "ACCESS_1001") {
-          return err.response;
+        switch (err.response.data.customCode) {
+          case "ACCESS_1001":
+            return err.response;
+          default:
+            redirect("/login");
         }
-        //401에러 시 /login으로 리다이랙트
-        redirect("/login");
       }
 
       if (err.response?.status === 403) {
-        if (err.response.data.customCode === "ACCESS_3001") {
-          return err.response;
+        switch (err.response.data.customCode) {
+          case "ACCESS_3001":
+            return err.response;
+          case "AUTH_2001":
+            redirect("/signup");
+          case "AUTH_3001":
+            redirect("/passcode");
+          default:
+            return Promise.reject(err.response?.data || new Error(err.message));
         }
       }
 
