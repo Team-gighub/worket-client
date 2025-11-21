@@ -7,13 +7,18 @@ import MainButton from "@/components/common/MainButton";
 import ContractInfo from "@/components/transactions/ContractInfo";
 import InfoText from "@/components/common/InfoText";
 import useSessionStorage from "@/hooks/useSessionStorage";
+import useSignature from "@/hooks/useSignature";
 
 const CreateResultPage = () => {
   const router = useRouter();
 
   const [transactionId] = useSessionStorage("transactionId");
-  const handleMainBtn = () => {
+  const { fetchSignUrl } = useSignature();
+
+  const handleMainBtn = async () => {
     if (transactionId) {
+      const contractId = sessionStorage.getItem("contractId");
+      await fetchSignUrl(contractId);
       //거래 링크 페이지로 이동
       router.push(`/transactions/${transactionId}/create-link`);
     } else {
