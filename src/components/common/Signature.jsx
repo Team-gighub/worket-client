@@ -13,9 +13,8 @@ import { postContractsSignatures } from "@/lib/api/client/contractServices";
 const Signature = ({ onClose }) => {
   const { signatureRef, clearSignature, saveSignature } = useSignature(onClose);
   const saveSignatureAndPost = async () => {
-    const signUrl = await saveSignature();
     const contractId = sessionStorage.getItem("contractId");
-    postContractsSignatures(contractId, signUrl);
+    await saveSignature(contractId);
   };
   return (
     <div className="relative rounded-lg p-4 mt-3 ">
