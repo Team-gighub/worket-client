@@ -13,16 +13,10 @@ import useSessionStorage from "@/hooks/useSessionStorage";
 
 const CreateResultPage = () => {
   const router = useRouter();
-  const { isOpen, open, close } = useBottomSheet();
+  const { isOpen, close } = useBottomSheet();
   const contractToSubmit = useContractCreateStore((state) => state.contract);
-  const [storedTransactionId, setTransactionId] = useSessionStorage(
-    "transactionId",
-    null,
-  );
-  const [storedContractId, setContractId] = useSessionStorage(
-    "contractId",
-    null,
-  );
+  const [, setTransactionId] = useSessionStorage("transactionId", null);
+  const [, setContractId] = useSessionStorage("contractId", null);
   const handleMainBtn = async () => {
     try {
       const response = await postContracts({
