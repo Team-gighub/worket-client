@@ -1,14 +1,13 @@
 "use client";
 import MainButton from "@/components/common/MainButton";
-import { useTradeDataStore } from "@/stores/tradeDataStore";
+import { useParams, useRouter } from "next/navigation";
 
 const TradeSignedViewButton = () => {
-  const { updateTradeStatus } = useTradeDataStore();
+  const router = useRouter();
+  const { id } = useParams();
 
   const handleClick = () => {
-    // TODO: PG에 api요청하는 로직 추가
-    // 현재는 상태만 업데이트
-    updateTradeStatus("DEPOSIT_HOLD");
+    router.push(`/trade/${id}/deposit`);
   };
 
   return <MainButton text="대금 예치하기" onClick={handleClick} />;
