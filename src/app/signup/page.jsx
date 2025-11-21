@@ -30,8 +30,7 @@ const SignUp = () => {
     setLoading(true);
 
     try {
-      // TODO: api 연동 필요
-      const res = await fetch("/users", {
+      const res = await fetch("/api/users/me", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
@@ -44,7 +43,7 @@ const SignUp = () => {
         throw new Error("회원가입에 실패했습니다.");
       }
 
-      router.push("/pin");
+      router.push("/passcode");
     } catch (err) {
       console.error(err);
       setError(err.message);
