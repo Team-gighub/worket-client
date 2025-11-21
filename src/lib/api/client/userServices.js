@@ -1,4 +1,4 @@
-import { createClientAxiosInstance } from "@/lib/api/clientApiInstance";
+import { createClientAxiosInstance } from "../instances/clientApiInstance";
 
 const clientInstance = createClientAxiosInstance();
 

@@ -32,7 +32,17 @@ export const formatDateDot = (dateInput) => {
  * @returns {string} 예: "2025년 11월 7일"
  */
 export const formatKoreanDate = (dateInput) => {
-  const date = new Date(dateInput);
+  if (!dateInput) return "-";
+
+  // 문자열이면 T 기준으로 잘라서 YYYY-MM-DD만 사용
+  let dateStr = dateInput;
+  if (typeof dateInput === "string" && dateInput.includes("T")) {
+    dateStr = dateInput.split("T")[0];
+  }
+
+  const date = new Date(dateStr);
+  if (isNaN(date.getTime())) return "-"; // 유효하지 않으면 -
+
   const year = date.getFullYear();
   const month = date.getMonth() + 1;
   const day = date.getDate();
