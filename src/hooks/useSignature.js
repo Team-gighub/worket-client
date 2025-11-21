@@ -1,76 +1,58 @@
 import { useCallback, useRef } from "react";
-
-/**
- *
- * useSignature
- * 서명 관리를 위한 여러가지 함수가 정의되어 있습니다.
- *
- * 1. 서명 캔버스 초기화
- * 2. 서명 png화 (blob)
- * 3. 서명 업로드 (blob -> S3)
- * 4. 서명 업로드 후, 저장된 url 반환
- */
-const useSignature = (onClose, getPresignedUrl) => {
-  // 1. 캔버스 Ref 관리
+import { getPresignedUrl } from "@/lib/api/client/uploadServices";
+import { uploadToS3 } from "@/lib/api/client/uploadServices";
+import md5 from "js-md5";
+const useSignature = (onClose) => {
+  // TODO: 업로드 시 구조 지정
+  const contractId = "0";
+  const signer = "a"; // "a" 또는 "b"
+  const timestamp = new Date().toISOString();
+  const filename = `${contractId}/${signer}-signature-${timestamp}.png`;
   const signatureRef = useRef(null);
-
-  // 2. 캔버스 초기화
   const clearSignature = useCallback(() => {
-    if (signatureRef.current) {
-      signatureRef.current.clear();
-    }
+    if (signatureRef.current) signatureRef.current.clear();
   }, []);
-
-  // 3. 서명 저장 및 업로드
+  // MD5 Base64 계산 (js-md5 사용)
+  const calculateMD5Base64 = async (blob) => {
+    const arrayBuffer = await blob.arrayBuffer();
+    const md5Hex = md5(arrayBuffer); // ArrayBuffer 직접 사용
+    const md5Bytes = new Uint8Array(
+      md5Hex.match(/.{2}/g).map((h) => parseInt(h, 16)),
+    );
+    const md5Base64 = btoa(String.fromCharCode(...md5Bytes));
+    return md5Base64;
+  };
   const saveSignature = useCallback(async () => {
     if (!signatureRef.current || signatureRef.current.isEmpty()) {
       alert("서명을 입력해주세요.");
       return;
     }
-
     const canvas = signatureRef.current.getCanvas();
-
-    // (1) canvas -> blob 변환
-    const uploadPromise = new Promise((resolve, reject) => {
-      canvas.toBlob(async (blob) => {
-        if (!blob) {
-          reject(
-            new Error("캔버스에서 Blob 데이터를 가져오는 데 실패했습니다."),
-          );
-          return;
-        }
-
-        // (2) S3에 업로드
-        try {
-          const presignedUrl = await getPresignedUrl();
-          const uploadResponse = await fetch(presignedUrl, {
-            // TODO: 요청 부분 추후 수정 필요
-            method: "PUT",
-            body: blob,
-            headers: {
-              "Content-Type": "image/png",
-            },
-          });
-
-          if (!uploadResponse.ok) {
-            throw new Error(
-              `S3 업로드에 실패했습니다. 상태: ${uploadResponse.status}`,
-            );
-          }
-
-          // (3) S3 URL 추출 및 성공 콜백 호출
-          const fileUrl = presignedUrl.split("?")[0];
-          // TODO: 업로드 완료 된 URL(fileUrl) 반환 처리 필요
-          onClose();
-        } catch (error) {
-          alert("서명 업로드 중 문제가 발생했습니다. 다시 시도해주세요.");
-          reject(error);
-        }
-      }, "image/png");
-    });
-  }, [getPresignedUrl, onClose]);
-
+    const blob = await new Promise((resolve) =>
+      canvas.toBlob(resolve, "image/png"),
+    );
+    if (!blob) {
+      alert("캔버스에서 Blob 데이터를 가져오는 데 실패했습니다.");
+      return;
+    }
+    try {
+      // MD5 Base64 계산
+      const md5Base64 = await calculateMD5Base64(blob);
+      // Presigned URL 요청
+      const response = await getPresignedUrl(filename, "image/png", md5Base64);
+      const presignedUrl = JSON.parse(response.data.body).url;
+      // S3 업로드
+      await uploadToS3(presignedUrl, blob, md5Base64);
+      const fileUrl = presignedUrl.split("?")[0];
+      // TODO: DB 저장
+      // const responseDB = await postContractsSignatures(contractId, fileUrl);
+      onClose();
+      return fileUrl;
+    } catch (error) {
+      console.error(error);
+      alert("서명 업로드 중 오류가 발생했습니다.");
+    }
+  }, [onClose]);
   return { signatureRef, clearSignature, saveSignature };
 };
-
 export default useSignature;
