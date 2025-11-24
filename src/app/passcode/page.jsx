@@ -12,7 +12,7 @@ const PasscodePage = () => {
       <PasscodeForm
         mode="register"
         handlePasscodeComplete={() => {
-          router.push("/dashboard");
+          router.push("/");
         }}
       />
     </div>
