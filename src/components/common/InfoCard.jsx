@@ -11,7 +11,7 @@ import React from "react";
  */
 const InfoCard = ({ title, description, items }) => {
   return (
-    <div className="max-w-[33.5rem] mx-auto mt-4 flex flex-col gap-4">
+    <div className="max-w-[33.5rem] mx-auto w-full mt-4 flex flex-col gap-4">
       <div>
         <span className="pretendard-semibold-18 mr-4">{title}</span>
         <span className="pretendard-medium-14 text-basic-400">
