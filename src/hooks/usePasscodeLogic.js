@@ -1,5 +1,8 @@
 import { useState, useCallback } from "react";
-import { registerPasscode, verifyPasscode } from "../app/api/passcode";
+import {
+  postPasscodeRegister,
+  postPasscodeVerify,
+} from "@/lib/api/client/authServices";
 
 export const usePasscodeLogic = (mode, handlePasscodeComplete, reshuffle) => {
   const [passcode, setPasscode] = useState("");
@@ -56,7 +59,7 @@ export const usePasscodeLogic = (mode, handlePasscodeComplete, reshuffle) => {
     // passcode == storedPasscode → 등록 API 호출
     try {
       const encrypted = encryptpasscode(passcode);
-      await registerPasscode(encrypted);
+      await postPasscodeRegister({ passcode: encrypted });
 
       setPasscode("");
       setStoredPasscode("");
@@ -82,7 +85,7 @@ export const usePasscodeLogic = (mode, handlePasscodeComplete, reshuffle) => {
 
     try {
       const encrypted = encryptpasscode(passcode);
-      await verifyPasscode(encrypted);
+      await postPasscodeVerify(encrypted);
 
       setPasscode("");
       handlePasscodeComplete(); // 검증 성공 시, 페이지 이동
