@@ -23,7 +23,7 @@ const Signature = ({ onClose, userRole }) => {
       <SignatureCanvas
         ref={signatureRef}
         canvasProps={{
-          className: "bg-basic-200 rounded-lg w-full h-[150px]",
+          className: "bg-basic-200 rounded-lg w-full h-[15rem]",
         }}
       />
       {/* 버튼 영역 */}
