@@ -16,6 +16,8 @@ const useSignature = (onClose) => {
     setIsUploading,
     setError,
     clearSignature: clearSignatureStore,
+    setTempPreviewUrl,
+    clearTempPreviewUrl,
   } = useSignatureStore();
 
   // MD5 계산 (유틸 함수)
@@ -35,7 +37,7 @@ const useSignature = (onClose) => {
     }
   }, []);
 
-  // 서명 저장 및 업로드
+  // 서명 저장 및 s3 업로드
   const saveSignature = useCallback(
     async (contractId, signer) => {
       if (!signatureRef.current || signatureRef.current.isEmpty()) {
@@ -55,6 +57,10 @@ const useSignature = (onClose) => {
         if (!blob) {
           throw new Error("캔버스에서 Blob 데이터를 가져오는 데 실패했습니다.");
         }
+
+        // 👉 모달 닫힌 후 표시할 미리보기 URL 생성
+        const previewUrl = URL.createObjectURL(blob);
+        setTempPreviewUrl(previewUrl);
 
         // 파일명 생성
         const timestamp = new Date().toISOString();
@@ -76,11 +82,8 @@ const useSignature = (onClose) => {
 
         const fileUrl = presignedUrl.split("?")[0];
 
-        // Store에 저장
         setSignUrl(fileUrl);
         setIsUploading(false);
-
-        console.log("✅ Signature uploaded:", fileUrl);
 
         // 모달 닫기
         setTimeout(() => onClose?.(), 0);
@@ -94,7 +97,7 @@ const useSignature = (onClose) => {
         return false;
       }
     },
-    [setSignUrl, setIsUploading, setError, onClose],
+    [setSignUrl, setIsUploading, setError, setTempPreviewUrl, onClose],
   );
 
   // 서명 URL 서버 전송
@@ -107,9 +110,11 @@ const useSignature = (onClose) => {
       }
 
       try {
-        console.log("🚀 Submitting signature URL:", signUrl);
         await postContractsSignatures(contractId, { signatureUrl: signUrl });
-        console.log("✅ Signature URL submitted successfully");
+
+        // 서버에 저장 후 store clear
+        clearSignature();
+        clearTempPreviewUrl();
         return true;
       } catch (error) {
         console.error("❌ Submit error:", error);
