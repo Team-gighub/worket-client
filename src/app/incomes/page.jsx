@@ -28,8 +28,6 @@ const Incomes = () => {
         const response = await getStatistics();
         const serverData = response.data;
         setData(serverData);
-        console.log(serverData);
-        console.log(data);
       } catch (err) {
         console.error(err);
       }
