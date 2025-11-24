@@ -4,6 +4,7 @@ import "@/app/globals.css";
 import InfoText from "@/components/common/InfoText";
 import LoadingSpinner from "@/components/common/LoadingSpinner";
 import MainButton from "@/components/common/MainButton";
+import { postContractsExtract } from "@/lib/api/client/contractServices";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import ClipLoader from "react-spinners/ClipLoader";
@@ -64,15 +65,7 @@ const UploadPage = () => {
       formData.append("file", file);
       formData.append("message", JSON.stringify(ocrApiData));
       //백엔드 전송
-      const res = await fetch("http://localhost:8080/contracts/extract", {
-        method: "POST",
-        body: formData,
-      });
-      if (!res.ok) {
-        const errorData = await res.json();
-        throw new Error(errorData.message || `API 요청 실패: ${res.status}`);
-      }
-      const data = await res.json();
+      const { data } = await postContractsExtract(formData);
 
       // OCR 결과를 세션 스토리지에 저장
       sessionStorage.setItem("ocrResult", JSON.stringify(data));
