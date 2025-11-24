@@ -37,7 +37,7 @@ const useSignature = (onClose) => {
 
   // 서명 저장 및 업로드
   const saveSignature = useCallback(
-    async (contractId, signer = "a") => {
+    async (contractId, signer) => {
       if (!signatureRef.current || signatureRef.current.isEmpty()) {
         alert("서명을 입력해주세요.");
         return false;

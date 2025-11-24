@@ -1,20 +1,18 @@
 "use client";
 import SignatureCanvas from "react-signature-canvas";
 import useSignature from "../../hooks/useSignature";
-import DualButtons from "./DualButtons";
 import MainButton from "./MainButton";
-import { postContractsSignatures } from "@/lib/api/client/contractServices";
 /**
  * Signature Component
  *
  * @param {function(): void} onClose - 서명 완료 동작이 수행되고 나면, 바텀시트가 닫히도록 지정하는 함수
- * @param {function(): Promise<string>} getPresignedUrl - 서버에서 S3 업로드용 presigned URL을 받아오는 비동기 함수
+ * @param {string} userRole - 서명하는 사용자의 역할 ("CLIENT" 또는 "FREELANCER")
  */
-const Signature = ({ onClose }) => {
+const Signature = ({ onClose, userRole }) => {
   const { signatureRef, clearSignature, saveSignature } = useSignature(onClose);
   const saveSignatureAndPost = async () => {
     const contractId = sessionStorage.getItem("contractId");
-    await saveSignature(contractId);
+    await saveSignature(contractId, userRole);
   };
   return (
     <div className="relative rounded-lg p-4 mt-3 ">
