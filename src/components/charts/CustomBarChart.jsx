@@ -5,6 +5,7 @@ import {
   ResponsiveContainer,
   Cell,
   LabelList,
+  YAxis,
 } from "recharts";
 import formatKRW from "@/app/utils/KRWFormatter";
 
@@ -13,7 +14,16 @@ const CustomBarChart = ({ chartData = [], type = "INCOME" }) => {
     month: `${Number(item.month.split("-")[1])}월`, // "2025-09" → "9월"
     value: type === "INCOME" ? item.incomes : item.transactions,
   }));
+  // 1. 데이터의 최대값을 계산
+  const maxValue = formattedData.reduce((max, item) => {
+    return Math.max(max, item.value);
+  }, 0);
 
+  // 2. Y축의 최대 영역을 설정-레이블이 위로 넘치지 않도록
+  const paddingFactor = 1.1;
+  const yDomainMax = Math.ceil(maxValue * paddingFactor);
+
+  const yDomain = [0, yDomainMax];
   const COLORS = {
     primary: "#5E4FE4",
     pointPurple100: "#E6E4FF",
@@ -27,6 +37,8 @@ const CustomBarChart = ({ chartData = [], type = "INCOME" }) => {
           barCategoryGap="30%"
           style={{ pointerEvents: "none" }} // 클릭 방지
         >
+          {/* YAxis를 추가하고 domain을 설정하여 차트 영역을 확장 */}
+          <YAxis hide={true} domain={yDomain} />
           <XAxis dataKey="month" axisLine={{ stroke: "transparent" }} />
           <Bar
             dataKey="value"
