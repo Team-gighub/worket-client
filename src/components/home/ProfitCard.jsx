@@ -22,7 +22,7 @@ const ProfitCard = ({ userName, profitAmount, statusData }) => {
           // 각 항목에 오른쪽 테두리(구분선)를 적용
           <div
             key={index}
-            className={`flex-2 ${index < statusData.length - 1 ? "border-r border-gray-200" : ""}`} //마지막 요소에는 테두리 넣지 않기 위함
+            className={`grow ${index < statusData.length - 1 ? "border-r border-gray-200" : ""}`} //마지막 요소에는 테두리 넣지 않기 위함
           >
             <div className="mt-2 flex items-center justify-start gap-2 mr-5">
               <p className=" pretendard-medium-12 text-basic-600">

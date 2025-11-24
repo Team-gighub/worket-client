@@ -23,8 +23,6 @@ const CreateResultPage = () => {
       router.push(`/transactions/${transactionId}/create-link`);
     } else {
       console.error("❌ Response does not contain a valid transaction ID.");
-      // 선택 : ID가 없을 경우 대비 로직 추가
-      // alert("계약서 등록 후 ID를 받지 못했습니다.");
     }
   };
   return (
