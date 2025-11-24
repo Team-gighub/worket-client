@@ -6,6 +6,7 @@ import InputCategoryField from "@/components/common/InputCategoryField";
 import MainButton from "@/components/common/MainButton";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
+import { postUsers } from "@/lib/api/client/userServices";
 
 /* 회원가입 화면 */
 const SignUp = () => {
@@ -30,23 +31,15 @@ const SignUp = () => {
     setLoading(true);
 
     try {
-      const res = await fetch("/api/users/me", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          businessSector: businessSector,
-          businessSectorYears: Number(businessSectorYears),
-        }),
+      const res = await postUsers({
+        businessSector,
+        businessSectorYears: Number(businessSectorYears),
       });
-
-      if (!res.ok) {
-        throw new Error("회원가입에 실패했습니다.");
-      }
 
       router.push("/passcode");
     } catch (err) {
       console.error(err);
-      setError(err.message);
+      setError("회원가입에 실패했습니다.");
     } finally {
       setLoading(false);
     }
