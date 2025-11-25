@@ -2,13 +2,7 @@
 import { useContractCreateStore } from "@/stores/contractCreateStore";
 
 import React from "react";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
+import SelectBox from "./SelectBox";
 
 /**
  * [InputAccountField] - 하나의 디자인 폼 안에 Input과 Select를 나란히 배치하는 컴포넌트
@@ -27,9 +21,8 @@ const InputTwoField = ({
   onInputChange,
   placeholder,
   error = false,
-  selectOptions = [],
 }) => {
-  const { contract, setNestedField } = useContractCreateStore(); // shadcn 컴포넌트 사용으로 인해, 부모로 상태 전달이 안됨. 따라서 내부에서 상태 관리하도록 적용
+  const { setNestedField } = useContractCreateStore();
 
   return (
     <div className="flex justify-center my-4">
@@ -53,26 +46,20 @@ const InputTwoField = ({
             placeholder={placeholder}
             className="flex-1 min-w-0 pretendard-medium-18 outline-none bg-transparent no-spinner"
           />
-
-          {/* 2. shadcn/ui Select 컴포넌트 적용 */}
-          <div className="w-[7rem] shrink-0">
-            <Select
-              value={contract.freelancerInfo.bank || ""}
-              onValueChange={(val) =>
-                setNestedField("freelancerInfo", "bank", val)
+          <div className="w-[9rem] shrink-0">
+            <SelectBox
+              options={[
+                //추후 은행 목록 변경 예정(PG에 있는 은행 리스트로)
+                { value: "우리은행", label: "우리은행" },
+                { value: "신한은행", label: "신한은행" },
+                { value: "국민은행", label: "국민은행" },
+              ]}
+              placeholder="전체"
+              defaultValue="all"
+              onChange={(value) =>
+                setNestedField("freelancerInfo", "bank", value)
               }
-            >
-              <SelectTrigger>
-                <SelectValue placeholder="은행선택" />
-              </SelectTrigger>
-              <SelectContent>
-                {selectOptions.map((option) => (
-                  <SelectItem key={option.value} value={option.value}>
-                    {option.label}
-                  </SelectItem>
-                ))}
-              </SelectContent>
-            </Select>
+            />
           </div>
         </div>
       </div>
