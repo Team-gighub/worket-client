@@ -35,14 +35,10 @@ const CreateResultPage = () => {
         router.push(`/transactions/create/result`);
       } else {
         console.error("❌ Response does not contain a valid transaction ID.");
-        // 선택 : ID가 없을 경우 대비 로직 추가
-        // alert("계약서 등록 후 ID를 받지 못했습니다.");
       }
     } catch (error) {
       // API 호출 중 오류 발생 시 처리
       console.error("🚨 Error during contract creation API call:", error);
-      // 선택 : 사용자에게 오류를 알리는 로직 추가
-      // alert("계약서 등록 중 오류가 발생했습니다.");
     }
   };
   return (
