@@ -8,39 +8,8 @@ import { useRouter } from "next/navigation";
 import { useEffect } from "react";
 import MainButton from "@/components/common/MainButton";
 import ProfitCard from "@/components/home/ProfitCard";
-import { getTransactions } from "@/lib/api/client/transactionServices";
-import { useTradeDataStore } from "@/stores/tradeDataStore";
 import { useTransactionStore } from "@/stores/transactionStore";
-// const processTradeData = (transactions) => {
-//   // transactions가 유효한 배열이 아니면 빈 배열로 간주
-//   const validTransactions = Array.isArray(transactions) ? transactions : [];
 
-//   // 1. Profit Amount (총 수익 금액) 계산
-//   // 가정: 거래 객체에 'amount' 필드가 있고, 이는 수익을 나타냄
-//   const profitAmount = validTransactions.reduce(
-//     (sum, trade) => sum + (trade.amount || 0),
-//     0,
-//   );
-
-//   // 2. Status Data (거래 상태별 요약 데이터) 계산 및 배열로 변환
-//   // ProfitCard는 [{ label, count }, ...] 형태의 배열을 기대합니다.
-
-//   // 임시 상태 카운트 (실제 trade.status 필드를 기반으로 로직을 구현해야 합니다.)
-//   const totalCount = validTransactions.length;
-//   const completedCount = validTransactions.filter(
-//     (trade) => trade.status === "COMPLETED",
-//   ).length; // 예시 상태
-//   const pendingCount = totalCount - completedCount;
-
-//   const statusData = [
-//     { label: "총 거래 건수", count: totalCount },
-//     { label: "체결 완료", count: completedCount },
-//     { label: "처리 대기", count: pendingCount },
-//     // 필요한 다른 상태가 있다면 여기에 추가
-//   ];
-
-//   return { profitAmount, statusData };
-// };
 /* 로그인 후 홈화면 */
 const LoggedInHome = () => {
   const { transactionData, fetchTransactions } = useTransactionStore();
