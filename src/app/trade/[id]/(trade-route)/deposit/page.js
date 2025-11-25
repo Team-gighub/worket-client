@@ -17,11 +17,10 @@ const TradeDeposit = () => {
   const handleDepositClick = async () => {
     if (id) {
       try {
-        //TODO: PG api 연결
-        //TODO: PG url로 이동
         //현재는 여기서 상태 업데이트
-        updateTradeStatus("DEPOSIT_HOLD");
-        router.push(`/trade/${id}`);
+        // updateTradeStatus("DEPOSIT_HOLD");
+        //pg/:id 로 라우팅 -> pg 제공 창 이동
+        router.push(`/pg/${id}`);
       } catch (err) {
         console.log(err);
       }
