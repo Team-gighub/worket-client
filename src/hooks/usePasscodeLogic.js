@@ -11,12 +11,6 @@ export const usePasscodeLogic = (mode, handlePasscodeComplete, reshuffle) => {
   const [error, setError] = useState("");
   const [attempts, setAttempts] = useState(0);
 
-  // 암호화 함수
-  const encryptpasscode = useCallback((value) => {
-    // TODO: 암호화 로직
-    return value;
-  }, []);
-
   // reset 함수
   const resetSetup = useCallback(() => {
     setPasscode("");
@@ -58,8 +52,7 @@ export const usePasscodeLogic = (mode, handlePasscodeComplete, reshuffle) => {
 
     // passcode == storedPasscode → 등록 API 호출
     try {
-      const encrypted = encryptpasscode(passcode);
-      await postPasscodeRegister({ passcode: encrypted });
+      await postPasscodeRegister({ passcode: passcode });
 
       setPasscode("");
       setStoredPasscode("");
@@ -74,7 +67,6 @@ export const usePasscodeLogic = (mode, handlePasscodeComplete, reshuffle) => {
     storedPasscode,
     attempts,
     reshuffle,
-    encryptpasscode,
     resetSetup,
     handlePasscodeComplete,
   ]);
@@ -84,18 +76,17 @@ export const usePasscodeLogic = (mode, handlePasscodeComplete, reshuffle) => {
     setError("");
 
     try {
-      const encrypted = encryptpasscode(passcode);
-      await postPasscodeVerify(encrypted);
+      await postPasscodeVerify({ passcode: passcode });
 
+      await handlePasscodeComplete(); // 검증 성공 시, 페이지 이동
       setPasscode("");
-      handlePasscodeComplete(); // 검증 성공 시, 페이지 이동
     } catch (e) {
       console.error(e);
       setError("잘못된 비밀번호입니다.");
       setPasscode("");
       reshuffle();
     }
-  }, [passcode, encryptpasscode, handlePasscodeComplete, reshuffle]);
+  }, [passcode, handlePasscodeComplete, reshuffle]);
 
   return {
     passcode,
