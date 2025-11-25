@@ -24,7 +24,7 @@ const HomeButton = ({
       style={{ width, height }}
       className={`
         rounded-[1rem] bg-basic-100 
-        flex gap-auto 
+        flex
         p-4 border border-solid border-basic-100
         hover:bg-basic-50 transition 
         shadow-md

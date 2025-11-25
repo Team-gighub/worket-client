@@ -6,10 +6,25 @@ import { useRouter } from "next/navigation";
 import MainButton from "@/components/common/MainButton";
 import ContractInfo from "@/components/transactions/ContractInfo";
 import InfoText from "@/components/common/InfoText";
+import useSessionStorage from "@/hooks/useSessionStorage";
+import useSignature from "@/hooks/useSignature";
 
 const CreateResultPage = () => {
   const router = useRouter();
 
+  const [transactionId] = useSessionStorage("transactionId");
+  const { fetchSignUrl } = useSignature();
+
+  const handleMainBtn = async () => {
+    if (transactionId) {
+      const contractId = sessionStorage.getItem("contractId");
+      await fetchSignUrl(contractId);
+      //거래 링크 페이지로 이동
+      router.push(`/transactions/${transactionId}/create-link`);
+    } else {
+      console.error("❌ Response does not contain a valid transaction ID.");
+    }
+  };
   return (
     <div>
       <InfoText
@@ -17,11 +32,11 @@ const CreateResultPage = () => {
         subText="잘못된 경우 다시 작성해주세요"
       />
       <ContractInfo />
-      <SignatureForm />
+      <SignatureForm userRole="FREELANCER" />
       <MainButton
         text="생성하기"
         width="34rem"
-        // TODO: 생성하기 클릭 시, 거래 링크 생성 페이지로 이동
+        onClick={handleMainBtn}
       ></MainButton>
     </div>
   );

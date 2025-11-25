@@ -1,76 +1,146 @@
 import { useCallback, useRef } from "react";
+import { getPresignedUrl, uploadToS3 } from "@/lib/api/client/uploadServices";
+import { postContractsSignatures } from "@/lib/api/client/contractServices";
+import md5 from "js-md5";
+import { useSignatureStore } from "@/stores/signatureStore";
 
-/**
- *
- * useSignature
- * 서명 관리를 위한 여러가지 함수가 정의되어 있습니다.
- *
- * 1. 서명 캔버스 초기화
- * 2. 서명 png화 (blob)
- * 3. 서명 업로드 (blob -> S3)
- * 4. 서명 업로드 후, 저장된 url 반환
- */
-const useSignature = (onClose, getPresignedUrl) => {
-  // 1. 캔버스 Ref 관리
+const useSignature = (onClose) => {
   const signatureRef = useRef(null);
 
-  // 2. 캔버스 초기화
+  // Store에서 상태와 액션 가져오기
+  const {
+    signUrl,
+    isUploading,
+    error,
+    setSignUrl,
+    setIsUploading,
+    setError,
+    clearSignature: clearSignatureStore,
+    setTempPreviewUrl,
+    clearTempPreviewUrl,
+  } = useSignatureStore();
+
+  // MD5 계산 (유틸 함수)
+  const calculateMD5Base64 = async (blob) => {
+    const arrayBuffer = await blob.arrayBuffer();
+    const md5Hex = md5(arrayBuffer);
+    const md5Bytes = new Uint8Array(
+      md5Hex.match(/.{2}/g).map((h) => parseInt(h, 16)),
+    );
+    return btoa(String.fromCharCode(...md5Bytes));
+  };
+
+  // 캔버스 초기화
   const clearSignature = useCallback(() => {
     if (signatureRef.current) {
       signatureRef.current.clear();
     }
   }, []);
 
-  // 3. 서명 저장 및 업로드
-  const saveSignature = useCallback(async () => {
-    if (!signatureRef.current || signatureRef.current.isEmpty()) {
-      alert("서명을 입력해주세요.");
-      return;
-    }
+  // 서명 저장 및 s3 업로드
+  const saveSignature = useCallback(
+    async (contractId, signer) => {
+      if (!signatureRef.current || signatureRef.current.isEmpty()) {
+        alert("서명을 입력해주세요.");
+        return false;
+      }
 
-    const canvas = signatureRef.current.getCanvas();
+      setIsUploading(true);
+      setError(null);
 
-    // (1) canvas -> blob 변환
-    const uploadPromise = new Promise((resolve, reject) => {
-      canvas.toBlob(async (blob) => {
+      try {
+        const canvas = signatureRef.current.getCanvas();
+        const blob = await new Promise((resolve) =>
+          canvas.toBlob(resolve, "image/png"),
+        );
+
         if (!blob) {
-          reject(
-            new Error("캔버스에서 Blob 데이터를 가져오는 데 실패했습니다."),
-          );
-          return;
+          throw new Error("캔버스에서 Blob 데이터를 가져오는 데 실패했습니다.");
         }
 
-        // (2) S3에 업로드
-        try {
-          const presignedUrl = await getPresignedUrl();
-          const uploadResponse = await fetch(presignedUrl, {
-            // TODO: 요청 부분 추후 수정 필요
-            method: "PUT",
-            body: blob,
-            headers: {
-              "Content-Type": "image/png",
-            },
-          });
+        // 👉 모달 닫힌 후 표시할 미리보기 URL 생성
+        const previewUrl = URL.createObjectURL(blob);
+        setTempPreviewUrl(previewUrl);
 
-          if (!uploadResponse.ok) {
-            throw new Error(
-              `S3 업로드에 실패했습니다. 상태: ${uploadResponse.status}`,
-            );
-          }
+        // 파일명 생성
+        const timestamp = new Date().toISOString();
+        const filename = `${contractId}/${signer}-signature-${timestamp}.png`;
 
-          // (3) S3 URL 추출 및 성공 콜백 호출
-          const fileUrl = presignedUrl.split("?")[0];
-          // TODO: 업로드 완료 된 URL(fileUrl) 반환 처리 필요
-          onClose();
-        } catch (error) {
-          alert("서명 업로드 중 문제가 발생했습니다. 다시 시도해주세요.");
-          reject(error);
-        }
-      }, "image/png");
-    });
-  }, [getPresignedUrl, onClose]);
+        // MD5 계산
+        const md5Base64 = await calculateMD5Base64(blob);
 
-  return { signatureRef, clearSignature, saveSignature };
+        // Presigned URL 요청
+        const response = await getPresignedUrl(
+          filename,
+          "image/png",
+          md5Base64,
+        );
+        const presignedUrl = JSON.parse(response.data.body).url;
+
+        // S3 업로드
+        await uploadToS3(presignedUrl, blob, md5Base64);
+
+        const fileUrl = presignedUrl.split("?")[0];
+
+        setSignUrl(fileUrl);
+        setIsUploading(false);
+
+        // 모달 닫기
+        setTimeout(() => onClose?.(), 0);
+
+        return true;
+      } catch (error) {
+        console.error("❌ Upload error:", error);
+        setError(error.message);
+        setIsUploading(false);
+        alert("서명 업로드 중 오류가 발생했습니다.");
+        return false;
+      }
+    },
+    [setSignUrl, setIsUploading, setError, setTempPreviewUrl, onClose],
+  );
+
+  // 서명 URL 서버 전송
+  const fetchSignUrl = useCallback(
+    async (contractId) => {
+      if (!signUrl) {
+        console.error("❌ SignUrl is not available");
+        alert("서명 URL이 준비되지 않았습니다. 먼저 서명을 완료해주세요.");
+        return false;
+      }
+
+      try {
+        await postContractsSignatures(contractId, { signatureUrl: signUrl });
+
+        // 서버에 저장 후 store clear
+        clearSignature();
+        clearTempPreviewUrl();
+        return true;
+      } catch (error) {
+        console.error("❌ Submit error:", error);
+        setError(error.message);
+        alert("서명 전송 중 오류가 발생했습니다.");
+        return false;
+      }
+    },
+    [signUrl, setError],
+  );
+
+  return {
+    // Refs
+    signatureRef,
+
+    // State
+    signUrl,
+    isUploading,
+    error,
+
+    // Actions
+    clearSignature,
+    saveSignature,
+    fetchSignUrl,
+    clearSignatureStore,
+  };
 };
 
 export default useSignature;
