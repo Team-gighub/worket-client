@@ -1,6 +1,6 @@
 "use client";
 import "@/app/globals.css";
-import { React, useEffect } from "react";
+import { React, useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { useContractCreateStore } from "@/stores/contractCreateStore";
 import InfoText from "@/components/common/InfoText";
@@ -22,7 +22,6 @@ const CreatePage = () => {
       try {
         // 1. ('users/me')호출
         const response = await getUsers();
-        console.log(response);
 
         // 2. 응답 데이터 추출(휴대폰, 이름 추출)
         const phone = response.data.phone;
@@ -90,7 +89,6 @@ const CreatePage = () => {
       alert("종료일은 시작일 이후여야 합니다.");
       return;
     }
-
     router.push("/transactions/create/preview");
   };
 
