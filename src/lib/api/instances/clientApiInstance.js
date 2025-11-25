@@ -30,7 +30,6 @@ export const createClientAxiosInstance = () => {
           case "ACCESS_3001":
             return err.response;
           case "AUTH_2001":
-            console.log("dd");
             window.location.href = "/signup";
             return;
           case "AUTH_3001":
