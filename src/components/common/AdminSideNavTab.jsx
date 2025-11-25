@@ -66,9 +66,7 @@ const AdminSideNavTab = () => {
               <button
                 key={tab.id}
                 onClick={() => handleTabClick(tab.path)}
-                className={`flex flex-col items-center gap-2 py-3 px-2 rounded-lg transition-all hover:bg-basic-300 ${
-                  isActive ? "bg-basic-300" : ""
-                }`}
+                className={`flex flex-col items-center gap-2 py-3 px-2 rounded-lg transition-all hover:bg-basic-300`}
               >
                 <div className="relative w-8 h-8">
                   <Image
