@@ -21,6 +21,15 @@ body {
   font-size: 1.6rem;
 }
 
+/* Admin & Mobile View Styles */
+.mobile-view {
+  @apply flex;
+}
+
+.admin-view {
+  @apply block;
+}
+
 @layer base {
   :root {
     --background: 0 0% 100%;
