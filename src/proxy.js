@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
 
-export const middleware = (request) => {
+const proxy = (request) => {
   const { pathname } = request.nextUrl;
   const response = NextResponse.next();
 
@@ -14,6 +14,4 @@ export const middleware = (request) => {
   return response;
 };
 
-export const config = {
-  matcher: ["/((?!api|_next/static|_next/image|favicon.ico).*)"],
-};
+export default proxy;
