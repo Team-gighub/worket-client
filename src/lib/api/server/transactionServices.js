@@ -7,9 +7,13 @@ const getTransactions = async (year, month) => {
   return serverInstance.get(`/transactions?year=${year}&month=${month}`);
 };
 
-/** 거래 상세 조회 (GET /transactions/{transactionId}) */
-const getTransactionsDetail = async (transactionId) => {
-  const serverInstance = await createServerAxiosInstance();
+/** 거래 상세 조회 (GET /transactions/{transactionId})
+ * client, freelancer 공통 사용 로직이므로 role에 따라 401,403에러 시 분기처리
+ */
+const getTransactionsDetail = async (transactionId, role = "FREELANCER") => {
+  const serverInstance = await createServerAxiosInstance(
+    role === "CLIENT" ? transactionId : "",
+  );
   return serverInstance.get(`/transactions/${transactionId}`);
 };
 
@@ -24,7 +28,7 @@ const getTransactionsPreview = async (transactionId) => {
 
 /** 거래 접근권한 판단 (GET /transactions/{transactionId}/permissions) */
 const getTransactionsPermissions = async (transactionId) => {
-  const serverInstance = await createServerAxiosInstance();
+  const serverInstance = await createServerAxiosInstance(transactionId);
   return serverInstance.get(`/transactions/${transactionId}/permissions`);
 };
 
