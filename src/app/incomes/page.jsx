@@ -98,12 +98,11 @@ const Incomes = () => {
       subText: "거래 수는 정산까지 완료된 건만 표시됩니다.",
     },
   };
-  //연간 거래 띄우기
+  //연간 거래
   const yearData = data.currentYearProfit || {
     incomes: 0,
     transactions: 0,
   };
-  console.log(yearData);
   return (
     <div>
       {/* 타입 선택 버튼 */}
