@@ -14,11 +14,11 @@ const PGLayout = ({ children }) => {
   const pathname = usePathname();
 
   // 헤더 정보 설정
-  let headerTitle = "거래 관리";
+  let headerTitle = "출금 계좌선택";
   let canGoBack = false;
 
-  if (pathname === "/pg") {
-    headerTitle = "출금 계좌 선택";
+  if (pathname.includes("/account")) {
+    headerTitle = "계좌번호 입력";
     canGoBack = false;
   }
 
