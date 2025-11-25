@@ -31,7 +31,7 @@ const PgMain = () => {
 
             {/* 오른쪽 Close 버튼 */}
             <button
-              onClick={() => router.push("/")}
+              onClick={() => router.push(`/trade/${id}/deposit`)}
               className="flex flex-col items-center hover:opacity-80"
               aria-label="닫기"
             >

@@ -6,7 +6,7 @@ import { useRouter, useParams } from "next/navigation";
 import InputAccount from "@/components/common/InputField";
 import DualButtons from "@/components/common/DualButtons";
 import { useState, useEffect } from "react";
-import TradePasscodeForm from "@/components/passcode/TradePasscodeForm";
+import TradePasscodeForm from "@/components/passcode/PGPasscodeForm";
 
 const SelectAccount = () => {
   const router = useRouter();
@@ -78,7 +78,7 @@ const SelectAccount = () => {
 
             {/* X 버튼 */}
             <button
-              onClick={() => router.push("/")}
+              onClick={() => router.push(`/trade/${id}/deposit`)}
               className="flex flex-col items-center hover:opacity-80"
               aria-label="닫기"
             >
