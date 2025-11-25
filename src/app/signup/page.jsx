@@ -18,12 +18,12 @@ const SignUp = () => {
 
   // TODO: 카테고리 설정 필요
   const category = [
-    "카테고리1",
-    "카테고리2",
-    "카테고리3",
-    "카테고리4",
-    "카테고리5",
-    "카테고리6",
+    "웹/앱 개발자",
+    "디자이너",
+    "콘텐츠 제작자",
+    "MC/사회자",
+    "번역/통역가",
+    "작가/에디터",
   ];
 
   const handleSubmit = async () => {
@@ -31,7 +31,7 @@ const SignUp = () => {
     setLoading(true);
 
     try {
-      const res = await postUsers({
+      await postUsers({
         businessSector,
         businessSectorYears: Number(businessSectorYears),
       });
@@ -47,7 +47,6 @@ const SignUp = () => {
 
   return (
     <div className="h-full flex flex-col">
-      {/* TODO: 업종/업력 입력을 위한 소개글 결정 필요 */}
       <div>
         <InfoText
           mainTexts={["업종과 업력을 입력해주세요"]}
