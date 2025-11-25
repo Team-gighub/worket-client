@@ -9,7 +9,6 @@ import { useState, useEffect } from "react";
 import TradePasscodeForm from "@/components/passcode/TradePasscodeForm";
 
 const SelectAccount = () => {
-  //console.log(passcode);
   const router = useRouter();
   const { id } = useParams();
   const [accountNumber, setAccountNumber] = useState("");
