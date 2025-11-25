@@ -48,7 +48,6 @@ const SelectAccount = () => {
   };
   const handlePasscodeComplete = (enteredPasscode) => {
     setPasscode(enteredPasscode); // SelectAccount state에 저장
-    console.log("입력 완료 패스코드:", enteredPasscode);
     //TODO: PG server API 호출-> accountNumber,selectedBankId 같이 넘김
   };
   const { label, icon } = selectedBankInfo;
