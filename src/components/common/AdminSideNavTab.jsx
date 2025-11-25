@@ -1,47 +1,43 @@
 "use client";
 
 import React from "react";
-import { useRouter, usePathname } from "next/navigation";
+import { usePathname } from "next/navigation";
 import Image from "next/image";
+import Link from "next/link";
+
+const tabs = [
+  {
+    id: "dashboard",
+    label: "홈",
+    path: "/admin",
+    icon: "/icons/icHome.png",
+    activeIcon: "/icons/icHomeActive.png",
+  },
+  {
+    id: "transactions",
+    label: "거래 관리",
+    path: "/admin/transactions",
+    icon: "/icons/icTransaction.png",
+    activeIcon: "/icons/icTransactionActive.png",
+  },
+  {
+    id: "incomes",
+    label: "소득 관리",
+    path: "/admin/incomes",
+    icon: "/icons/icIncome.png",
+    activeIcon: "/icons/icIncomeActive.png",
+  },
+  {
+    id: "users",
+    label: "사용자",
+    path: "/admin/users",
+    icon: "/icons/icMypage.png",
+    activeIcon: "/icons/icMypageActive.png",
+  },
+];
 
 const AdminSideNavTab = () => {
-  const router = useRouter();
   const pathname = usePathname();
-
-  const tabs = [
-    {
-      id: "dashboard",
-      label: "홈",
-      path: "/admin",
-      icon: "/icons/icHome.png",
-      activeIcon: "/icons/icHomeActive.png",
-    },
-    {
-      id: "transactions",
-      label: "거래 관리",
-      path: "/admin/transactions",
-      icon: "/icons/icTransaction.png",
-      activeIcon: "/icons/icTransactionActive.png",
-    },
-    {
-      id: "incomes",
-      label: "소득 관리",
-      path: "/admin/incomes",
-      icon: "/icons/icIncome.png",
-      activeIcon: "/icons/icIncomeActive.png",
-    },
-    {
-      id: "users",
-      label: "사용자",
-      path: "/admin/users",
-      icon: "/icons/icMypage.png",
-      activeIcon: "/icons/icMypageActive.png",
-    },
-  ];
-
-  const handleTabClick = (path) => {
-    router.push(path);
-  };
 
   return (
     <aside className="w-[10rem] h-full bg-basic-200 flex-shrink-0">
@@ -60,12 +56,15 @@ const AdminSideNavTab = () => {
         {/* 네비게이션 메뉴 */}
         <nav className="flex flex-col gap-4 w-full px-4">
           {tabs.map((tab) => {
-            const isActive = pathname === tab.path;
+            const isActive =
+              tab.id === "dashboard"
+                ? pathname === tab.path
+                : pathname.startsWith(tab.path);
 
             return (
-              <button
+              <Link
                 key={tab.id}
-                onClick={() => handleTabClick(tab.path)}
+                href={tab.path}
                 className={`flex flex-col items-center gap-2 py-3 px-2 rounded-lg transition-all hover:bg-basic-300`}
               >
                 <div className="relative w-8 h-8">
@@ -85,7 +84,7 @@ const AdminSideNavTab = () => {
                 >
                   {tab.label}
                 </span>
-              </button>
+              </Link>
             );
           })}
         </nav>
