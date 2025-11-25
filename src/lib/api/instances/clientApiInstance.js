@@ -1,3 +1,4 @@
+"use client";
 import axios from "axios";
 
 export const createClientAxiosInstance = () => {
@@ -19,18 +20,22 @@ export const createClientAxiosInstance = () => {
           case "ACCESS_1001":
             return err.response;
           default:
-            redirect("/login");
+            window.location.href = "/login";
         }
       }
 
       if (err.response?.status === 403) {
+        console.log(err.response.data.customCode === "AUTH_2001");
         switch (err.response.data.customCode) {
           case "ACCESS_3001":
             return err.response;
           case "AUTH_2001":
-            redirect("/signup");
+            console.log("dd");
+            window.location.href = "/signup";
+            return;
           case "AUTH_3001":
-            redirect("/passcode");
+            window.location.href = "/passcode";
+            return;
           default:
             return Promise.reject(err.response?.data || new Error(err.message));
         }

@@ -26,7 +26,17 @@ export const useContractCreateStore = create(
             },
           },
         })),
-
+      setFreelancerInfo: (name, phone) =>
+        set((state) => ({
+          contract: {
+            ...state.contract,
+            freelancerInfo: {
+              ...state.contract.freelancerInfo,
+              name: name,
+              phone: phone,
+            },
+          },
+        })),
       /**
        * 계약 객체의 최상위 필드를 병합하여 한 번에 업데이트합니다.
        * 예: { contractInfo: { title: '새 제목' }, clientInfo: { name: '새 이름' } }

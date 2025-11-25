@@ -3,13 +3,17 @@ import "@/app/globals.css";
 import DualButtons from "@/components/common/DualButtons";
 import InfoText from "@/components/common/InfoText";
 import useCopyToClipboard from "@/hooks/useCopyToClipboard";
-import { useRouter } from "next/navigation";
+import { useRouter, useParams } from "next/navigation";
 
 /* 새 계약서 생성하기 */
 const CreateLink = () => {
   const router = useRouter();
-  //추후 거래생성 링크로 변경 예정
-  const linkToCopy = "https://www.naver.com/";
+  //{id} 값 가져오기
+  const params = useParams();
+  const transactionId = params.id;
+  //거래 링크 생성
+  //TODO: 우리 도메인 링크로 변경
+  const linkToCopy = `${process.env.NEXT_PUBLIC_CLIENT_BASE_URL}/trade/${transactionId}`;
   const [isCopied, copy] = useCopyToClipboard();
   const handleMainButton = () => {
     copy(linkToCopy);
