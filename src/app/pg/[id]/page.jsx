@@ -10,6 +10,7 @@ const PgMain = () => {
   const { id } = useParams();
   const router = useRouter();
   const selectBank = usePaymentStore((state) => state.selectBank);
+  const MAX_PAYMENT_OPTIONS_TO_SHOW = 15;
   const handlePaymentSelect = (bank) => {
     selectBank(bank.id, bank);
     router.push(`${id}/account`);
@@ -53,14 +54,16 @@ const PgMain = () => {
           </h2>
           <div className="grid grid-cols-3 gap-12">
             {/* 들어있는 은행 만큼 */}
-            {paymentOptions.slice(0, 15).map((option) => (
-              <PaymentButton
-                key={option.id}
-                label={option.label}
-                icon={option.icon}
-                onClick={() => handlePaymentSelect(option)}
-              />
-            ))}
+            {paymentOptions
+              .slice(0, MAX_PAYMENT_OPTIONS_TO_SHOW)
+              .map((option) => (
+                <PaymentButton
+                  key={option.id}
+                  label={option.label}
+                  icon={option.icon}
+                  onClick={() => handlePaymentSelect(option)}
+                />
+              ))}
           </div>
         </div>
       </div>

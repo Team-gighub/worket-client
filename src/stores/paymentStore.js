@@ -24,11 +24,11 @@ export const usePaymentStore = create(
       // 1. 상태 초기값
       selectedBankId: null,
       selectedBankInfo: {
-        id: "",
-        label: "",
+        id: null,
+        label: null,
         icon: {
-          src: "",
-          alt: "",
+          src: null,
+          alt: null,
         },
       },
       selectedAccount: null,
