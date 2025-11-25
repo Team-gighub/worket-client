@@ -93,15 +93,9 @@ const useSignature = () => {
       setError(null);
 
       try {
-        // Base64 데이터를 Blob으로 변환
-        const byteCharacters = atob(base64Data);
-        const byteNumbers = new Array(byteCharacters.length);
-        for (let i = 0; i < byteCharacters.length; i++) {
-          byteNumbers[i] = byteCharacters.charCodeAt(i);
-        }
-        const byteArray = new Uint8Array(byteNumbers);
-        const blob = new Blob([byteArray], { type: "image/png" });
-
+        const blob = await (
+          await fetch(`data:image/png;base64,${base64Data}`)
+        ).blob();
         // 파일명 생성
         const timestamp = new Date().toISOString();
         const filename = `${contractId}/${signer}-signature-${timestamp}.png`;
@@ -148,7 +142,6 @@ const useSignature = () => {
     ],
   );
   const fetchSignUrl = useCallback(async (contractId) => {
-    console.log(`Contract ID: ${contractId}에 대한 다음 단계 진행.`);
     return true;
   }, []);
   return {
