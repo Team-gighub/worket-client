@@ -26,9 +26,7 @@ const RootLayout = async ({ children }) => {
       >
         {/* Admin View - 웹 레이아웃 */}
         {isAdmin && (
-          <div className="w-full h-[100dvh] bg-basic-100">
-            <main className="h-full overflow-y-auto">{children}</main>
-          </div>
+          <div className="w-full h-[100dvh] bg-basic-100">{children}</div>
         )}
 
         {/* Mobile View - 모바일 레이아웃 */}
