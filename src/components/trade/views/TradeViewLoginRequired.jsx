@@ -19,7 +19,7 @@ const TradeViewLoginRequired = async ({ id }) => {
         subText="거래를 시작하기 전, 본인인증을 진행해주세요"
       />
       <TradeStepIndicator currentStep={0} />
-      <TradeLogin />
+      <TradeLogin id={id} />
     </TradeViewLayout>
   );
 };
