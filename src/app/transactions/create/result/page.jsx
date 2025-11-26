@@ -13,14 +13,16 @@ const CreateResultPage = () => {
   const router = useRouter();
 
   const [transactionId] = useSessionStorage("transactionId");
+  const [contractId] = useSessionStorage("contractId");
   const { fetchSignUrl } = useSignature();
 
   const handleMainBtn = async () => {
     if (transactionId) {
-      const contractId = sessionStorage.getItem("contractId");
-      await fetchSignUrl(contractId);
-      //거래 링크 페이지로 이동
-      router.push(`/transactions/${transactionId}/create-link`);
+      try {
+        await fetchSignUrl(contractId);
+        //거래 링크 페이지로 이동
+        router.push(`/transactions/${transactionId}/create-link`);
+      } catch {}
     } else {
       console.error("❌ Response does not contain a valid transaction ID.");
     }
@@ -32,7 +34,7 @@ const CreateResultPage = () => {
         subText="잘못된 경우 다시 작성해주세요"
       />
       <ContractInfo />
-      <SignatureForm userRole="FREELANCER" />
+      <SignatureForm contractId={contractId} userRole="FREELANCER" />
       <MainButton
         text="생성하기"
         width="34rem"

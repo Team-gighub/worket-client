@@ -8,10 +8,9 @@ import MainButton from "./MainButton";
  * @param {function(): void} onClose - 서명 완료 동작이 수행되고 나면, 바텀시트가 닫히도록 지정하는 함수
  * @param {string} userRole - 서명하는 사용자의 역할 ("CLIENT" 또는 "FREELANCER")
  */
-const Signature = ({ onClose, userRole }) => {
+const Signature = ({ onClose, userRole, contractId }) => {
   const { signatureRef, clearSignature, saveSignature } = useSignature(onClose);
   const saveSignatureAndPost = async () => {
-    const contractId = sessionStorage.getItem("contractId");
     await saveSignature(contractId, userRole);
   };
   return (

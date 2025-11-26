@@ -4,7 +4,7 @@ import ContractTemplate from "@/components/common/ContractTemplate";
 import InfoText from "@/components/common/InfoText";
 import MainButton from "@/components/common/MainButton";
 import SignatureForm from "@/components/common/SignatureForm";
-import { postContractsSignatures } from "@/lib/api/client/contractServices";
+import useSignature from "@/hooks/useSignature";
 import { useTradeDataStore } from "@/stores/tradeDataStore";
 import { useParams, useRouter } from "next/navigation";
 
@@ -12,17 +12,14 @@ const TradeSign = () => {
   const router = useRouter();
   const { id } = useParams();
 
-  // TODO: 계약서 보기에 쓰임
+  const { fetchSignUrl } = useSignature();
   const { data: tradeData } = useTradeDataStore();
   if (!tradeData) return;
-  const { contractInfo, clientInfo, freelancerInfo } = tradeData;
-
+  const { contractInfo, clientInfo, freelancerInfo, contractId } = tradeData;
   const handleSignClick = async () => {
-    if (id) {
+    if (contractId && id) {
       try {
-        // await postContractsSignatures(tradeData.contractId, {
-        //   signatureUrl: "https://gifted-colon.org/",
-        // });
+        await fetchSignUrl(contractId);
 
         router.push(`/trade/${id}/signed`);
       } catch (err) {
@@ -41,7 +38,7 @@ const TradeSign = () => {
         clientInfo={clientInfo}
         freelancerInfo={freelancerInfo}
       />
-      <SignatureForm userRole="CLIENT" />
+      <SignatureForm userRole="CLIENT" contractId={contractId} />
       <MainButton text="서명 완료하기" onClick={handleSignClick} />
     </div>
   );
