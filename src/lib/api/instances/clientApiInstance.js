@@ -1,3 +1,4 @@
+"use client";
 import axios from "axios";
 
 export const createClientAxiosInstance = () => {
@@ -12,11 +13,32 @@ export const createClientAxiosInstance = () => {
   instance.interceptors.response.use(
     (res) => res.data,
     (err) => {
-      console.error("[Client API Error]", err);
+      console.error("[Client API Error]", err.response);
+
       if (err.response?.status === 401) {
-        // 로그인 페이지로 이동
-        window.location.href = "/login";
-        return;
+        switch (err.response.data.customCode) {
+          case "ACCESS_1001":
+            return err.response;
+          default:
+            window.location.href = "/login";
+        }
+      }
+
+      if (err.response?.status === 403) {
+        console.log(err.response.data.customCode === "AUTH_2001");
+        switch (err.response.data.customCode) {
+          case "ACCESS_3001":
+            return err.response;
+          case "AUTH_2001":
+            console.log("dd");
+            window.location.href = "/signup";
+            return;
+          case "AUTH_3001":
+            window.location.href = "/passcode";
+            return;
+          default:
+            return Promise.reject(err.response?.data || new Error(err.message));
+        }
       }
 
       return Promise.reject(err.response?.data || new Error(err.message));

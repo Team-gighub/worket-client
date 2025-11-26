@@ -2,13 +2,13 @@
 
 import React from "react";
 import TradeStepIcon from "./TradeStepIcon";
+import ViewContractButton from "./ViewContractButton";
 
 /**
  * 거래 단계 표시 컴포넌트
  * @param {number} currentStep - 현재 단계 (0~5)
- * @param {function} onViewContract - 계약서 보기 버튼 클릭 핸들러
- */
-const TradeStepIndicator = ({ currentStep = 0, onViewContract }) => {
+ * @param {string} pdfUrl - 계약서 pdf url */
+const TradeStepIndicator = ({ currentStep = 0, pdfUrl }) => {
   const steps = [
     { id: 1, label: "STEP 1", title: "계약서 확인" },
     { id: 2, label: "STEP 2", title: "대금 예치" },
@@ -53,15 +53,9 @@ const TradeStepIndicator = ({ currentStep = 0, onViewContract }) => {
                     {step.title}
                   </span>
                 </div>
-
                 {/* 계약서 보기 버튼 */}
                 {step.id === 1 && currentStep >= 2 && currentStep <= 4 && (
-                  <button
-                    onClick={onViewContract}
-                    className="mr-auto px-[0.5rem] py-[0.3rem] bg-point-red-200 text-white rounded-[5px] pretendard-medium-12"
-                  >
-                    계약서 보기
-                  </button>
+                  <ViewContractButton pdfUrl={pdfUrl} />
                 )}
               </div>
             </li>

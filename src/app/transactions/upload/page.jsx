@@ -91,7 +91,7 @@ const UploadPage = () => {
       <section className="flex flex-col items-center w-full mb-6 mt-8">
         <label
           htmlFor="file"
-          className="w-[31rem] h-[32rem] bg-basic-200 border-2 border-dashed border-gr border-basic-300 flex flex-col items-center justify-center rounded-lg cursor-pointer hover:border-basic-500 transition"
+          className="w-[31rem] h-[32rem] border-2 border-dashed border-basic-300 flex flex-col items-center justify-center rounded-lg cursor-pointer hover:border-basic-500 transition"
         >
           {file ? (
             <p className="text-basic-600">{file.name}</p>
