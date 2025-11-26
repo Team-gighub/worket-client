@@ -41,13 +41,21 @@ const postContracts = async (payload) => {
 };
 
 /** 서명 등록 (POST /contracts/${contractId}/signatures)
+ * role에 따른 에러 리다이랙트 필요
 [payload 예시]
 payload = {
   signatureUrl: "https://gifted-colon.org/",
 };
 */
-const postContractsSignatures = async (contractId, payload) => {
-  const serverInstance = await createServerAxiosInstance();
+const postContractsSignatures = async (
+  contractId,
+  payload,
+  role = "FREELANCER",
+  transactionId = "",
+) => {
+  const serverInstance = await createServerAxiosInstance(
+    role === "CLIENT" ? transactionId : "",
+  );
   return serverInstance.post(`/contracts/${contractId}/signatures`, payload);
 };
 

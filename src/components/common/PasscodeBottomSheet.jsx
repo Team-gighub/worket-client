@@ -10,7 +10,7 @@ const PasscodeBottomSheet = ({ isOpen, onClose }) => {
     <BottomSheet isOpen={isOpen} onClose={onClose}>
       <PasscodeForm
         mode="verify"
-        handlePinComplete={() => {
+        handlePasscodeComplete={() => {
           router.push("/transactions/create/result");
         }}
       />

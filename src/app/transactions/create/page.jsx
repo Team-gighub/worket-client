@@ -39,13 +39,6 @@ const CreatePage = () => {
   }, []);
   const { contractInfo, clientInfo, freelancerInfo } = data;
 
-  /* TODO: 더미 데이터 수정 필요 */
-  const bankOptions = [
-    { value: "우리은행", label: "우리은행" },
-    { value: "신한은행", label: "신한은행" },
-    { value: "국민은행", label: "국민은행" },
-  ];
-
   const handleNextStep = () => {
     const requiredFields = [
       { path: "contractInfo.title", message: "계약명을 입력해주세요." },
@@ -160,7 +153,6 @@ const CreatePage = () => {
             question="입금받을 계좌번호 입력"
             placeholder="- 없이 숫자만 입력해주세요"
             inputValue={freelancerInfo.account || ""}
-            selectOptions={bankOptions}
             onInputChange={(e) =>
               setNestedField("freelancerInfo", "account", e.target.value)
             }

@@ -27,11 +27,7 @@ const SignatureForm = ({ userRole, contractId }) => {
       </button>
 
       <BottomSheet isOpen={isOpen} onClose={close}>
-        <Signature
-          onClose={close}
-          userRole={userRole}
-          contractId={contractId}
-        />
+        <Signature onClose={close} />
       </BottomSheet>
     </div>
   );
