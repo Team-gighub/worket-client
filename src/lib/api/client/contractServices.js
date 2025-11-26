@@ -41,13 +41,22 @@ const postContracts = (payload) => {
 };
 
 /** 서명 등록 (POST /contracts/${contractId}/signatures)
+ * role에 따른 에러 리다이랙트 필요
 [payload 예시]
 payload = {
   signatureUrl: "https://gifted-colon.org/",
 };
 */
-const postContractsSignatures = (contractId, payload) => {
-  return clientInstance.post(`/contracts/${contractId}/signatures`, payload);
+const postContractsSignatures = (
+  contractId,
+  payload,
+  role = "FREELANCER",
+  transactionId = "",
+) => {
+  const instance = createClientAxiosInstance(
+    role === "CLIENT" ? transactionId : "",
+  );
+  return instance.post(`/contracts/${contractId}/signatures`, payload);
 };
 
 export { postContractsExtract, postContracts, postContractsSignatures };
