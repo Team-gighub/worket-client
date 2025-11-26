@@ -3,15 +3,23 @@
  * @param {string} phone 010-xxxx-xxxx 형식의 전화번호 포매터
  * @returns
  */
-export const formatPhone = (phone) => {
-  if (!phone) return "";
+export const formatPhone = (value) => {
+  if (!value) return "";
 
-  // 혹시 숫자로 들어왔을 경우 대비 → 문자열로 변환
-  const strPhone = String(phone);
+  // 숫자만 추출
+  let cleaned = value.replace(/\D/g, "");
 
-  // 숫자만 남기기 (하이픈, 공백 제거)
-  const cleaned = strPhone.replace(/\D/g, "");
+  // 11자리 이상 입력 안되게 제한
+  cleaned = cleaned.slice(0, 11);
 
-  // 3-3-4 또는 3-4-4 형태로 포맷
-  return cleaned.replace(/(\d{3})(\d{3,4})(\d{4})/, "$1-$2-$3");
+  // 자리수에 따라 동적으로 포맷팅
+  if (cleaned.length < 4) {
+    return cleaned; // 3자리 이하 → 그냥 표시
+  }
+
+  if (cleaned.length < 7) {
+    return `${cleaned.slice(0, 3)}-${cleaned.slice(3)}`;
+  }
+
+  return `${cleaned.slice(0, 3)}-${cleaned.slice(3, 7)}-${cleaned.slice(7)}`;
 };

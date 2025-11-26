@@ -1,6 +1,6 @@
 "use client";
 import "@/app/globals.css";
-import { React, useEffect, useState } from "react";
+import { React, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { useContractCreateStore } from "@/stores/contractCreateStore";
 import InfoText from "@/components/common/InfoText";
@@ -8,6 +8,7 @@ import InputField from "@/components/common/InputField";
 import InputAccountField from "@/components/common/InputAccountField";
 import MainButton from "@/components/common/MainButton";
 import { getUsers } from "@/lib/api/client/userServices";
+import { formatPhone } from "@/app/utils/phoneFormatter";
 
 /* 새 계약서 생성하기 */
 const CreatePage = () => {
@@ -151,7 +152,7 @@ const CreatePage = () => {
             value={clientInfo.phone || ""}
             onChange={(e) => {
               const value = e.target.value;
-              const filtered = value.replaceAll(/\D/g, "").slice(0, 11);
+              const filtered = formatPhone(value);
               setNestedField("clientInfo", "phone", filtered);
             }}
           />
