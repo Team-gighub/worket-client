@@ -5,16 +5,36 @@ import HomeButton from "@/components/home/Button";
 import ContractImg from "@/assets/transaction-upload.png";
 import ContractImg2 from "@/assets/transaction-create.png";
 import { useRouter } from "next/navigation";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import MainButton from "@/components/common/MainButton";
 import ProfitCard from "@/components/home/ProfitCard";
 import { useTransactionStore } from "@/stores/transactionStore";
+import { getUsers } from "@/lib/api/client/userServices";
 
 /* 로그인 후 홈화면 */
 const LoggedInHome = () => {
   const { transactionData, fetchTransactions } = useTransactionStore();
-
+  const [name, setName] = useState("");
+  //초기 데이터 패칭(이후 계약서 생성 시 사용)
   useEffect(() => {
+    const fetchUserData = async () => {
+      try {
+        // 1. ('users/me')호출
+        const response = await getUsers();
+
+        // 2. 응답 데이터 추출(휴대폰, 이름 추출)
+        const phone = response.data.phone;
+        const username = response.data.name;
+        setName(username);
+
+        // 3. 저장
+        setFreelancerInfo(username, phone);
+      } catch (err) {
+        console.log(err);
+      }
+    };
+
+    fetchUserData();
     if (!transactionData) {
       const now = new Date();
       fetchTransactions({
@@ -72,7 +92,7 @@ const LoggedInHome = () => {
       <div className="flex flex-col items-center w-full max-w-[32rem] px-4 mt-6">
         <div className="w-full mb-6 mx-auto">
           <ProfitCard
-            userName="youn"
+            userName={name}
             profitAmount={profitAmount}
             statusData={selectedStatusData}
           ></ProfitCard>
