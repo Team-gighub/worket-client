@@ -5,6 +5,7 @@ import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { getUsers } from "@/lib/api/client/userServices";
 import { postLogout, postUnlink } from "@/lib/api/client/authServices";
+import LoadingSpinner from "@/components/common/LoadingSpinner";
 
 /* 마이 페이지 */
 const MyPage = () => {
@@ -94,7 +95,7 @@ const MyPage = () => {
   };
 
   if (isLoading) {
-    return <div>로딩 중...</div>;
+    return <LoadingSpinner isLoading={isLoading} />;
   }
 
   const myInfoItems = [

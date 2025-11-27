@@ -8,6 +8,7 @@ import { useRouter } from "next/navigation";
 import { getUsers, postUsers } from "@/lib/api/client/userServices";
 import { formatDateYMD } from "@/app/utils/dateFormatter";
 import { formatGender, displayGender } from "@/app/utils/genderFormatter";
+import LoadingSpinner from "@/components/common/LoadingSpinner";
 
 /* 회원 정보 수정 화면 */
 const Edit = () => {
@@ -203,7 +204,7 @@ const Edit = () => {
   };
 
   if (isLoading) {
-    return <div className="py-[5rem]">로딩 중...</div>;
+    return <LoadingSpinner isLoading={isLoading} />;
   }
 
   return (

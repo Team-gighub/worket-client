@@ -7,10 +7,12 @@ import CustomBarChart from "@/components/charts/CustomBarChart";
 import contract_3d_icon from "@/assets/contract_3d_icon.png";
 import Image from "next/image";
 import { getStatistics } from "@/lib/api/client/statisticServices";
+import LoadingSpinner from "@/components/common/LoadingSpinner";
 
 const Incomes = () => {
   const [type, setType] = useState("INCOME"); // INCOME | TRANSACTIONS
   const [data, setData] = useState(null);
+  const [isLoading, setIsLoading] = useState(false);
 
   const handleTypeToggle = (clickedType) => {
     setType((prev) =>
@@ -25,9 +27,11 @@ const Incomes = () => {
   useEffect(() => {
     const getData = async () => {
       try {
+        setIsLoading(true);
         const response = await getStatistics();
         const serverData = response.data;
         setData(serverData);
+        setIsLoading(false);
       } catch (err) {
         console.error(err);
       }
@@ -35,7 +39,9 @@ const Incomes = () => {
     getData();
   }, []);
 
-  if (!data) return <p>로딩중...</p>;
+  if (isLoading || !data) {
+    return <LoadingSpinner isLoading={true} />;
+  }
   const serverStatistics = data.statistics || [];
   // 1. 현재 날짜를 기준으로 최근 3개월의 "YYYY-MM" 문자열을 반환합니다.
   const getPastThreeMonths = () => {
