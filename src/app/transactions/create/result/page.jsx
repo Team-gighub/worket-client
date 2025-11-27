@@ -54,7 +54,7 @@ const CreateResultPage = () => {
         subText="잘못된 경우 다시 작성해주세요"
       />
       <ContractInfo />
-      <SignatureForm userRole="FREELANCER" />
+      <SignatureForm />
       <MainButton
         text="생성하기"
         width="34rem"

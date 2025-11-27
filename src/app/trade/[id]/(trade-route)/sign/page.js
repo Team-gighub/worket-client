@@ -54,7 +54,7 @@ const TradeSign = () => {
         clientInfo={clientInfo}
         freelancerInfo={freelancerInfo}
       />
-      <SignatureForm userRole="CLIENT" />
+      <SignatureForm />
       <MainButton text="서명 완료하기" onClick={handleSignClick} />
     </div>
   );

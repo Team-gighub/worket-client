@@ -5,7 +5,7 @@ import Signature from "./Signature";
 import useBottomSheet from "../../hooks/useBottomSheet";
 import { useSignatureStore } from "@/stores/signatureStore";
 
-const SignatureForm = ({ userRole, contractId }) => {
+const SignatureForm = () => {
   const { isOpen, open, close } = useBottomSheet();
   const { tempPreviewUrl } = useSignatureStore();
 
