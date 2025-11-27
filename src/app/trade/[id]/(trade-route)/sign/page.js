@@ -4,7 +4,9 @@ import ContractTemplate from "@/components/common/ContractTemplate";
 import InfoText from "@/components/common/InfoText";
 import MainButton from "@/components/common/MainButton";
 import SignatureForm from "@/components/common/SignatureForm";
-import { postContractsSignatures } from "@/lib/api/client/contractServices";
+import useSignature from "@/hooks/useSignature";
+import { getTransactionsDetail } from "@/lib/api/client/transactionServices";
+import { useSignatureStore } from "@/stores/signatureStore";
 import { useTradeDataStore } from "@/stores/tradeDataStore";
 import { useParams, useRouter } from "next/navigation";
 
@@ -12,22 +14,35 @@ const TradeSign = () => {
   const router = useRouter();
   const { id } = useParams();
 
-  // TODO: 계약서 보기에 쓰임
-  const { data: tradeData } = useTradeDataStore();
+  const { postSignature, fetchSignUrl } = useSignature();
+  const { tempSignatureData } = useSignatureStore();
+  const { data: tradeData, setTradeData } = useTradeDataStore();
   if (!tradeData) return;
-  const { contractInfo, clientInfo, freelancerInfo } = tradeData;
+  const { contractInfo, clientInfo, freelancerInfo, contractId } = tradeData;
 
   const handleSignClick = async () => {
-    if (id) {
-      try {
-        // await postContractsSignatures(tradeData.contractId, {
-        //   signatureUrl: "https://gifted-colon.org/",
-        // });
+    // 1. 서명 데이터 유무 확인
+    if (!tempSignatureData) {
+      alert("서명란을 클릭하여 서명을 먼저 완료해주세요.");
+      return;
+    }
 
-        router.push(`/trade/${id}/signed`);
-      } catch (err) {
-        console.log(err);
-      }
+    try {
+      // 2. 서명 데이터 (Base64)를 서버 POST, S3 업로드
+      await postSignature(contractId, "CLIENT", tempSignatureData);
+
+      await fetchSignUrl(contractId);
+
+      const { data: updatedTradeData } = await getTransactionsDetail(
+        id,
+        "CLIENT",
+      );
+      setTradeData(updatedTradeData);
+
+      // 거래 링크 페이지로 이동
+      router.push(`/trade/${id}/signed`);
+    } catch (error) {
+      console.error("최종 계약서 생성 중 오류 발생:", error);
     }
   };
   return (
@@ -41,7 +56,7 @@ const TradeSign = () => {
         clientInfo={clientInfo}
         freelancerInfo={freelancerInfo}
       />
-      <SignatureForm userRole="CLIENT" />
+      <SignatureForm />
       <MainButton text="서명 완료하기" onClick={handleSignClick} />
     </div>
   );

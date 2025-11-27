@@ -9,11 +9,10 @@ const TradeSigned = () => {
   const router = useRouter();
   const { id } = useParams();
 
-  const { data: tradeData, updateTradeStatus } = useTradeDataStore();
+  const { data: tradeData } = useTradeDataStore();
 
   const handleSignClick = () => {
     if (id) {
-      updateTradeStatus("SIGNED");
       router.push(`/trade/${id}`);
     }
   };

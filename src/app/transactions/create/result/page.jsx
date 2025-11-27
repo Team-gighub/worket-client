@@ -14,6 +14,7 @@ const CreateResultPage = () => {
   const router = useRouter();
 
   const [transactionId] = useSessionStorage("transactionId");
+  const [contractId] = useSessionStorage("contractId");
   const { postSignature, fetchSignUrl } = useSignature();
   const { tempSignatureData } = useSignatureStore();
 
@@ -29,21 +30,13 @@ const CreateResultPage = () => {
       return;
     }
 
-    const contractId = sessionStorage.getItem("contractId");
-
     try {
       // 2. 서명 데이터 (Base64)를 서버 POST, S3 업로드
-      const isPosted = await postSignature(
-        contractId,
-        "FREELANCER",
-        tempSignatureData,
-      );
+      await postSignature(contractId, "FREELANCER", tempSignatureData);
 
-      if (isPosted) {
-        await fetchSignUrl(contractId);
-        // 거래 링크 페이지로 이동
-        router.push(`/transactions/${transactionId}/create-link`);
-      }
+      await fetchSignUrl(contractId);
+      // 거래 링크 페이지로 이동
+      router.push(`/transactions/${transactionId}/create-link`);
     } catch (error) {
       console.error("최종 계약서 생성 중 오류 발생:", error);
     }
@@ -55,7 +48,7 @@ const CreateResultPage = () => {
         subText="잘못된 경우 다시 작성해주세요"
       />
       <ContractInfo />
-      <SignatureForm userRole="FREELANCER" />
+      <SignatureForm />
       <MainButton
         text="생성하기"
         width="34rem"
