@@ -5,6 +5,7 @@ import InfoText from "@/components/common/InfoText";
 import MainButton from "@/components/common/MainButton";
 import SignatureForm from "@/components/common/SignatureForm";
 import useSignature from "@/hooks/useSignature";
+import { getTransactionsDetail } from "@/lib/api/client/transactionServices";
 import { useSignatureStore } from "@/stores/signatureStore";
 import { useTradeDataStore } from "@/stores/tradeDataStore";
 import { useParams, useRouter } from "next/navigation";
@@ -15,7 +16,7 @@ const TradeSign = () => {
 
   const { postSignature, fetchSignUrl } = useSignature();
   const { tempSignatureData } = useSignatureStore();
-  const { data: tradeData } = useTradeDataStore();
+  const { data: tradeData, setTradeData } = useTradeDataStore();
   if (!tradeData) return;
   const { contractInfo, clientInfo, freelancerInfo, contractId } = tradeData;
 
@@ -28,17 +29,18 @@ const TradeSign = () => {
 
     try {
       // 2. 서명 데이터 (Base64)를 서버 POST, S3 업로드
-      const isPosted = await postSignature(
-        contractId,
-        "CLIENT",
-        tempSignatureData,
-      );
+      await postSignature(contractId, "CLIENT", tempSignatureData);
 
-      if (isPosted) {
-        await fetchSignUrl(contractId);
-        // 거래 링크 페이지로 이동
-        router.push(`/trade/${id}/signed`);
-      }
+      await fetchSignUrl(contractId);
+
+      const { data: updatedTradeData } = await getTransactionsDetail(
+        id,
+        "CLIENT",
+      );
+      setTradeData(updatedTradeData);
+
+      // 거래 링크 페이지로 이동
+      router.push(`/trade/${id}/signed`);
     } catch (error) {
       console.error("최종 계약서 생성 중 오류 발생:", error);
     }
