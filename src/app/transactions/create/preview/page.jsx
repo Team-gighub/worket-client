@@ -2,8 +2,6 @@
 import "@/app/globals.css";
 import { React } from "react";
 import DualButtons from "@/components/common/DualButtons";
-import useBottomSheet from "@/hooks/useBottomSheet";
-import PasscodeBottomSheet from "@/components/common/PasscodeBottomSheet";
 import { useRouter } from "next/navigation";
 import ContractInfo from "@/components/transactions/ContractInfo";
 import InfoText from "@/components/common/InfoText";
@@ -13,7 +11,6 @@ import useSessionStorage from "@/hooks/useSessionStorage";
 
 const CreateResultPage = () => {
   const router = useRouter();
-  const { isOpen, close } = useBottomSheet();
   const contractToSubmit = useContractCreateStore((state) => state.contract);
   const [, setTransactionId] = useSessionStorage("transactionId", null);
   const [, setContractId] = useSessionStorage("contractId", null);
@@ -58,13 +55,6 @@ const CreateResultPage = () => {
         onMainClick={handleMainBtn}
         onSubClick={() => router.push("/transactions/create")}
       ></DualButtons>
-      <PasscodeBottomSheet
-        isOpen={isOpen}
-        onClose={close}
-        handlePasscodeComplete={() => {
-          router.push("/transactions/create/result");
-        }}
-      />
     </div>
   );
 };

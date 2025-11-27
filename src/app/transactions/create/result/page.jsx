@@ -9,9 +9,12 @@ import InfoText from "@/components/common/InfoText";
 import useSessionStorage from "@/hooks/useSessionStorage";
 import useSignature from "@/hooks/useSignature";
 import { useSignatureStore } from "@/stores/signatureStore"; // 👈 스토어 import
+import PasscodeBottomSheet from "@/components/common/PasscodeBottomSheet";
+import useBottomSheet from "@/hooks/useBottomSheet";
 
 const CreateResultPage = () => {
   const router = useRouter();
+  const { isOpen, open, close } = useBottomSheet();
 
   const [transactionId] = useSessionStorage("transactionId");
   const [contractId] = useSessionStorage("contractId");
@@ -49,11 +52,15 @@ const CreateResultPage = () => {
       />
       <ContractInfo />
       <SignatureForm />
-      <MainButton
-        text="생성하기"
-        width="34rem"
-        onClick={handleMainBtn}
-      ></MainButton>
+      <MainButton text="생성하기" width="34rem" onClick={open}></MainButton>
+      <PasscodeBottomSheet
+        isOpen={isOpen}
+        onClose={close}
+        handlePasscodeComplete={() => {
+          handleMainBtn();
+          close();
+        }}
+      />
     </div>
   );
 };
