@@ -2,7 +2,7 @@ import axios from "axios";
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
 
-export const createServerAxiosInstance = async () => {
+export const createServerAxiosInstance = async (transactionId = "") => {
   const cookieStore = await cookies();
   const cookieHeader = cookieStore.toString();
 
@@ -17,14 +17,16 @@ export const createServerAxiosInstance = async () => {
   instance.interceptors.response.use(
     (res) => res.data,
     (err) => {
-      console.error("[Server API Error]", err.response);
-
       if (err.response?.status === 401) {
         switch (err.response.data.customCode) {
           case "ACCESS_1001":
             return err.response;
           default:
-            redirect("/login");
+            if (transactionId) {
+              return err.response;
+            } else {
+              redirect("/login");
+            }
         }
       }
 
@@ -34,8 +36,10 @@ export const createServerAxiosInstance = async () => {
             return err.response;
           case "AUTH_2001":
             redirect("/signup");
-          case "AUTH_3001":
+          case "AUTH_3011":
             redirect("/passcode");
+          case "AUTH_3021":
+            transactionId && redirect(`/trade/passcode/${transactionId}`);
           default:
             return Promise.reject(err.response?.data || new Error(err.message));
         }
