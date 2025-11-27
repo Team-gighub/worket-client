@@ -10,13 +10,13 @@ import MainButton from "./MainButton";
 const Signature = ({ onClose }) => {
   const { signatureRef, clearSignature, saveSignature } = useSignature();
   const handleSaveAndClose = async () => {
-    // 1. 서버 통신 없이 로컬 스토어에 서명 데이터만 저장합니다.
-    const isSaved = await saveSignature();
+    try {
+      // 1. 서버 통신 없이 로컬 스토어에 서명 데이터만 저장합니다.
+      await saveSignature();
 
-    // 2. 저장에 성공하면 바텀시트를 닫습니다.
-    if (isSaved) {
+      // 2. 저장에 성공하면 바텀시트를 닫습니다.
       onClose();
-    }
+    } catch {}
   };
   return (
     <div className="relative rounded-lg p-4 mt-3 ">

@@ -42,7 +42,6 @@ const useSignature = () => {
   const saveSignature = useCallback(async () => {
     if (!signatureRef.current || signatureRef.current.isEmpty()) {
       alert("서명을 입력해주세요.");
-      return false;
     }
 
     setError(null);
@@ -71,13 +70,10 @@ const useSignature = () => {
           resolve();
         };
       });
-
-      return true;
     } catch (error) {
       console.error("❌ Save signature error:", error);
       setError(error.message);
       alert("서명 캡처 중 오류가 발생했습니다.");
-      return false;
     }
   }, [setError, setTempPreviewUrl, setTempSignatureData]);
 
@@ -86,7 +82,6 @@ const useSignature = () => {
     async (contractId, signer, base64Data) => {
       if (!base64Data) {
         console.error("❌ Base64 data is not available");
-        return false;
       }
 
       setIsUploading(true);
@@ -104,12 +99,13 @@ const useSignature = () => {
         const md5Base64 = await calculateMD5Base64(blob);
 
         // Presigned URL 요청
+
         const response = await getPresignedUrl(
           filename,
           "image/png",
           md5Base64,
         );
-        const presignedUrl = JSON.parse(response.data.body).url;
+        const presignedUrl = response.data.url;
 
         // S3 업로드
         await uploadToS3(presignedUrl, blob, md5Base64);
@@ -123,14 +119,12 @@ const useSignature = () => {
         setSignUrl(fileUrl);
         clearSignatureStore(); // 서명 관련 모든 임시 상태 초기화
         clearTempPreviewUrl();
-
-        setIsUploading(false);
-        return true;
       } catch (error) {
         setError(error.message);
+
+        throw error;
+      } finally {
         setIsUploading(false);
-        alert("서명 전송 및 업로드 중 오류가 발생했습니다.");
-        return false;
       }
     },
     [

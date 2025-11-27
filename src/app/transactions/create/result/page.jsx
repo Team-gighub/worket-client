@@ -32,17 +32,11 @@ const CreateResultPage = () => {
 
     try {
       // 2. 서명 데이터 (Base64)를 서버 POST, S3 업로드
-      const isPosted = await postSignature(
-        contractId,
-        "FREELANCER",
-        tempSignatureData,
-      );
+      await postSignature(contractId, "FREELANCER", tempSignatureData);
 
-      if (isPosted) {
-        await fetchSignUrl(contractId);
-        // 거래 링크 페이지로 이동
-        router.push(`/transactions/${transactionId}/create-link`);
-      }
+      await fetchSignUrl(contractId);
+      // 거래 링크 페이지로 이동
+      router.push(`/transactions/${transactionId}/create-link`);
     } catch (error) {
       console.error("최종 계약서 생성 중 오류 발생:", error);
     }
