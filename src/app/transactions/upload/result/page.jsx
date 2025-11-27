@@ -3,7 +3,9 @@ import "@/app/globals.css";
 import ContractTemplate from "@/components/common/ContractTemplate";
 import DualButtons from "@/components/common/DualButtons";
 import InfoText from "@/components/common/InfoText";
+import PasscodeBottomSheet from "@/components/common/PasscodeBottomSheet";
 import { MOCK_CONTRACT_RESET } from "@/constants/mock_contracts";
+import useBottomSheet from "@/hooks/useBottomSheet";
 import useSessionStorage from "@/hooks/useSessionStorage";
 import { postContracts } from "@/lib/api/client/contractServices";
 import { useRouter } from "next/navigation";
@@ -14,6 +16,7 @@ const ResultPage = () => {
 
   const { contractInfo, clientInfo, freelancerInfo } = ocrResultData;
   const router = useRouter();
+  const { isOpen, open, close } = useBottomSheet();
   const handleSubButton = () => {
     router.back();
   };
@@ -54,9 +57,17 @@ const ResultPage = () => {
         mainText="업로드하기"
         subText="재등록하기"
         onSubClick={handleSubButton}
-        onMainClick={handleMainButton}
+        onMainClick={open}
         width="34rem"
       ></DualButtons>
+      <PasscodeBottomSheet
+        isOpen={isOpen}
+        onClose={close}
+        handlePasscodeComplete={() => {
+          handleMainButton();
+          close();
+        }}
+      />
     </div>
   );
 };
