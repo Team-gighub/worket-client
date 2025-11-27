@@ -10,10 +10,13 @@ import MainButton from "@/components/common/MainButton";
 import ProfitCard from "@/components/home/ProfitCard";
 import { useTransactionStore } from "@/stores/transactionStore";
 import { getUsers } from "@/lib/api/client/userServices";
+import { useContractCreateStore } from "@/stores/contractCreateStore";
 
 /* 로그인 후 홈화면 */
 const LoggedInHome = () => {
   const { transactionData, fetchTransactions } = useTransactionStore();
+  const { setFreelancerInfo } = useContractCreateStore();
+
   const [name, setName] = useState("");
   //초기 데이터 패칭(이후 계약서 생성 시 사용)
   useEffect(() => {
