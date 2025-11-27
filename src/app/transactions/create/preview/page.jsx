@@ -58,7 +58,13 @@ const CreateResultPage = () => {
         onMainClick={handleMainBtn}
         onSubClick={() => router.push("/transactions/create")}
       ></DualButtons>
-      <PasscodeBottomSheet isOpen={isOpen} onClose={close} />
+      <PasscodeBottomSheet
+        isOpen={isOpen}
+        onClose={close}
+        handlePasscodeComplete={() => {
+          router.push("/transactions/create/result");
+        }}
+      />
     </div>
   );
 };
