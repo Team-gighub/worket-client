@@ -63,8 +63,8 @@ const ResultPage = () => {
       <PasscodeBottomSheet
         isOpen={isOpen}
         onClose={close}
-        handlePasscodeComplete={() => {
-          handleMainButton();
+        handlePasscodeComplete={async () => {
+          await handleMainButton();
           close();
         }}
       />
