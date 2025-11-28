@@ -10,6 +10,7 @@ export const usePasscodeLogic = (mode, handlePasscodeComplete, reshuffle) => {
   const [step, setStep] = useState(mode === "register" ? 1 : 2);
   const [error, setError] = useState("");
   const [attempts, setAttempts] = useState(0);
+  const [isVerifying, setIsVerifying] = useState(false);
 
   // reset 함수
   const resetSetup = useCallback(() => {
@@ -73,6 +74,7 @@ export const usePasscodeLogic = (mode, handlePasscodeComplete, reshuffle) => {
 
   // Verify (비밀번호 검증) 함수
   const handleVerifyMode = useCallback(async () => {
+    setIsVerifying(true);
     setError("");
 
     try {
@@ -85,6 +87,8 @@ export const usePasscodeLogic = (mode, handlePasscodeComplete, reshuffle) => {
       setError("잘못된 비밀번호입니다.");
       setPasscode("");
       reshuffle();
+    } finally {
+      setIsVerifying(false);
     }
   }, [passcode, handlePasscodeComplete, reshuffle]);
 
@@ -95,5 +99,6 @@ export const usePasscodeLogic = (mode, handlePasscodeComplete, reshuffle) => {
     error,
     handleRegisterMode,
     handleVerifyMode,
+    isVerifying,
   };
 };
