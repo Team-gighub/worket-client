@@ -1,0 +1,75 @@
+pipeline {
+    agent any
+
+    environment {
+        DOCKER_IMAGE = "rudska6/worket-client"
+        DOCKER_TAG = "latest"
+        EC2_HOST = "ubuntu@${CLIENT_IP}"      // 프론트 서버 IP (환경변수로 주는 게 베스트)
+        COMPOSE_FILE = "docker-compose.yml"
+    }
+
+    stages {
+
+        stage('Checkout') {
+            steps {
+                git branch: 'feature/deploy-setup',
+                    credentialsId: 'github',
+                    url: 'https://github.com/Team-gighub/worket-client.git'
+            }
+        }
+
+        stage('Install Dependencies') {
+            steps {
+                sh "npm install --legacy-peer-deps"
+            }
+        }
+
+        stage('Next.js Build') {
+            steps {
+                sh "npm run build"
+            }
+        }
+
+        stage('Docker Build') {
+            steps {
+                sh "docker build -t ${DOCKER_IMAGE}:${DOCKER_TAG} ."
+            }
+        }
+
+        stage('Docker Login') {
+            steps {
+                withCredentials([usernamePassword(
+                        credentialsId: 'dockerhub-login',
+                        usernameVariable: 'DOCKER_USER',
+                        passwordVariable: 'DOCKER_PASS'
+                )]) {
+                    sh "echo \"$DOCKER_PASS\" | docker login -u \"$DOCKER_USER\" --password-stdin"
+                }
+            }
+        }
+
+        stage('Docker Push') {
+            steps {
+                sh "docker push ${DOCKER_IMAGE}:${DOCKER_TAG}"
+            }
+        }
+
+        stage('Deploy to EC2 (docker-compose)') {
+            steps {
+                sshagent(credentials: ['deploy-key']) {
+                    sh """
+                    ssh -o StrictHostKeyChecking=no ${EC2_HOST} '
+                        cd ~/worket-client || mkdir ~/worket-client && cd ~/worket-client;
+
+                        docker pull ${DOCKER_IMAGE}:${DOCKER_TAG};
+
+                        docker rm -f worket-client || true;
+
+                        docker compose up -d;
+                    '
+                    """
+                }
+            }
+        }
+    }
+}
