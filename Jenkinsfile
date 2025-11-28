@@ -27,11 +27,10 @@ pipeline {
         stage('Inject ENV') {
             steps {
                 sh '''
-                    echo "NEXT_PUBLIC_API_BASE_URL=https://api.worket.site" > .env
+                    printf "NEXT_PUBLIC_API_BASE_URL=https://api.worket.site" > .env
                 '''
             }
         }
-
 
         stage('Next.js Build') {
             steps {
