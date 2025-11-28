@@ -5,9 +5,9 @@ import TransactionStatusBox from "@/components/transactions/TransactionStatusBox
 import TransactionTimeline from "@/components/transactions/TransactionTimeLine";
 import TransactionInfo from "@/components/transactions/TransactionInfo";
 import { getTransactionsDetail } from "@/lib/api/server/transactionServices";
-import LinkIcon from "@/assets/link.png";
-import ExternalLinkIcon from "@/assets/external-link.png";
 import formatKRW from "@/app/utils/KRWFormatter";
+import CopyTradeLinkButton from "@/components/transactions/CopyTradeLinkButton";
+import ViewContractButton from "@/components/transactions/ViewContractButton";
 
 /* 거래 페이지 */
 const Transaction = async ({ params }) => {
@@ -33,12 +33,7 @@ const Transaction = async ({ params }) => {
       {/* 거래페이지 링크 복사 섹션  */}
       <div className="m-[2rem] flex flex-col">
         <p className="pretendard-semibold-20">거래 페이지</p>
-        <MainButton
-          text={"링크 복사"}
-          height={"4rem"}
-          theme={"secondary"}
-          icon={{ src: LinkIcon, alt: "링크 복사" }}
-        />
+        <CopyTradeLinkButton transactionId={id} />
         {transaction.status === "CREATED" && (
           <p className="pretendard-medium-14 text-point-red-300">
             고객이 아직 서명하지 않았어요. 링크를 다시 보내보세요!
@@ -54,12 +49,7 @@ const Transaction = async ({ params }) => {
       {/* 계약서 원본 보기 섹션  */}
       <div className="m-[2rem] flex flex-col">
         <p className="pretendard-semibold-20">계약서 원본</p>
-        <MainButton
-          text={"원본 보기"}
-          height={"4rem"}
-          theme={"darkgray"}
-          icon={{ src: ExternalLinkIcon, alt: "원본 보기" }}
-        />
+        <ViewContractButton pdfUrl={transaction.contractFileUrl} />
       </div>
     </div>
   );
