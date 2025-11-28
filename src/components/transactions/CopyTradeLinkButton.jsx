@@ -1,16 +1,20 @@
 "use client";
 
-import React from "react";
+import React, { useMemo, useCallback } from "react";
 import MainButton from "../common/MainButton";
 import useCopyToClipboard from "@/hooks/useCopyToClipboard";
 import LinkIcon from "@/assets/link.png";
 
 const CopyTradeLinkButton = ({ transactionId }) => {
-  const linkToCopy = `${process.env.NEXT_PUBLIC_CLIENT_BASE_URL}/trade/${transactionId}`;
+  const linkToCopy = useMemo(
+    () => `${process.env.NEXT_PUBLIC_CLIENT_BASE_URL}/trade/${transactionId}`,
+    [transactionId],
+  );
   const [isCopied, copy] = useCopyToClipboard();
-  const handleClick = () => {
+
+  const handleClick = useCallback(() => {
     copy(linkToCopy);
-  };
+  }, [copy, linkToCopy]);
 
   return (
     <MainButton
