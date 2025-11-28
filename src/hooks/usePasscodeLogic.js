@@ -84,11 +84,10 @@ export const usePasscodeLogic = (mode, handlePasscodeComplete, reshuffle) => {
       setPasscode("");
     } catch (e) {
       console.error(e);
+      setIsVerifying(false);
       setError("잘못된 비밀번호입니다.");
       setPasscode("");
       reshuffle();
-    } finally {
-      setIsVerifying(false);
     }
   }, [passcode, handlePasscodeComplete, reshuffle]);
 
