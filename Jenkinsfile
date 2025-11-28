@@ -61,19 +61,21 @@ pipeline {
                 sh "docker push ${DOCKER_IMAGE}:${DOCKER_TAG}"
             }
         }
+        
         stage('Deploy to EC2 (docker-compose)') {
-            steps {
-                sshagent(credentials: ['deploy-key']) {
-                    sh """
-                    ssh -o StrictHostKeyChecking=no ${EC2_HOST} << 'EOF'
-                    cd ~/worket-client || (mkdir ~/worket-client && cd ~/worket-client)
-                    docker pull ${DOCKER_IMAGE}:${DOCKER_TAG}
-                    docker rm -f worket-client || true
-                    docker compose up -d
-                    EOF
-                                """
-                }
-            }
+    steps {
+        sshagent(credentials: ['deploy-key']) {
+            sh """
+ssh -o StrictHostKeyChecking=no ${EC2_HOST} << 'EOF'
+cd ~/worket-client || (mkdir ~/worket-client && cd ~/worket-client)
+docker pull ${DOCKER_IMAGE}:${DOCKER_TAG}
+docker rm -f worket-client || true
+docker compose up -d
+EOF
+"""
         }
+    }
+}
+
     }
 }
