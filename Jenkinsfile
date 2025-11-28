@@ -67,18 +67,15 @@ pipeline {
             steps {
                 sshagent(credentials: ['deploy-key']) {
                     sh """
-                    ssh -o StrictHostKeyChecking=no ${EC2_HOST} '
-                        cd ~/worket-client || mkdir ~/worket-client && cd ~/worket-client;
-
-                        docker pull ${DOCKER_IMAGE}:${DOCKER_TAG};
-
-                        docker rm -f worket-client || true;
-
-                        docker compose up -d;
-                    '
+                    ssh -o StrictHostKeyChecking=no ${EC2_HOST} "
+                        cd ~/worket-client || mkdir ~/worket-client && cd ~/worket-client
+                        docker pull ${DOCKER_IMAGE}:${DOCKER_TAG}
+                        docker rm -f worket-client || true
+                        docker compose up -d
+                    "
                     """
                 }
             }
-        }
+        }        
     }
 }
