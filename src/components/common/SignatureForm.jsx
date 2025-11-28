@@ -5,7 +5,7 @@ import Signature from "./Signature";
 import useBottomSheet from "../../hooks/useBottomSheet";
 import { useSignatureStore } from "@/stores/signatureStore";
 
-const SignatureForm = ({ userRole }) => {
+const SignatureForm = () => {
   const { isOpen, open, close } = useBottomSheet();
   const { tempPreviewUrl } = useSignatureStore();
 
@@ -27,7 +27,7 @@ const SignatureForm = ({ userRole }) => {
       </button>
 
       <BottomSheet isOpen={isOpen} onClose={close}>
-        <Signature onClose={close} userRole={userRole} />
+        <Signature onClose={close} />
       </BottomSheet>
     </div>
   );

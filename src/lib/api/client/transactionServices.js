@@ -11,7 +11,7 @@ const getTransactions = (year, month) => {
 };
 
 /** 거래 상세 조회 (GET /transactions/{transactionId}) */
-const getTransactionsDetail = (transactionId) => {
+const getTransactionsDetail = (transactionId, role = "FREELANCER") => {
   const instance = createClientAxiosInstance(
     role === "CLIENT" ? transactionId : "",
   );
