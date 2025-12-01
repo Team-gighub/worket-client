@@ -1,5 +1,4 @@
 "use client";
-import InfoText from "@/components/common/InfoText";
 import { usePaymentStore } from "@/stores/paymentStore";
 import Image from "next/image";
 import { useRouter, useParams } from "next/navigation";
@@ -7,6 +6,7 @@ import InputAccount from "@/components/common/InputField";
 import DualButtons from "@/components/common/DualButtons";
 import { useState, useEffect } from "react";
 import TradePasscodeForm from "@/components/passcode/PGPasscodeForm";
+import { usePgStore } from "@/stores/pgStore";
 
 const SelectAccount = () => {
   const router = useRouter();
@@ -19,6 +19,7 @@ const SelectAccount = () => {
   //은행 정보(은행, 은행 아이콘) 가져오기
   const selectedBankInfo = usePaymentStore((state) => state.selectedBankInfo);
   const selectAccount = usePaymentStore((state) => state.selectAccount);
+  const { payload, setPayerInfo } = usePgStore();
 
   useEffect(() => {
     if (!selectedBankInfo || !selectedBankInfo.id) {
@@ -39,6 +40,7 @@ const SelectAccount = () => {
     }
     // 계좌 정보 store 저장
     selectAccount({ accountNumber });
+    setPayerInfo({ accountNo: accountNumber });
     setShowPassCodeForm(true);
   };
 
