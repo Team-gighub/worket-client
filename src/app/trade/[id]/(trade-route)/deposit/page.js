@@ -3,6 +3,7 @@
 import ContractTemplate from "@/components/common/ContractTemplate";
 import InfoText from "@/components/common/InfoText";
 import MainButton from "@/components/common/MainButton";
+import { usePgStore } from "@/stores/pgStore";
 import { useTradeDataStore } from "@/stores/tradeDataStore";
 import { useParams, useRouter } from "next/navigation";
 
@@ -10,15 +11,37 @@ const TradeDeposit = () => {
   const router = useRouter();
   const { id } = useParams();
 
-  const { data: tradeData, updateTradeStatus } = useTradeDataStore();
+  const { data: tradeData } = useTradeDataStore();
+  const { setPgStore } = usePgStore();
   if (!tradeData) return;
   const { contractInfo, clientInfo, freelancerInfo } = tradeData;
 
   const handleDepositClick = async () => {
     if (id) {
       try {
-        //현재는 여기서 상태 업데이트
-        // updateTradeStatus("DEPOSIT_HOLD");
+        const pgPayload = {
+          merchantId: "WK",
+          userName: clientInfo.name,
+          productName: contractInfo.title,
+          amount: contractInfo.amount,
+          orderNo: id,
+          payerInfo: {
+            accountNo: "",
+            bankCode: "",
+            name: clientInfo.name,
+            phone: clientInfo.phone,
+          },
+          payeeInfo: {
+            accountNo: freelancerInfo.account,
+            bankCode: freelancerInfo.bank,
+            name: freelancerInfo.name,
+            phone: freelancerInfo.phone,
+          },
+          successUrl: `${process.env.NEXT_PUBLIC_CLIENT_BASE_URL}/pg/${id}/success`,
+          failUrl: `${process.env.NEXT_PUBLIC_CLIENT_BASE_URL}/pg/${id}/fail`,
+        };
+        setPgStore(pgPayload);
+
         //pg/:id 로 라우팅 -> pg 제공 창 이동
         router.push(`/pg/${id}`);
       } catch (err) {
