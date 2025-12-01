@@ -1,18 +1,21 @@
 "use client";
-import InfoText from "@/components/common/InfoText";
 import PaymentButton from "@/components/pg/PaymentButton";
 import paymentOptions from "@/components/pg/PaymentOptions";
 import { useParams, useRouter } from "next/navigation";
 import { usePaymentStore } from "@/stores/paymentStore";
-import Image from "next/image";
+import { usePgStore } from "@/stores/pgStore";
 
 const PgMain = () => {
   const { id } = useParams();
   const router = useRouter();
   const selectBank = usePaymentStore((state) => state.selectBank);
+  const { setPayerInfo } = usePgStore();
+
   const MAX_PAYMENT_OPTIONS_TO_SHOW = 15;
+
   const handlePaymentSelect = (bank) => {
     selectBank(bank.id, bank);
+    setPayerInfo({ bankCode: bank.kftcCode });
     router.push(`${id}/account`);
   };
   return (
