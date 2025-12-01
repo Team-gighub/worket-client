@@ -7,6 +7,7 @@ import DualButtons from "@/components/common/DualButtons";
 import { useState, useEffect } from "react";
 import TradePasscodeForm from "@/components/passcode/PGPasscodeForm";
 import { usePgStore } from "@/stores/pgStore";
+import { postPgPaymentAuthorize } from "@/lib/pg/api/pgClientServices";
 
 const SelectAccount = () => {
   const router = useRouter();
@@ -47,9 +48,10 @@ const SelectAccount = () => {
   const handleSubBtn = () => {
     router.push(`/pg/${id}`);
   };
-  const handlePasscodeComplete = (enteredPasscode) => {
+  const handlePasscodeComplete = async (enteredPasscode) => {
     setPasscode(enteredPasscode); // SelectAccount state에 저장
     //TODO: PG server API 호출-> accountNumber,selectedBankId 같이 넘김
+    await postPgPaymentAuthorize(payload);
   };
   const { label, icon } = selectedBankInfo;
 
