@@ -4,15 +4,18 @@ pipeline {
     environment {
         DOCKER_IMAGE = "rudska6/worket-client"
         DOCKER_TAG = "latest"
-        EC2_HOST = "ubuntu@${CLIENT_IP}"      // 프론트 서버 IP (환경변수로 주는 게 베스트)
+        EC2_HOST = "ubuntu@${CLIENT_IP}"
         COMPOSE_FILE = "docker-compose.yml"
+
+        // SonarQube Token (Jenkins Credentials)
+        SONAR_TOKEN = credentials('sonar-token')
     }
 
     stages {
 
         stage('Checkout') {
             steps {
-                git branch: 'main',
+                git branch: 'feature/deploy-setup',
                     credentialsId: 'github',
                     url: 'https://github.com/Team-gighub/worket-client.git'
             }
@@ -23,6 +26,32 @@ pipeline {
                 sh "npm install --legacy-peer-deps"
             }
         }
+
+        // ============================
+        //      SonarQube Analysis
+        // ============================
+        stage('SonarQube Analysis') {
+            steps {
+                withSonarQubeEnv('sonarqube') {
+                    sh """
+                        sonar-scanner \
+                            -Dsonar.projectKey=worket-client \
+                            -Dsonar.sources=. \
+                            -Dsonar.exclusions=**/node_modules/**,**/.next/**,**/dist/** \
+                            -Dsonar.host.url=$SONAR_HOST_URL \
+                            -Dsonar.login=$SONAR_TOKEN
+                    """
+                }
+            }
+        }
+
+        // stage('Quality Gate') {
+        //     steps {
+        //         timeout(time: 3, unit: 'MINUTES') {
+        //             waitForQualityGate abortPipeline: true
+        //         }
+        //     }
+        // }
 
         stage('Inject ENV') {
             steps {
@@ -61,11 +90,11 @@ pipeline {
                 sh "docker push ${DOCKER_IMAGE}:${DOCKER_TAG}"
             }
         }
-        
+
         stage('Deploy to EC2 (docker-compose)') {
-    steps {
-        sshagent(credentials: ['deploy-key']) {
-            sh """
+            steps {
+                sshagent(credentials: ['deploy-key']) {
+                    sh """
 ssh -o StrictHostKeyChecking=no ${EC2_HOST} << 'EOF'
 cd ~/worket-client || (mkdir ~/worket-client && cd ~/worket-client)
 docker pull ${DOCKER_IMAGE}:${DOCKER_TAG}
@@ -73,9 +102,9 @@ docker rm -f worket-client || true
 docker compose up -d
 EOF
 """
+                }
+            }
         }
-    }
-}
 
     }
 }

@@ -7,11 +7,11 @@ COPY package*.json ./
 
 RUN npm install
 
-# 환경변수 파일 복사
-COPY .env .env
-
 # 나머지 src 복사
 COPY . .
+
+# 환경변수 파일 복사
+COPY .env .env
 
 RUN npm run build
 
