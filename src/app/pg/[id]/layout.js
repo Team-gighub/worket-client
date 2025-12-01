@@ -2,7 +2,6 @@
 
 import React from "react";
 import { usePathname, useParams, useRouter } from "next/navigation";
-import Header from "@/components/common/Header";
 import PageLayout from "@/components/layouts/PageLayout";
 import Image from "next/image";
 
@@ -12,23 +11,11 @@ import Image from "next/image";
  * - 하단탭은 특정 페이지에서만 표시
  */
 const PGLayout = ({ children }) => {
-  const pathname = usePathname();
   const { id } = useParams();
   const router = useRouter();
 
-  // 헤더 정보 설정
-  let headerTitle = "출금 계좌선택";
-  let canGoBack = false;
-
-  if (pathname.includes("/account")) {
-    headerTitle = "계좌번호 입력";
-    canGoBack = false;
-  }
-
   return (
-    <PageLayout
-      header={<Header title={headerTitle} onBack={canGoBack ? 1 : null} />}
-    >
+    <PageLayout>
       <div className="h-full flex flex-col bg-basic-100">
         <div className="w-full max-w-6xl h-full bg-basic-200 rounded-2xl shadow-lg p-8 overflow-hidden flex flex-col">
           <div className="border-t border-b border-gray-300 py-6 mb-12">
