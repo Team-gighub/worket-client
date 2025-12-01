@@ -33,17 +33,21 @@ pipeline {
         stage('SonarQube Analysis') {
             steps {
                 withSonarQubeEnv('sonarqube') {
-                    sh """
-                        sonar-scanner \
+                    script {
+                        def scannerHome = tool 'sonarscanner'
+                        sh """
+                            ${scannerHome}/bin/sonar-scanner \
                             -Dsonar.projectKey=worket-client \
                             -Dsonar.sources=. \
                             -Dsonar.exclusions=**/node_modules/**,**/.next/**,**/dist/** \
                             -Dsonar.host.url=$SONAR_HOST_URL \
                             -Dsonar.login=$SONAR_TOKEN
-                    """
+                        """
+                    }
                 }
             }
         }
+
 
         // stage('Quality Gate') {
         //     steps {
