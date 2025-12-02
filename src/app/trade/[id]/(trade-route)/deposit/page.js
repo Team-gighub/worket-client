@@ -20,7 +20,7 @@ const TradeDeposit = () => {
     if (id) {
       try {
         const pgPayload = {
-          merchantId: "WK",
+          marchantId: "WK",
           userName: clientInfo.name,
           productName: contractInfo.title,
           amount: contractInfo.amount,
