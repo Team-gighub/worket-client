@@ -13,8 +13,6 @@ COPY . .
 # 환경변수 파일 복사
 COPY .env .env
 
-RUN npm run build
-
 EXPOSE 3000
 
 CMD ["npm", "start"]

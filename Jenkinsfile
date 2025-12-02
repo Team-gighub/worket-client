@@ -5,9 +5,6 @@ pipeline {
         DOCKER_IMAGE = "rudska6/worket-client"
         DOCKER_TAG = "latest"
         EC2_HOST = "ubuntu@${CLIENT_IP}"
-        COMPOSE_FILE = "docker-compose.yml"
-
-        // SonarQube Token (Jenkins Credentials)
         SONAR_TOKEN = credentials('sonarqube-token-front')
     }
 
@@ -15,7 +12,7 @@ pipeline {
 
         stage('Checkout') {
             steps {
-                git branch: 'feature/deploy-setup',
+                git branch: 'main',
                     credentialsId: 'github',
                     url: 'https://github.com/Team-gighub/worket-client.git'
             }
@@ -27,9 +24,22 @@ pipeline {
             }
         }
 
-        // ============================
-        //      SonarQube Analysis
-        // ============================
+        stage('Inject ENV') {
+            steps {
+                writeFile file: '.env', text: """
+NEXT_PUBLIC_API_BASE_URL=https://api.worket.site
+NEXT_PUBLIC_S3_BUCKET_URL=https://dhikzhsky6.execute-api.ap-northeast-2.amazonaws.com/dev
+NEXT_PUBLIC_CLIENT_BASE_URL=https://www.worket.site
+""".stripIndent()
+            }
+        }
+
+        stage('Next.js Build') {
+            steps {
+                sh "npm run build"
+            }
+        }
+
         stage('SonarQube Analysis') {
             steps {
                 withSonarQubeEnv('sonarqube') {
@@ -48,28 +58,13 @@ pipeline {
             }
         }
 
-
         // stage('Quality Gate') {
         //     steps {
-        //         timeout(time: 3, unit: 'MINUTES') {
+        //         timeout(time: 2, unit: 'MINUTES') {
         //             waitForQualityGate abortPipeline: true
         //         }
         //     }
         // }
-
-        stage('Inject ENV') {
-            steps {
-                sh '''
-                    printf "NEXT_PUBLIC_API_BASE_URL=https://api.worket.site" > .env
-                '''
-            }
-        }
-
-        stage('Next.js Build') {
-            steps {
-                sh "npm run build"
-            }
-        }
 
         stage('Docker Build') {
             steps {
@@ -95,7 +90,7 @@ pipeline {
             }
         }
 
-        stage('Deploy to EC2 (docker-compose)') {
+        stage('Deploy to EC2') {
             steps {
                 sshagent(credentials: ['deploy-key']) {
                     sh """
@@ -109,6 +104,5 @@ EOF
                 }
             }
         }
-
     }
 }
