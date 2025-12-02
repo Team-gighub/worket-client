@@ -15,7 +15,7 @@ pipeline {
 
         stage('Checkout') {
             steps {
-                git branch: 'feature/deploy',
+                git branch: 'feature/deploy-setup',
                     credentialsId: 'github',
                     url: 'https://github.com/Team-gighub/worket-client.git'
             }
