@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import { useSearchParams, useRouter, useParams } from "next/navigation";
 import InfoCard from "@/components/common/InfoCard";
 import MainButton from "@/components/common/MainButton";
+import PaymentLoading from "@/components/pg/PaymentLoading";
 
 const PaymentSuccess = () => {
   const router = useRouter();
@@ -45,14 +46,7 @@ const PaymentSuccess = () => {
   }, [escrowId, confirmToken, router]);
 
   if (loading) {
-    return (
-      <div className="absolute inset-0 flex items-center justify-center bg-basic-500/70 z-50">
-        <div className="flex flex-col items-center justify-center h-screen w-screen gap-4">
-          <div className="animate-spin rounded-full h-12 w-12 border-t-4 border-blue-500"></div>
-          <p>결제 승인 중입니다...</p>
-        </div>
-      </div>
-    );
+    return <PaymentLoading title="대금 예치 중입니다..." />;
   }
 
   if (data) {
