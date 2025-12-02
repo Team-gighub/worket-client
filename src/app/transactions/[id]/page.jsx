@@ -8,12 +8,14 @@ import { getTransactionsDetail } from "@/lib/api/server/transactionServices";
 import formatKRW from "@/app/utils/KRWFormatter";
 import CopyTradeLinkButton from "@/components/transactions/CopyTradeLinkButton";
 import ViewContractButton from "@/components/transactions/ViewContractButton";
+import PostModifyButton from "@/components/transactions/PostModifyButton";
 
 /* 거래 페이지 */
 const Transaction = async ({ params }) => {
   const resolvedParams = await params;
   const id = resolvedParams.id;
   const { data: transaction } = await getTransactionsDetail(id);
+  console.log(transaction);
 
   return (
     <div>
@@ -50,6 +52,13 @@ const Transaction = async ({ params }) => {
       <div className="m-[2rem] flex flex-col">
         <p className="pretendard-semibold-20">계약서 원본</p>
         <ViewContractButton pdfUrl={transaction.contractFileUrl} />
+      </div>
+
+      {/* 계약서 수정 요청 섹션  */}
+
+      <div className="m-[2rem] flex flex-col">
+        <p className="pretendard-semibold-20">계약서 수정 요청</p>
+        <PostModifyButton postId={id} />
       </div>
     </div>
   );
