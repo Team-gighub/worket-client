@@ -20,7 +20,7 @@ const RequestModal = ({ onClose, onSubmit, isSubmitting }) => {
   return (
     // 1. 모달 배경 영역
     <div
-      className="fixed inset-0 flex justify-center items-center z-50 p-4 backdrop-blur-sm"
+      className="absolute inset-0 flex justify-center items-center z-50 p-4 backdrop-blur-sm"
       onClick={onClose} // 외부 클릭 시 닫기 기능
     >
       {/* 2. 모달 컨텐츠 영역  */}
