@@ -31,8 +31,6 @@ const PostModifyButton = ({ postId }) => {
       setIsSubmitting(true);
 
       try {
-        console.log("계약 수정 요청 페이로드:", payload);
-
         // 5. API 호출
         await postContractModify(payload, postId);
 

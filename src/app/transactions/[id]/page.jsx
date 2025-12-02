@@ -15,7 +15,6 @@ const Transaction = async ({ params }) => {
   const resolvedParams = await params;
   const id = resolvedParams.id;
   const { data: transaction } = await getTransactionsDetail(id);
-  console.log(transaction);
 
   return (
     <div>
