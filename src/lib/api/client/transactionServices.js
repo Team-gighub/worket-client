@@ -32,9 +32,21 @@ const getTransactionsPermissions = (transactionId) => {
   return clientInstance.get(`/transactions/${transactionId}/permissions`);
 };
 
+/** 계약서 수정 요청 (POST /transactions/${transactionId} */
+const postContractModify = (payload, transactionId) => {
+  return clientInstance.post(`/transactions/${transactionId}`, payload);
+};
+
+/** 계약서 수정 요청 (POST /transactions/${transactionId})
+[payload 예시]
+payload = {
+    "content":"거래날짜 잘못됐어요"
+};
+*/
 export {
   getTransactions,
   getTransactionsDetail,
   getTransactionsPreview,
   getTransactionsPermissions,
+  postContractModify,
 };
