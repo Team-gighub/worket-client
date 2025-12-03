@@ -13,14 +13,13 @@ const TradeDeposit = () => {
 
   const { data: tradeData } = useTradeDataStore();
   const { setPgStore } = usePgStore();
-  if (!tradeData) return;
   const { contractInfo, clientInfo, freelancerInfo } = tradeData;
 
   const handleDepositClick = async () => {
     if (id) {
       try {
         const pgPayload = {
-          marchantId: "WK",
+          merchantId: "WK",
           userName: clientInfo.name,
           productName: contractInfo.title,
           amount: contractInfo.amount,

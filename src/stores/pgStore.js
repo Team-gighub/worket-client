@@ -3,7 +3,7 @@ import { create } from "zustand";
 
 export const usePgStore = create((set) => ({
   payload: {
-    marchantId: "",
+    merchantId: "",
     userName: "",
     productName: "",
     amount: 0,
@@ -62,7 +62,7 @@ export const usePgStore = create((set) => ({
   reset: () =>
     set(() => ({
       payload: {
-        marchantId: "",
+        merchantId: "",
         userName: "",
         productName: "",
         amount: 0,
