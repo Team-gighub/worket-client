@@ -18,12 +18,6 @@ pipeline {
             }
         }
 
-        stage('Install Dependencies') {
-            steps {
-                sh "npm install --legacy-peer-deps"
-            }
-        }
-
         stage('Inject ENV') {
             steps {
                 writeFile file: '.env', text: """
@@ -31,12 +25,6 @@ NEXT_PUBLIC_API_BASE_URL=https://api.worket.site
 NEXT_PUBLIC_S3_BUCKET_URL=https://dhikzhsky6.execute-api.ap-northeast-2.amazonaws.com/dev
 NEXT_PUBLIC_CLIENT_BASE_URL=https://www.worket.site
 """.stripIndent()
-            }
-        }
-
-        stage('Next.js Build') {
-            steps {
-                sh "npm run build"
             }
         }
 
@@ -94,10 +82,10 @@ NEXT_PUBLIC_CLIENT_BASE_URL=https://www.worket.site
             steps {
                 sshagent(credentials: ['deploy-key']) {
                     sh """
-ssh -o StrictHostKeyChecking=no ${EC2_HOST} << 'EOF'
+ssh ${EC2_HOST} << 'EOF'
 cd ~/worket-client || (mkdir ~/worket-client && cd ~/worket-client)
 docker pull ${DOCKER_IMAGE}:${DOCKER_TAG}
-docker rm -f worket-client || true
+docker compose down
 docker compose up -d
 EOF
 """
