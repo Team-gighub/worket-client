@@ -1,6 +1,6 @@
 "use client";
 import PaymentButton from "@/components/pg/PaymentButton";
-import paymentOptions from "@/components/pg/PaymentOptions";
+import { paymentOptions } from "@/components/pg/PaymentOptions";
 import { useParams, useRouter } from "next/navigation";
 import { usePaymentStore } from "@/stores/paymentStore";
 import { usePgStore } from "@/stores/pgStore";

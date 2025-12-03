@@ -8,7 +8,7 @@ import Toss from "../../assets/toss.png";
 import Mg from "../../assets/mg.png";
 import Kakao from "../../assets/kakao.png";
 
-const paymentOptions = [
+export const paymentOptions = [
   {
     id: "WOORI",
     label: "우리은행",
@@ -59,4 +59,7 @@ const paymentOptions = [
   },
 ];
 
-export default paymentOptions;
+export const findBankLabel = (code) => {
+  const bank = paymentOptions.find((b) => b.kftcCode === code);
+  return bank ? bank.label : "-";
+};
