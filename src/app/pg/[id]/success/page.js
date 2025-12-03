@@ -5,6 +5,10 @@ import { useSearchParams, useRouter, useParams } from "next/navigation";
 import InfoCard from "@/components/common/InfoCard";
 import MainButton from "@/components/common/MainButton";
 import PaymentLoading from "@/components/pg/PaymentLoading";
+import { postPgPaymentApproval } from "@/lib/api/client/pgServices";
+import { formatDateTimeKorean } from "@/app/utils/dateFormatter";
+import formatKRW from "@/app/utils/KRWFormatter";
+import { useTradeDataStore } from "@/stores/tradeDataStore";
 
 const PaymentSuccess = () => {
   const router = useRouter();
@@ -16,6 +20,7 @@ const PaymentSuccess = () => {
 
   const [loading, setLoading] = useState(true);
   const [data, setData] = useState(null);
+  const { updateEscrowId } = useTradeDataStore();
 
   useEffect(() => {
     const approvePayment = async () => {
@@ -24,17 +29,15 @@ const PaymentSuccess = () => {
         return;
       }
 
+      updateEscrowId(escrowId);
+
       try {
-        //TODO: 실제 데이터 연동하기
-        //const {date} = await postPgPaymentApproval({ escrowId, confirmToken });
-        await new Promise((resolve) => setTimeout(resolve, 3000));
-        setData({
-          escrowId: "ESCROW-20250228-123456",
-          amount: 100000,
-          status: "예치 완료 (HOLD)",
-          createdAt: "2025-02-28 13:22:10",
-          releaseDate: "2025-03-15",
+        const { data: paymentData } = await postPgPaymentApproval({
+          transactionId: id,
+          escrowId,
+          confirmToken,
         });
+        setData(paymentData);
       } catch (err) {
         router.replace("fail");
       } finally {
@@ -71,11 +74,13 @@ const PaymentSuccess = () => {
               { label: "예치번호", value: data.escrowId },
               {
                 label: "결제 금액",
-                value: `${data.amount.toLocaleString()}원`,
+                value: `${formatKRW(data.holdAmount)}원`,
               },
-              { label: "예치 상태", value: data.status },
-              { label: "결제 시간", value: data.createdAt },
-              { label: "예치 해제 예정일", value: data.releaseDate },
+              { label: "예치 상태", value: data.holdStatus },
+              {
+                label: "결제 시간",
+                value: formatDateTimeKorean(data.holdStartDatetime),
+              },
             ]}
           />
         </div>

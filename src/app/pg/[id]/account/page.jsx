@@ -51,8 +51,8 @@ const SelectAccount = () => {
   const handlePasscodeComplete = async (enteredPasscode) => {
     setPasscode(enteredPasscode); // SelectAccount state에 저장
     //TODO: PG server API 호출-> accountNumber,selectedBankId 같이 넘김
-    // await postPgPaymentAuthorize(payload);
-    router.push(payload.successUrl);
+    const { data } = await postPgPaymentAuthorize(payload);
+    window.location.href = data.redirectUrl;
   };
   const { label, icon } = selectedBankInfo;
 
