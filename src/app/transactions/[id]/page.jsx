@@ -54,11 +54,13 @@ const Transaction = async ({ params }) => {
       </div>
 
       {/* 계약서 수정 요청 섹션  */}
-
-      <div className="m-[2rem] flex flex-col">
-        <p className="pretendard-semibold-20">계약서 수정 요청</p>
-        <PostModifyButton postId={id} />
-      </div>
+      {(transaction.status === "CREATED" ||
+        transaction.status === "SIGNED") && (
+        <div className="m-[2rem] flex flex-col">
+          <p className="pretendard-semibold-20">계약서 수정 요청</p>
+          <PostModifyButton postId={id} />
+        </div>
+      )}
     </div>
   );
 };
