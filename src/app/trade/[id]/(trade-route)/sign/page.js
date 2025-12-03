@@ -3,7 +3,9 @@
 import ContractTemplate from "@/components/common/ContractTemplate";
 import InfoText from "@/components/common/InfoText";
 import MainButton from "@/components/common/MainButton";
+import PasscodeBottomSheet from "@/components/common/PasscodeBottomSheet";
 import SignatureForm from "@/components/common/SignatureForm";
+import useBottomSheet from "@/hooks/useBottomSheet";
 import useSignature from "@/hooks/useSignature";
 import { getTransactionsDetail } from "@/lib/api/client/transactionServices";
 import { useSignatureStore } from "@/stores/signatureStore";
@@ -13,6 +15,7 @@ import { useParams, useRouter } from "next/navigation";
 const TradeSign = () => {
   const router = useRouter();
   const { id } = useParams();
+  const { isOpen, open, close } = useBottomSheet();
 
   const { postSignature, fetchSignUrl } = useSignature();
   const { tempSignatureData } = useSignatureStore();
@@ -57,7 +60,15 @@ const TradeSign = () => {
         freelancerInfo={freelancerInfo}
       />
       <SignatureForm />
-      <MainButton text="서명 완료하기" onClick={handleSignClick} />
+      <MainButton text="서명 완료하기" onClick={open} />
+      <PasscodeBottomSheet
+        isOpen={isOpen}
+        onClose={close}
+        handlePasscodeComplete={() => {
+          handleSignClick();
+          close();
+        }}
+      />
     </div>
   );
 };

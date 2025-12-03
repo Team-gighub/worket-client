@@ -9,6 +9,7 @@ import {
 import PasscodeDisplay from "./PasscodeDisplay";
 import KeypadButton from "./KeypadButton";
 import { usePasscodeLogic } from "../../hooks/usePasscodeLogic";
+import LoadingSpinner from "../common/LoadingSpinner";
 
 /**
  *
@@ -38,6 +39,7 @@ const PasscodeForm = ({ mode, handlePasscodeComplete }) => {
     error,
     handleRegisterMode,
     handleVerifyMode,
+    isVerifying,
   } = usePasscodeLogic(mode, handlePasscodeComplete, reshuffle);
 
   // 키패드 입력 처리를 위한 함수
@@ -60,6 +62,8 @@ const PasscodeForm = ({ mode, handlePasscodeComplete }) => {
       return () => clearTimeout(timeout);
     }
   }, [passcode, mode, handleRegisterMode, handleVerifyMode]);
+
+  if (isVerifying) return <LoadingSpinner />;
 
   return (
     <div className="w-full h-full flex flex-col justify-between p-[2rem]">
