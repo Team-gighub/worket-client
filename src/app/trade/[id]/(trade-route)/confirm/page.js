@@ -5,6 +5,7 @@ import InfoCard from "@/components/common/InfoCard";
 import InfoText from "@/components/common/InfoText";
 import MainButton from "@/components/common/MainButton";
 import PaymentLoading from "@/components/pg/PaymentLoading";
+import { postPgPaymentConfirm } from "@/lib/api/client/pgServices";
 import { useTradeDataStore } from "@/stores/tradeDataStore";
 import Link from "next/link";
 import { useParams, useRouter } from "next/navigation";
@@ -24,10 +25,11 @@ const TradeConfirm = () => {
       try {
         setLoading(true);
 
-        // TODO: 지급 확정 API 연동
-        // await postPgPaymentConfirm();
-
-        await new Promise((resolve) => setTimeout(resolve, 3000));
+        await postPgPaymentConfirm({
+          transactionId: id,
+          escrowId: tradeData.escrowId,
+          merchantId: "WK",
+        });
 
         router.push(`/trade/${id}/confirm/success`);
       } finally {
