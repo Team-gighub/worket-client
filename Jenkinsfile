@@ -12,7 +12,7 @@ pipeline {
 
         stage('Checkout') {
             steps {
-                git branch: 'feature/deploy-setup',
+                git branch: 'main',
                     credentialsId: 'github',
                     url: 'https://github.com/Team-gighub/worket-client.git'
             }
@@ -86,7 +86,7 @@ ssh ${EC2_HOST} << 'EOF'
 cd ~/worket-client || (mkdir ~/worket-client && cd ~/worket-client)
 docker pull ${DOCKER_IMAGE}:${DOCKER_TAG}
 docker compose down
-docker compose up -d
+docker compose up -d    
 EOF
 """
                 }
