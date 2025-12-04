@@ -21,13 +21,6 @@ const tabs = [
     activeIcon: "/icons/icTransactionActive.png",
   },
   {
-    id: "incomes",
-    label: "소득 관리",
-    path: "/admin/incomes",
-    icon: "/icons/icIncome.png",
-    activeIcon: "/icons/icIncomeActive.png",
-  },
-  {
     id: "users",
     label: "사용자",
     path: "/admin/users",
