@@ -4,7 +4,10 @@ import MainButton from "@/components/common/MainButton";
 import HomeButton from "@/components/home/Button";
 import ContractImg from "@/assets/transaction-upload.png";
 import ContractImg2 from "@/assets/transaction-create.png";
+import WorketIcon from "@/assets/worketIcon.png";
 import { useRouter } from "next/navigation";
+import MainBanner from "../MainBanner";
+import HomeHeader from "../HomeHeader";
 
 const LoginPrompt = () => {
   const router = useRouter();
@@ -19,12 +22,18 @@ const LoginPrompt = () => {
   };
   return (
     <div className="h-full flex flex-col items-center">
-      {/* TODO : 후에 설명 확정 시 변경 */}
-      <InfoText
-        mainTexts={["우리는 워켓!"]}
-        subText={"워켓이 자동으로 정보를 읽어서 등록해드려요!"}
-        subTextColor="gray"
-      ></InfoText>
+      <HomeHeader title="WORKET" />
+      <MainBanner
+        title={"계약부터 소득증빙까지,\n워켓에서 한 번에!"}
+        subtitle={"별도 서류 없이 신뢰도 높은 소득증빙"}
+        titleColor="text-primary"
+        subtitleColor="text-basic-500"
+        icon={{
+          src: WorketIcon,
+          alt: "계약서 업로드",
+        }}
+        className="mt-[8rem]"
+      />
       <div className="flex flex-col items-center w-full max-w-[32rem] px-4 mt-6">
         <MainButton
           text="로그인하기"

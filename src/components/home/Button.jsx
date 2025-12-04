@@ -12,7 +12,7 @@ const HomeButton = ({
   onClick,
   titleColor, // 윗줄 색
   subtitleColor, // 아랫줄 색
-  width = "15rem",
+  width = "14.5rem",
   height = "8rem",
   icon = null, // { src: string, alt: string } 형태
   isDisabled = false,
