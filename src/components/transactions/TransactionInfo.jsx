@@ -20,7 +20,7 @@ const TransactionInfo = ({ data }) => {
       show: true,
       title: "계약 정보",
       items: [
-        { label: "성함", value: data.clientInfo.name },
+        { label: "성함", value: data.clientInfo?.name },
         { label: "계약기간", value: contractPeriod },
         {
           label: "계약서 등록일",
