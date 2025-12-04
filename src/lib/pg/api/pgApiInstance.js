@@ -1,7 +1,7 @@
 "use client";
 import axios from "axios";
 
-export const createPgApiInstance = (transactionId = "") => {
+export const createPgApiInstance = () => {
   const instance = axios.create({
     baseURL: process.env.NEXT_PUBLIC_PG_BASE_URL,
     headers: {
