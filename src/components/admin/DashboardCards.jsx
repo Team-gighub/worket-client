@@ -25,7 +25,7 @@ const DashboardCards = ({ stats }) => {
         title="일일 신규 가입자"
         value={dailyNewUsers.all.toLocaleString() + "명"}
         // ⭐️ 수정: 프리랜서와 클라이언트 신규 수 모두 표시
-        subData={`프리랜서 신규: ${dailyNewUsers.freelancer.toLocaleString()}명, 클라이언트 신규: ${dailyNewUsers.client.toLocaleString()}명`}
+        subData={`프리랜서 신규: ${dailyNewUsers.freelancer.toLocaleString()}명 / 클라이언트 신규: ${dailyNewUsers.client.toLocaleString()}명`}
         color="bg-green-600"
       />
 
@@ -33,7 +33,7 @@ const DashboardCards = ({ stats }) => {
       <StatsCard
         title="월간 신규 가입자"
         value={monthlyNewUsers.all.toLocaleString() + "명"}
-        subData={`프리랜서 신규: ${monthlyNewUsers.freelancer.toLocaleString()}명, 클라이언트 신규: ${monthlyNewUsers.client.toLocaleString()}명`}
+        subData={`프리랜서 신규: ${monthlyNewUsers.freelancer.toLocaleString()}명 / 클라이언트 신규: ${monthlyNewUsers.client.toLocaleString()}명`}
         color="bg-yellow-600"
       />
     </div>
