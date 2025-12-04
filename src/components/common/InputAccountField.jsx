@@ -3,6 +3,7 @@ import { useContractCreateStore } from "@/stores/contractCreateStore";
 
 import React from "react";
 import SelectBox from "./SelectBox";
+import { paymentOptions } from "../pg/PaymentOptions";
 
 /**
  * [InputAccountField] - 하나의 디자인 폼 안에 Input과 Select를 나란히 배치하는 컴포넌트
@@ -48,12 +49,7 @@ const InputTwoField = ({
           />
           <div className="w-[9rem] shrink-0">
             <SelectBox
-              options={[
-                //추후 은행 목록 변경 예정(PG에 있는 은행 리스트로)
-                { value: "우리은행", label: "우리은행" },
-                { value: "신한은행", label: "신한은행" },
-                { value: "국민은행", label: "국민은행" },
-              ]}
+              options={paymentOptions}
               placeholder="전체"
               defaultValue="all"
               onChange={(value) =>

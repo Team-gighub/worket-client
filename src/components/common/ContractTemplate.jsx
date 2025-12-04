@@ -2,6 +2,7 @@ import InfoCard from "@/components/common/InfoCard";
 import formatKRW from "@/app/utils/KRWFormatter";
 import { formatPhone } from "@/app/utils/phoneFormatter";
 import { formatContractPeriod } from "@/app/utils/contractPeriodFormatter";
+import { findBankLabel } from "../pg/PaymentOptions";
 
 /**
  * @typedef {Object} ContractInfo
@@ -45,9 +46,11 @@ const ContractTemplate = ({ contractInfo, clientInfo, freelancerInfo }) => {
 
   const contractPeriod = formatContractPeriod(startDate, endDate);
 
+  const bankLabel = findBankLabel(freelancerBank);
+
   const receivingAccount =
-    freelancerBank && freelancerAccount
-      ? freelancerBank + " " + freelancerAccount
+    bankLabel !== "-" && freelancerAccount
+      ? bankLabel + " " + freelancerAccount
       : "-";
 
   const contractFields = [

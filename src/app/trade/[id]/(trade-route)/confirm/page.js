@@ -4,9 +4,12 @@ import formatKRW from "@/app/utils/KRWFormatter";
 import InfoCard from "@/components/common/InfoCard";
 import InfoText from "@/components/common/InfoText";
 import MainButton from "@/components/common/MainButton";
+import PaymentLoading from "@/components/pg/PaymentLoading";
+import { postPgPaymentConfirm } from "@/lib/api/client/pgServices";
 import { useTradeDataStore } from "@/stores/tradeDataStore";
 import Link from "next/link";
 import { useParams, useRouter } from "next/navigation";
+import { useState } from "react";
 
 const TradeConfirm = () => {
   const router = useRouter();
@@ -15,10 +18,25 @@ const TradeConfirm = () => {
   const { data: tradeData } = useTradeDataStore();
   const { contractInfo, clientInfo, freelancerInfo } = tradeData;
 
-  const handleClick = () => {
+  const [loading, setLoading] = useState(false);
+
+  const handleClick = async () => {
     if (id) {
-      //TODO: pg api 연동 + 성공하면 /success로 이동
-      router.push(`/trade/${id}/confirm/success`);
+      try {
+        setLoading(true);
+
+        await postPgPaymentConfirm({
+          transactionId: id,
+          escrowId: tradeData.escrowId,
+          merchantId: "WK",
+        });
+
+        router.push(`/trade/${id}/confirm/success`);
+      } catch (err) {
+        router.push(`/pg/${id}/fail?code=${err.customCode || "UNKNOWN_ERROR"}`);
+      } finally {
+        setLoading(false);
+      }
     }
   };
 
@@ -31,6 +49,10 @@ const TradeConfirm = () => {
     { label: "도급인", value: clientInfo.name || "-" },
     { label: "수급인", value: freelancerInfo.name || "-" },
   ];
+
+  if (loading) {
+    return <PaymentLoading title="지급 확정 중입니다..." />;
+  }
 
   return (
     <div className="h-full w-full flex flex-col justify-between items-center pb-[3rem] px-[2rem]">

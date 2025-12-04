@@ -2,6 +2,7 @@
 
 import ContractTemplate from "@/components/common/ContractTemplate";
 import InfoText from "@/components/common/InfoText";
+import LoadingSpinner from "@/components/common/LoadingSpinner";
 import MainButton from "@/components/common/MainButton";
 import PasscodeBottomSheet from "@/components/common/PasscodeBottomSheet";
 import SignatureForm from "@/components/common/SignatureForm";
@@ -11,11 +12,13 @@ import { getTransactionsDetail } from "@/lib/api/client/transactionServices";
 import { useSignatureStore } from "@/stores/signatureStore";
 import { useTradeDataStore } from "@/stores/tradeDataStore";
 import { useParams, useRouter } from "next/navigation";
+import { useState } from "react";
 
 const TradeSign = () => {
   const router = useRouter();
   const { id } = useParams();
   const { isOpen, open, close } = useBottomSheet();
+  const [loading, setLoading] = useState(false);
 
   const { postSignature, fetchSignUrl } = useSignature();
   const { tempSignatureData } = useSignatureStore();
@@ -31,6 +34,7 @@ const TradeSign = () => {
     }
 
     try {
+      setLoading(true);
       // 2. 서명 데이터 (Base64)를 서버 POST, S3 업로드
       await postSignature(contractId, "CLIENT", tempSignatureData);
 
@@ -46,8 +50,14 @@ const TradeSign = () => {
       router.push(`/trade/${id}/signed`);
     } catch (error) {
       console.error("최종 계약서 생성 중 오류 발생:", error);
+    } finally {
+      setLoading(false);
     }
   };
+
+  if (loading) {
+    return <LoadingSpinner />;
+  }
   return (
     <div className="h-full w-full flex flex-col justify-between items-center pb-[3rem] px-[2rem]">
       <InfoText
