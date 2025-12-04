@@ -124,24 +124,22 @@ const AdminPage = () => {
                 title="성공"
                 value={stats.totalSuccessCount}
                 icon="✅"
-                // color="bg-point-green-100"
               />
               <StatCard
                 title="4XX 오류"
                 value={stats.totalClientErrorCount}
                 icon="⚠️"
-                // color="bg-point-red-100"
               />
               <StatCard
                 title="5XX 오류"
                 value={stats.totalServerErrorCount}
                 icon="❌"
-                // color="bg-point-red-100"
               />
               <StatCard
                 title="예상 비용"
                 value={`$${stats.estimatedTotalCost.toFixed(2)}`}
                 icon="💰"
+                unit="원"
               />
             </div>
 
