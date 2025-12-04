@@ -30,7 +30,8 @@ const AdminPage = () => {
 
       // 1. getUsages 함수 호출 시 'await'을 사용해야 합니다.
       const response = await getUsages(payload);
-      if (!response || response.status !== "success") {
+
+      if (!response || !response.data) {
         // 4xx, 5xx 에러 처리
         throw new Error("API 호출 실패");
       }
@@ -137,7 +138,7 @@ const AdminPage = () => {
               />
               <StatCard
                 title="예상 비용"
-                value={`$${stats.estimatedTotalCost.toFixed(2)}`}
+                value={`${stats.estimatedTotalCost.toFixed(2)}`}
                 icon="💰"
                 unit="원"
               />

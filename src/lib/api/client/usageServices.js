@@ -1,13 +1,18 @@
-import { createClientAxiosInstance } from "../instances/clientApiInstance";
-
-const clientInstance = createClientAxiosInstance();
+import { createPgApiInstance } from "../../pg/api/pgApiInstance";
+import axios from "axios";
+const clientInstance = createPgApiInstance();
 
 /**
  * API 사용량 조회
  */
 export const getUsages = (payload) => {
-  return clientInstance.get(`api/v1/usages`, payload);
-  // return MOCK_USAGE_DATA;
+  const { merchantId, startDate, endDate } = payload;
+  return clientInstance.get(`api/v1/usages/${merchantId}`, {
+    params: {
+      startDate,
+      endDate,
+    },
+  });
 };
 
 /**
