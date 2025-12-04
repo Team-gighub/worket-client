@@ -204,7 +204,9 @@ const ContractRevisionDetail = ({ data }) => {
             <div className="h-[70vh] w-full flex flex-col items-center justify-center rounded-lg text-gray-500 overflow-hidden">
               {/* TODO: aws에 presignedUrl 받아서 보여주기 추가 */}
               {/* <ViewContractButton pdfUrl={displayData.fileUrl} /> */}
-              <button onClick={() => open(displayData.fileUrl)}>
+              <button
+                onClick={() => open(displayData.fileUrl + "contract.pdf")}
+              >
                 계약서 보기
               </button>
               <Viewer />
