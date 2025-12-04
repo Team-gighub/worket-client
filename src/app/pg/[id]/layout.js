@@ -31,7 +31,7 @@ const PGLayout = ({ children }) => {
 
               {/* 오른쪽 Close 버튼 */}
               <button
-                onClick={() => router.push(`/trade/${id}/deposit`)}
+                onClick={() => router.push(`/trade/${id}`)}
                 className="flex flex-col items-center hover:opacity-80"
                 aria-label="닫기"
               >

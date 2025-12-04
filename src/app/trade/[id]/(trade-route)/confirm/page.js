@@ -32,6 +32,8 @@ const TradeConfirm = () => {
         });
 
         router.push(`/trade/${id}/confirm/success`);
+      } catch (err) {
+        router.push(`/pg/${id}/fail?code=${err.customCode || "UNKNOWN_ERROR"}`);
       } finally {
         setLoading(false);
       }

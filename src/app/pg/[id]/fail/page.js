@@ -1,5 +1,50 @@
+"use client";
+
+import { useSearchParams } from "next/navigation";
+
 const Page = () => {
-  return <div></div>;
+  const searchParams = useSearchParams();
+  const code = searchParams.get("code");
+
+  const message =
+    code && errorMessages[code]
+      ? errorMessages[code]
+      : "알 수 없는 오류가 발생했습니다.";
+
+  return (
+    <div>
+      <h1>결제 실패</h1>
+      <p>에러 코드: {code}</p>
+      <p>{message}</p>
+    </div>
+  );
 };
 
 export default Page;
+
+const errorMessages = {
+  COMMON_001: "입력 값이 올바르지 않습니다.",
+  COMMON_002: "JSON 형식이 잘못되었습니다.",
+  COMMON_003: "인증이 필요합니다.",
+  COMMON_004: "접근 권한이 없습니다.",
+  BAL_3001: "잔액이 부족합니다.",
+  VAL_3001: "검증 토큰이 만료되었습니다.",
+  ACCT_3001: "계좌가 비정상 상태입니다.",
+  ACCT_4001: "계좌를 조회할 수 없습니다.",
+  ESC_4001: "에스크로 계좌를 조회할 수 없습니다.",
+  ESC_4002: "수취인 계좌를 조회할 수 없습니다.",
+  ESC_4003: "플랫폼 계좌를 조회할 수 없습니다.",
+  COMMON_005: "지원하지 않는 HTTP 메서드입니다.",
+  ESC_4091: "이미 지급확정된 에스크로입니다.",
+  ESC_4092: "이미 취소된 에스크로입니다.",
+  ESC_4093: "활성 상태가 아닌 에스크로입니다.",
+  ESC_4094: "수취인 계좌가 활성 상태가 아닙니다.",
+  ESC_4095: "플랫폼 계좌가 활성 상태가 아닙니다.",
+  ESC_4221: "에스크로 보유 금액이 유효하지 않습니다.",
+  ESC_4222: "고객사 ID가 일치하지 않습니다.",
+  ESC_4223: "에스크로 금액 합계가 일치하지 않습니다.",
+  COMMON_006: "서버 내부 오류가 발생했습니다.",
+  EXTERNAL_001: "타행 이체가 불가능합니다.",
+  EXTERNAL_002: "타행 입금 요청이 실패했습니다.",
+  COMMON_007: "아직 구현되지 않은 기능입니다.",
+};
