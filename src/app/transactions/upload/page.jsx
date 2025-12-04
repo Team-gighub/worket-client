@@ -2,7 +2,7 @@
 
 import "@/app/globals.css";
 import InfoText from "@/components/common/InfoText";
-import LoadingWithTips from "@/components/common/LodingWithTips";
+import LoadingWithTips from "@/components/common/LoadingWithTips";
 import MainButton from "@/components/common/MainButton";
 import { postContractsExtract } from "@/lib/api/client/contractServices";
 import { useRouter } from "next/navigation";
