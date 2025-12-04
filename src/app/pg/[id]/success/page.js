@@ -39,7 +39,7 @@ const PaymentSuccess = () => {
         });
         setData(paymentData);
       } catch (err) {
-        router.replace("fail");
+        router.replace(`fail?code=${err.code || "APPROVAL_FAILED"}`);
       } finally {
         setLoading(false);
       }
