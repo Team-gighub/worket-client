@@ -29,12 +29,12 @@ const ContractRevisionsDetailPage = () => {
         const payload = res?.data ?? res;
         if (!mounted) return;
         setApiData(payload);
-        console.log(
-          "Fetched API data for modificationId",
-          modificationId,
-          ":",
-          payload,
-        );
+        // console.log(
+        //   "Fetched API data for modificationId",
+        //   modificationId,
+        //   ":",
+        //   payload,
+        // );
       } catch (err) {
         if (!mounted) return;
         console.error("getContractDetail error:", err);
@@ -79,7 +79,7 @@ const ContractRevisionsDetailPage = () => {
     fileUrl: apiData.fileUrl ?? null,
   };
 
-  console.log("Contract Revision Detail Data:", uiData);
+  // console.log("Contract Revision Detail Data:", uiData);
   return (
     <div className="p-8 text-basic-600">
       <ContractRevisionDetail data={uiData} />

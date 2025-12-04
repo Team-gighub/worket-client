@@ -51,7 +51,7 @@ const ContractRevisionTable = ({ revisions }) => {
 
   // 각 행의 request 객체를 받아 안전하게 URL을 구성하고 이동합니다.
   const handleNavigate = (request) => {
-    console.log("Navigating to detail page for request:", request);
+    // console.log("Navigating to detail page for request:", request);
     if (!request) return;
     const modificationId = request.modificationId ?? request.id;
     const transactionId = request.transactionId ?? request.contractId ?? "";

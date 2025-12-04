@@ -14,7 +14,7 @@ const getContractDetail = (modificationId) => {
 
 // 계약 수정 승인
 export const postContractModifyApprove = (modificationId, body) => {
-  console.log("postContractModifyApprove called with:", modificationId, body);
+  // console.log("postContractModifyApprove called with:", modificationId, body);
   return clientInstance.post(
     `/contract-modifications/${modificationId}/apply`,
     body,

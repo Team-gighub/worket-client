@@ -17,7 +17,7 @@ export const useContractRevisionStore = create(
           // let response = mockRevisions;
           const data = response?.data ?? response ?? [];
           set({ revisions: data, loading: false });
-          console.log("Fetched revisions:", data);
+          // console.log("Fetched revisions:", data);
           return data;
         } catch (error) {
           set({ error: error?.message ?? String(error), loading: false });
