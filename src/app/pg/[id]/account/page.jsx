@@ -48,11 +48,16 @@ const SelectAccount = () => {
   const handleSubBtn = () => {
     router.push(`/pg/${id}`);
   };
+
   const handlePasscodeComplete = async (enteredPasscode) => {
     setPasscode(enteredPasscode); // SelectAccount state에 저장
-    //TODO: PG server API 호출-> accountNumber,selectedBankId 같이 넘김
-    const { data } = await postPgPaymentAuthorize(payload);
-    window.location.href = data.redirectUrl;
+    try {
+      //TODO: PG server API 호출-> accountNumber,selectedBankId 같이 넘김
+      const { data } = await postPgPaymentAuthorize(payload);
+      window.location.href = data.redirectUrl;
+    } catch (error) {
+      router.push(`/pg/${id}/fail?code=${error.code || "AUTH_FAILED"}`);
+    }
   };
   const { label, icon } = selectedBankInfo;
 
