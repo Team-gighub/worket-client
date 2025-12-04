@@ -46,7 +46,7 @@ const PaymentSuccess = () => {
     };
 
     approvePayment();
-  }, [escrowId, confirmToken, router]);
+  }, [escrowId, confirmToken, router, id, updateEscrowId]);
 
   if (loading) {
     return <PaymentLoading title="대금 예치 중입니다..." />;
