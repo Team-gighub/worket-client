@@ -23,6 +23,14 @@ export const useTradeDataStore = create((set) => ({
       },
     })),
 
+  updateEscrowId: (escrowId) =>
+    set((state) => ({
+      data: {
+        ...state.data,
+        escrowId,
+      },
+    })),
+
   // 4. [resetTradeData] (선택 사항) 상태 리셋 액션
   resetTradeData: () => set({ data: initialTradeData }),
 }));
