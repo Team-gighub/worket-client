@@ -30,19 +30,12 @@ const AdminPage = () => {
 
       // 1. getUsages 함수 호출 시 'await'을 사용해야 합니다.
       const response = await getUsages(payload);
-      // console.log("API 응답:", response);
-
-      // (Axios를 사용한다면 response.status >= 200 && response.status < 300 등으로 변경될 수 있음)
-      if (!response.ok) {
-        // if (!response) {
+      if (!response || response.status !== "success") {
         // 4xx, 5xx 에러 처리
         throw new Error("API 호출 실패");
       }
 
-      // 2. 응답 객체에서 실제 JSON 데이터를 추출하기 위해 await response.json()이 필요합니다.
-      const data = await response.json();
-      // const data = response;
-      console.log("파싱된 데이터:", data);
+      const data = await response.data;
 
       // 3. 파싱된 JSON 데이터(data)를 상태에 저장합니다.
       setStats(data);
