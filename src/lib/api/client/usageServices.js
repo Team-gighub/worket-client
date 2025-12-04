@@ -6,8 +6,8 @@ const clientInstance = createClientAxiosInstance();
  * API 사용량 조회
  */
 export const getUsages = (payload) => {
-  //   return clientInstance.get(`api/v1/usages`, payload);
-  return MOCK_USAGE_DATA;
+  return clientInstance.get(`api/v1/usages`, payload);
+  // return MOCK_USAGE_DATA;
 };
 
 /**
