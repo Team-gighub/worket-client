@@ -11,6 +11,10 @@ import ProfitCard from "@/components/home/ProfitCard";
 import { useTransactionStore } from "@/stores/transactionStore";
 import { getUsers } from "@/lib/api/client/userServices";
 import { useContractCreateStore } from "@/stores/contractCreateStore";
+import MainBanner from "../MainBanner";
+import WorketIcon from "@/assets/worketIcon.png";
+import Header from "@/components/common/Header";
+import HomeHeader from "../HomeHeader";
 
 /* 로그인 후 홈화면 */
 const LoggedInHome = () => {
@@ -86,12 +90,18 @@ const LoggedInHome = () => {
 
   return (
     <div className="h-full flex flex-col items-center">
-      {/* TODO : 후에 설명 확정 시 변경 */}
-      <InfoText
-        mainTexts={["우리는 워켓!"]}
-        subText={"워켓이 자동으로 정보를 읽어서 등록해드려요!"}
-        subTextColor="gray"
-      ></InfoText>
+      <HomeHeader title="WORKET" />
+      <MainBanner
+        title={"계약부터 소득증빙까지,\n워켓에서 한 번에!"}
+        subtitle={"별도 서류 없이 신뢰도 높은 소득증빙"}
+        titleColor="text-primary"
+        subtitleColor="text-basic-500"
+        icon={{
+          src: WorketIcon,
+          alt: "계약서 업로드",
+        }}
+        className="mt-[8rem]"
+      />
       <div className="flex flex-col items-center w-full max-w-[32rem] px-4 mt-6">
         <div className="w-full mb-6 mx-auto">
           <ProfitCard
@@ -100,8 +110,7 @@ const LoggedInHome = () => {
             statusData={selectedStatusData}
           ></ProfitCard>
         </div>
-        <MainButton text="바로 대출 신청하기" theme="secondary"></MainButton>
-        <div className="flex mt-8 gap-8">
+        <div className="flex mt-6 mb-6 gap-8">
           <HomeButton
             title="이미 체결된 계약서"
             subtitle="업로드하기"
@@ -125,6 +134,7 @@ const LoggedInHome = () => {
             onClick={handleCreateBtn}
           />
         </div>
+        <MainButton text="바로 대출 신청하기" theme="secondary"></MainButton>
       </div>
     </div>
   );

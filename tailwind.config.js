@@ -227,6 +227,12 @@ module.exports = {
           fontSize: "1.4rem",
           lineHeight: "1.5",
         },
+        ".pretendard-ExtraBold-24": {
+          fontFamily: '"Pretendard", sans-serif',
+          fontWeight: "900",
+          fontSize: "2.4rem",
+          lineHeight: "1.5",
+        },
       };
 
       addUtilities(fontUtilities, ["responsive"]);
