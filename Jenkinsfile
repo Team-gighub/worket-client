@@ -20,11 +20,21 @@ pipeline {
 
         stage('Inject ENV') {
             steps {
-                writeFile file: '.env', text: """
-NEXT_PUBLIC_API_BASE_URL=https://api.worket.site
-NEXT_PUBLIC_S3_BUCKET_URL=https://dhikzhsky6.execute-api.ap-northeast-2.amazonaws.com/dev
-NEXT_PUBLIC_CLIENT_BASE_URL=https://www.worket.site
-""".stripIndent()
+                withCredentials([
+                    string(credentialsId: 'client-api-base-url',  variable: 'API_BASE'),
+                    string(credentialsId: 'client-s3-bucket-url', variable: 'S3_URL'),
+                    string(credentialsId: 'client-base-url',      variable: 'CLIENT_URL'),
+                    string(credentialsId: 'pg-base-url',          variable: 'PG_BASE'),
+                    string(credentialsId: 'pg-api-key',           variable: 'PG_KEY')
+                ]) {
+                    writeFile file: '.env', text: """
+        NEXT_PUBLIC_API_BASE_URL=${API_BASE}
+        NEXT_PUBLIC_S3_BUCKET_URL=${S3_URL}
+        NEXT_PUBLIC_CLIENT_BASE_URL=${CLIENT_URL}
+        NEXT_PUBLIC_PG_BASE_URL=${PG_BASE}
+        NEXT_PUBLIC_PG_API_KEY=${PG_KEY}
+        """.stripIndent()
+                }
             }
         }
 
