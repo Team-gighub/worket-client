@@ -33,7 +33,7 @@ const SelectBox = ({
     setIsOpen(false);
 
     if (onChange) {
-      onChange(option.kftcCode);
+      onChange(option.value);
     }
   };
 
@@ -81,7 +81,7 @@ const SelectBox = ({
 
               return (
                 <button
-                  key={option.id}
+                  key={option.value}
                   type="button"
                   onClick={() => handleSelect(option)}
                   onMouseEnter={() => setHoveredValue(option.value)}
