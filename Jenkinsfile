@@ -12,7 +12,7 @@ pipeline {
 
         stage('Checkout') {
             steps {
-                git branch: 'main',
+                git branch: 'develop',
                     credentialsId: 'github',
                     url: 'https://github.com/Team-gighub/worket-client.git'
             }
