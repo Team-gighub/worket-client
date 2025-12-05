@@ -5,6 +5,7 @@ export const createPgApiInstance = () => {
   const instance = axios.create({
     baseURL: process.env.NEXT_PUBLIC_PG_BASE_URL,
     headers: {
+      Authorization: process.env.NEXT_PUBLIC_PG_API_KEY,
       "Content-Type": "application/json",
     },
   });
