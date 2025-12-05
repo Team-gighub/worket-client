@@ -14,7 +14,7 @@ const BottomNavTab = () => {
       label: "홈",
       path: "/",
       icon: "/icons/icHome.png",
-      activeIcon: "/icons/ichomeActive.png",
+      activeIcon: "/icons/icHomeActive.png",
     },
     {
       id: "transactions",
