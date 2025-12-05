@@ -76,11 +76,11 @@ const ContractTemplate = ({ contractInfo, clientInfo, freelancerInfo }) => {
   ];
 
   return (
-    <div>
+    <>
       <InfoCard title="계약 정보" items={contractFields} />
       <InfoCard title="도급인 정보" items={clientFields} />
       <InfoCard title="수급인 정보" items={freelancerFields} />
-    </div>
+    </>
   );
 };
 
