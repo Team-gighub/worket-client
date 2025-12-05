@@ -46,7 +46,9 @@ const ContractTemplate = ({ contractInfo, clientInfo, freelancerInfo }) => {
 
   const contractPeriod = formatContractPeriod(startDate, endDate);
 
-  const bankLabel = findBankLabel(freelancerBank);
+  //TODO: OCR은 예외로 우리은행으로 표기
+  const bankLabel =
+    freelancerBank == "우리은행" ? "우리은행" : findBankLabel(freelancerBank);
 
   const receivingAccount =
     bankLabel !== "-" && freelancerAccount
