@@ -1,0 +1,75 @@
+"use client";
+import "@/app/globals.css";
+import ContractTemplate from "@/components/common/ContractTemplate";
+import DualButtons from "@/components/common/DualButtons";
+import InfoText from "@/components/common/InfoText";
+import PasscodeBottomSheet from "@/components/common/PasscodeBottomSheet";
+import { MOCK_CONTRACT_RESET } from "@/constants/mock_contracts";
+import useBottomSheet from "@/hooks/useBottomSheet";
+import useSessionStorage from "@/hooks/useSessionStorage";
+import { postContracts } from "@/lib/api/client/contractServices";
+import { useRouter } from "next/navigation";
+
+const ResultPage = () => {
+  //ocrdata 가져와서 매핑
+  const [ocrResultData] = useSessionStorage("ocrResult", MOCK_CONTRACT_RESET);
+
+  const { contractInfo, clientInfo, freelancerInfo } = ocrResultData;
+  const router = useRouter();
+  const { isOpen, open, close } = useBottomSheet();
+  const handleSubButton = () => {
+    router.back();
+  };
+
+  const handleMainButton = async () => {
+    try {
+      const response = await postContracts({
+        type: "UPLOAD", //타입 추가
+        ...ocrResultData,
+      });
+
+      // 1. 응답 데이터 확인 및 Transaction ID 추출
+      const transactionId = response.data.transactionId;
+
+      //2. ID 값을 사용하여 라우팅 수행
+      if (transactionId) {
+        router.push(`/transactions/${transactionId}/create-link`);
+      } else {
+        console.error("❌ Response does not contain a valid transaction ID.");
+      }
+    } catch (error) {
+      // API 호출 중 오류 발생 시 처리
+      console.error("🚨 Error during contract creation API call:", error);
+    }
+  };
+  return (
+    <div>
+      <InfoText
+        mainTexts={["계약서를 다 읽었어요", "아래 정보가 맞는지 확인해주세요"]}
+        subText={"잘못된 경우 다시 등록해주세요"}
+      />
+      <ContractTemplate
+        contractInfo={contractInfo}
+        clientInfo={clientInfo}
+        freelancerInfo={freelancerInfo}
+      />
+      <DualButtons
+        mainText="업로드하기"
+        subText="재등록하기"
+        onSubClick={handleSubButton}
+        onMainClick={open}
+        width="34rem"
+      ></DualButtons>
+      <PasscodeBottomSheet
+        isOpen={isOpen}
+        onClose={close}
+        handlePasscodeComplete={async () => {
+          await handleMainButton();
+          close();
+        }}
+      />
+    </div>
+  );
+};
+
+export default ResultPage;
