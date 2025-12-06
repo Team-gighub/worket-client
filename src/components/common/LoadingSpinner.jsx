@@ -2,7 +2,7 @@
 
 import { ClipLoader } from "react-spinners";
 
-const LoadingSpinner = (isLoading, color = "primary", size = 150) => {
+const LoadingSpinner = ({ isLoading, color = "#5E4FE4", size = 50 }) => {
   if (!isLoading) return null;
 
   return (

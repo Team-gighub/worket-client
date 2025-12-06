@@ -59,7 +59,7 @@ const TradeSign = () => {
     return <LoadingSpinner />;
   }
   return (
-    <div className="h-full w-full flex flex-col justify-between items-center pb-[3rem] px-[2rem]">
+    <div className="h-full w-full flex flex-col justify-between items-center">
       <InfoText
         mainTexts={["계약서에 서명해주세요"]}
         subText="계약명과 지급액을 한번 더 확인한 후 서명해주세요! 체결된 계약서는 되돌릴 수 없어요"
